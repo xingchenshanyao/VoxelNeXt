@@ -103,3 +103,10 @@ pip install kornia==0.6.8 -i https://pypi.tuna.tsinghua.edu.cn/simple some-packa
 ```
 pip install av2==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 ```
+## 三、准备KITTI数据集
+VoxelNeXt支持多种数据集，本次复现使用KITTI
+
+### a、下载KITTI
+官网或个人网盘下载KITTI数据集、以及KITTI数据集划分文件，参考下文中：1 准备工作 and 1.1 创建数据目录
+https://blog.csdn.net/qq_46127597/article/details/123291204
+### b、
