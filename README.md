@@ -42,7 +42,7 @@ pip install spconv-cu118
 ```
 https://github.com/traveller59/spconv
 ```
-### c、运行setup文件安装部分依赖库
+### d、运行setup文件安装部分依赖库
 ```
 python setup.py develop
 ```
@@ -86,7 +86,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:${LD_LIBRARY_PATH}
 export PKG_CONFIG_PATH=/usr/local/cuda-11.8/pkgconfig:${PKG_CONFIG_PATH}
 ```
 解决BUG1，可顺利运行setup文件
-### d、运行requirements.txt文件安装部分依赖库
+### e、运行requirements.txt文件安装部分依赖库
 ```
 pip install -r requirements.txt
 ```
