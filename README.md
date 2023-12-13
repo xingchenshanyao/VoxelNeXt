@@ -107,6 +107,10 @@ pip install av2==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 ```
 pip install mayavi -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 ```
+demo.py中需要调用mayavi或者open3D，如果mayavi安装失败就用open3D代替
+```
+pip install open3D -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+```
 ## 三、准备KITTI数据集
 VoxelNeXt支持多种数据集，本次复现使用KITTI
 ### a、下载KITTI
