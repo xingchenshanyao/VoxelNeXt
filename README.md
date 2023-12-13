@@ -105,8 +105,66 @@ pip install av2==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 ```
 ## 三、准备KITTI数据集
 VoxelNeXt支持多种数据集，本次复现使用KITTI
-
 ### a、下载KITTI
 官网或个人网盘下载KITTI数据集、以及KITTI数据集划分文件，参考下文中：1 准备工作 and 1.1 创建数据目录
+
 https://blog.csdn.net/qq_46127597/article/details/123291204
-### b、
+
+数据集文件夹结构
+```
+OpenPCDet
+├── data
+│   ├── kitti
+│   │   │── ImageSets
+│   │   │   ├──test.txt & train.txt & trainval.txt & val.txt
+│   │   │── training
+│   │   │   ├──calib & velodyne & label_2 & image_2 & (optional: planes) & (optional: depth_2)
+│   │   │── testing
+│   │   │   ├──calib & velodyne & image_2
+├── pcdet
+├── tools
+```
+VoxelNeXt官网中对KITTI数据集中做了road plane的扩充，可以选择下载
+
+https://github.com/open-mmlab/OpenPCDet/blob/master/docs/GETTING_STARTED.md
+### b、数据集初始化
+```
+python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
+```
+#### DUG3
+运行步骤b报错
+```
+KeyError: ‘road_plane’
+```
+如果步骤a中没有选择下载road plane，那么需要更改tools/cfgs/kitti_models/voxelnext.yaml中
+```
+USE_ROAD_PLANE: True
+```
+为
+```
+USE_ROAD_PLANE: False
+```
+或者在tools/cfgs/dataset_configs/kitti_dataset.yaml中
+## 四、训练KITTI数据集
+### a、设置训练参数
+在tools/cfgs/kitti_models/voxelnext.yaml中，根据自己的显卡更改参数，以3070+8G显存为例
+```
+BATCH_SIZE_PER_GPU: 4 # 20231213 # 每块GPU的batchseize
+NUM_EPOCHS: 80 # 训练轮次
+```
+### b、开始训练
+3070+batchsize4+80epoches训练时长约为7小时
+```
+cd tools
+#shell script
+python train.py --cfg_file cfgs/kitti_models/voxelnext.yaml # 这个单显卡跑通了
+sh scripts/dist_train.sh 4 --cfg_file cfgs/kitti_models/voxelnext.yaml # 多显卡还没试 # 4是显卡数量
+```
+## 五、测试KITTI数据集
+```
+cd tools
+#shell script
+python test.py --cfg_file cfgs/kitti_models/voxelnext.yaml --batch_size 4 --ckpt output/kitti_models/voxelnext/default/ckpt/checkpoint_epoch_80.pth # 单显卡测试
+```
+
+
