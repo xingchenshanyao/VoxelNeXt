@@ -95,6 +95,7 @@ pip install -r requirements.txt
 ```
 No module named 'kornia'
 No module named 'av2'
+No module named 'mayavi'
 ```
 解决措施
 ```
@@ -102,6 +103,9 @@ pip install kornia==0.6.8 -i https://pypi.tuna.tsinghua.edu.cn/simple some-packa
 ```
 ```
 pip install av2==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+```
+```
+pip install mayavi -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
 ```
 ## 三、准备KITTI数据集
 VoxelNeXt支持多种数据集，本次复现使用KITTI
@@ -166,5 +170,8 @@ cd tools
 #shell script
 python test.py --cfg_file cfgs/kitti_models/voxelnext.yaml --batch_size 4 --ckpt output/kitti_models/voxelnext/default/ckpt/checkpoint_epoch_80.pth # 单显卡测试
 ```
-
-
+## 六、可视化
+```
+python demo.py --cfg_file cfgs/kitti_models/voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/kitti_models/voxelnext/default/ckpt/checkpoint_epoch_80.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt/data/kitti/testing/velodyne/000010.bin
+```
+![2023-12-13 19-57-26屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1657c637-b3d3-4a8b-b80e-df5cd7e21241)
