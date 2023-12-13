@@ -40,7 +40,7 @@ pip install spconv-cu118
 ```
 https://github.com/traveller59/spconv
 ```
-### c、运行setup文件完成
+### c、运行setup文件安装部分依赖库
 ```
 python setup.py develop
 ```
@@ -84,3 +84,20 @@ export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:${LD_LIBRARY_PATH}
 export PKG_CONFIG_PATH=/usr/local/cuda-11.8/pkgconfig:${PKG_CONFIG_PATH}
 ```
 解决BUG1，可顺利运行setup文件
+### d、运行requirements.txt文件安装部分依赖库
+```
+pip install -r requirements.txt
+```
+#### DUG2
+跑起来的时候发现还缺部分依赖库
+```
+No module named 'kornia'
+No module named 'av2'
+```
+解决措施
+```
+pip install kornia==0.6.8 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+```
+```
+pip install av2==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+```
