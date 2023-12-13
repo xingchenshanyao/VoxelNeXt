@@ -17,6 +17,8 @@ ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0
 https://github.com/dvlab-research/VoxelNeXt && cd VoxelNeXt
 ```
 ## 二、安装OpenPCDet环境
+### 0、最便捷的方法
+cuda11.8版本一样的话，直接到我这里拷贝环境
 ### a、复制现有torch环境作为基础
 例如，将anaconda3/envs/torch20230517(一个能跑通YOLOP的torch环境)文件夹另存副本，改名为VoxelNeXt
 
