@@ -14,7 +14,7 @@ https://blog.csdn.net/weixin_45811857/article/details/124457280
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
 ## 一、克隆VoxelNeXt仓库并进入文件夹
 ```
-https://github.com/dvlab-research/VoxelNeXt && cd VoxelNeXt
+git clone https://github.com/dvlab-research/VoxelNeXt && cd VoxelNeXt
 ```
 ## 二、安装OpenPCDet环境
 ### 0、最便捷的方法
