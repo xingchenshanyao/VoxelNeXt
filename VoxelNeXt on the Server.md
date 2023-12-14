@@ -8,3 +8,8 @@ ubuntu20.04、cuda11.6、A100*4
 ```
 sudo apt-get install filezilla
 ```
+### b、将VoxelNeXt文件夹传输到服务器指定位置
+```
+Path = /home/**/**yuan
+cd Path
+```
