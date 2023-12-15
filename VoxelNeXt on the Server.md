@@ -130,7 +130,7 @@ AssertionError: Database version not found: /home/**/VoxelNeXt/data/nuscenes/v1.
 ```
 OSError: 1090 requested and 0 written
 ```
-本地验证后得知，服务器的空间不够了不允许再生成新的文件
+本地验证后得知，服务器的空间不够了不允许再生成新的文件，调整数据集加载地址到/data
 
 跑multi-modal需要运行
 ```
