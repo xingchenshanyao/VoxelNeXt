@@ -138,7 +138,7 @@ AssertionError: Database version not found: /home/**/VoxelNeXt/data/nuscenes/v1.
 ```
 OSError: 1090 requested and 0 written
 ```
-本地验证后得知，服务器上的nuscenes数据集有缺失文件，需要重新上传
+本地验证后得知，可能原因是服务器上的nuscenes数据集有缺失文件，或者服务器的空间不够了不允许再生成新的文件
 
 跑multi-modal需要运行
 ```
