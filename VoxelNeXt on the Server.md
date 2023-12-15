@@ -118,9 +118,7 @@ pip install nuscenes-devkit==1.0.5
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval
 # if use v1.0-mini
-python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos \
-    --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml \
-    --version v1.0-mini
+python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-mini
 ```
 #### BUG3
 报错
