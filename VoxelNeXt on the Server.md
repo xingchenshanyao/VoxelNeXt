@@ -102,18 +102,12 @@ OpenPCDet
 ```
 在VoxelNeXt/data文件夹下创建nuscenes等文件夹，并建立软连接
 ```
+ln -s /data/nuscenes/samples /data/XZY_nuscenes/v1.0-trainval
+ln -s /data/nuscenes/sweeps /data/XZY_nuscenes/v1.0-trainval
+ln -s /data/nuscenes/maps /data/XZY_nuscenes/v1.0-trainval
+ln -s /data/nuscenes/v1.0-trainval /data/XZY_nuscenes/v1.0-trainval
 mkdir nuscenes
-cd nuscenes
-mkdir v1.0-trainval
-cd v1.0-trainval
-ln -s /home/**/data/nuscenes/samples /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
-ln -s /home/**/data/nuscenes/sweeps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
-ln -s /home/**/data/nuscenes/maps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
-ln -s /home/**/data/nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
-```
-退回VoxelNeXt文件夹
-```
-cd /home/**/VoxelNeXt
+ln -s /data/XZY_nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes
 ```
 ### b、数据集初始化
 按要求安装nuscenes-devkit==1.0.5
