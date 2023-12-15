@@ -13,12 +13,12 @@ sudo apt-get install filezilla
 Path = /home/**/**yuan
 ```
 ## 二、配置服务器环境
-### a、复制现有torch环境
+### a、配置torch环境
 由于服务器cuda版本为11.6/11.3，无法直接上传本地cuda11.8的环境
 
 此时要么在服务器上装cuda11.8，但是由于显卡驱动是510，最高仅支持cuda11.6，所以装cuda11.8前必须升级驱动
 
-或者重新配置cuda11.6的环境，选择后者
+或者重新配置基于cuda11.6的环境，选择后者
 
 在anaconda/envs中拷贝他人环境FN**
 ```
@@ -57,13 +57,14 @@ pip install kornia==0.6.8
 ```
 WARNING: The repository located at ** is not a trusted or secure host and is being ignored. If this repository is available via HTTPS we recommend you use HTTPS instead, otherwise you may silence this warning and allow it anyway with '--trusted-host **'.
 ```
-搜索后得知，之后使用pip安装依赖需要添加'--trusted-host **'，这个BUG暂时没有影响
+根据服务器GPU操作说明中，需要添加下载源信赖命令
 ```
-pip install name --trusted-host **
+pip config set global.index-url http:****
+pip config set install.trusted-host **
 ```
 ### b、安装spconv-cu118
 ```
-pip install spconv-cu113 --trusted-host **
+pip install spconv-cu113
 ```
 ### c、运行setup文件安装部分依赖库
 ```
@@ -75,12 +76,7 @@ python setup.py develop
 ```
 error: Could not find suitable distribution for Requirement.parse('SharedArray')
 ```
-解决措施，先根据服务器GPU操作说明中，添加pip下载源信赖命令
-```
-pip config set global.index-url http:****
-pip config set install.trusted-host **
-```
-然后尝试直接安装ShareArray
+尝试直接安装ShareArray
 ```
 pip install ShareArray
 ```
@@ -88,7 +84,7 @@ pip install ShareArray
 ```
 pip install -r requirements.txt
 ```
-成功，再次运行python setup.py develop，未报错，BUG解决
+成功，再次运行python setup.py develop，BUG解决
 ## 三、使用nuScenes数据集复现
 ### a、准备nuScenes数据集
 服务器中已有nuScenes数据集，查看知nuScenes数据集文件夹结构，改成官网要求的格式
@@ -134,6 +130,11 @@ python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos 
 AssertionError: Database version not found: /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval/v1.0-trainval
 ```
 原因是步骤a中nuScenes数据集的文件夹结构没有设置好，需要检查重新设置
+#### BUG4
+```
+OSError: 1090 requested and 0 written
+```
+
 跑multi-modal需要运行
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
