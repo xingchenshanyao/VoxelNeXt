@@ -74,7 +74,12 @@ error: Could not find suitable distribution for Requirement.parse('SharedArray')
 pip config set global.index-url http:****
 pip config set install.trusted-host **
 ```
-然后
+然后尝试直接安装ShareArray
 ```
 pip install ShareArray
 ```
+失败，尝试通过requirements.txt文件安装
+```
+pip install -r requirements.txt
+```
+成功
