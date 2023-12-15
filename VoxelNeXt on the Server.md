@@ -46,7 +46,13 @@ pip list
 torch                     1.12.1+cu113
 ```
 此时的环境是一个支持其他模型的cuda11.3的pytorch1.12.1环境，依赖库肯定不全，需要补充
-#### BUG 1
+```
+pip install av2==0.2.0
+```
+```
+pip install kornia==0.6.8
+```
+#### BUG1
 使用pip list输出pip列表后，报错
 ```
 WARNING: The repository located at ** is not a trusted or secure host and is being ignored. If this repository is available via HTTPS we recommend you use HTTPS instead, otherwise you may silence this warning and allow it anyway with '--trusted-host **'.
@@ -85,7 +91,7 @@ pip install -r requirements.txt
 成功，再次运行python setup.py develop，未报错，BUG解决
 ## 三、使用nuScenes数据集复现
 ### a、准备nuScenes数据集
-服务器中已有nuScenes数据集，查看知nuScenes数据集文件夹结构已符合官网要求
+服务器中已有nuScenes数据集，查看知nuScenes数据集文件夹结构，改成官网要求的格式
 ```
 OpenPCDet
 ├── data
@@ -98,9 +104,16 @@ OpenPCDet
 ├── pcdet
 ├── tools
 ```
-在VoxelNeXt/data文件夹下建立nuscenes软连接
+在VoxelNeXt/data文件夹下创建nuscenes等文件夹，并建立软连接
 ```
-ln -s /home/cbdes/data/nuscenes /home/cbdes/code/xuzeyuan/VoxelNeXt/data
+mkdir nuscenes
+cd nuscenes
+mkdir v1.0-trainval
+cd v1.0-trainval
+ln -s /home/**/data/nuscenes/samples /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
+ln -s /home/**/data/nuscenes/sweeps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
+ln -s /home/**/data/nuscenes/maps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
+ln -s /home/**/data/nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
 ```
 现在VoxelNeXt/data下可以找到nuscenes了
 ### b、数据集初始化
@@ -112,6 +125,12 @@ pip install nuscenes-devkit==1.0.5
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval
 ```
+#### BUG3
+报错
+```
+AssertionError: Database version not found: /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval/v1.0-trainval
+```
+原因是步骤a中nuScenes数据集的文件夹结构没有设置好，需要检查重新设置
 跑multi-modal需要运行
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
