@@ -123,6 +123,10 @@ pip install nuscenes-devkit==1.0.5
 仅跑lidar需要运行
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval
+# if use v1.0-mini
+python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos \
+    --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml \
+    --version v1.0-mini
 ```
 #### BUG3
 报错
@@ -134,8 +138,17 @@ AssertionError: Database version not found: /home/**/VoxelNeXt/data/nuscenes/v1.
 ```
 OSError: 1090 requested and 0 written
 ```
+本地验证后得知，服务器上的nuscenes数据集有缺失文件，需要重新上传
 
 跑multi-modal需要运行
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
 ```
+## 开始训练
+```
+cd tools
+#shell script
+python train.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml 
+sh scripts/dist_train.sh 4 --cfg_file cfgs/kitti_models/voxelnext.yaml # 多显卡还没试 # 4是显卡数量
+```
+
