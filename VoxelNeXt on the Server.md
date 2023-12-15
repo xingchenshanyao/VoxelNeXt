@@ -82,4 +82,4 @@ pip install ShareArray
 ```
 pip install -r requirements.txt
 ```
-成功
+成功，再次运行python setup.py develop，未报错，BUG解决
