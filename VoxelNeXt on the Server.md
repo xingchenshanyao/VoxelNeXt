@@ -11,10 +11,9 @@ sudo apt-get install filezilla
 ### b、将VoxelNeXt文件夹传输到服务器指定位置
 ```
 Path = /home/**/**yuan
-cd Path
 ```
 ## 二、配置服务器环境
-### a、
+### a、复制现有torch环境
 由于服务器cuda版本为11.6/11.3，无法直接上传本地cuda11.8的环境
 
 此时要么在服务器上装cuda11.8，但是由于显卡驱动是510，最高仅支持cuda11.6，所以装cuda11.8前必须升级驱动
@@ -55,4 +54,27 @@ WARNING: The repository located at ** is not a trusted or secure host and is bei
 搜索后得知，之后使用pip安装依赖需要添加'--trusted-host **'，这个BUG暂时没有影响
 ```
 pip install name --trusted-host **
+```
+### b、安装spconv-cu118
+```
+pip install spconv-cu113 --trusted-host **
+```
+### c、运行setup文件安装部分依赖库
+```
+cd /home/**/**yuan
+python setup.py develop
+```
+#### BUG2
+运行步骤c报错
+```
+error: Could not find suitable distribution for Requirement.parse('SharedArray')
+```
+解决措施，先根据服务器GPU操作说明中，添加pip下载源信赖命令
+```
+pip config set global.index-url http:****
+pip config set install.trusted-host **
+```
+然后
+```
+pip install ShareArray
 ```
