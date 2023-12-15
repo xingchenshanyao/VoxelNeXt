@@ -14,6 +14,7 @@ Path = /home/**/**yuan
 cd Path
 ```
 ## 二、配置服务器环境
+### a、
 由于服务器cuda版本为11.6/11.3，无法直接上传本地cuda11.8的环境
 
 此时要么在服务器上装cuda11.8，但是由于显卡驱动是510，最高仅支持cuda11.6，所以装cuda11.8前必须升级驱动
@@ -50,4 +51,8 @@ torch                     1.12.1+cu113
 使用pip list输出pip列表后，报错
 ```
 WARNING: The repository located at ** is not a trusted or secure host and is being ignored. If this repository is available via HTTPS we recommend you use HTTPS instead, otherwise you may silence this warning and allow it anyway with '--trusted-host **'.
+```
+搜索后得知，之后使用pip安装依赖需要添加'--trusted-host **'，这个BUG暂时没有影响
+```
+pip install name --trusted-host **
 ```
