@@ -115,7 +115,6 @@ ln -s /home/**/data/nuscenes/sweeps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainv
 ln -s /home/**/data/nuscenes/maps /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
 ln -s /home/**/data/nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes/v1.0-trainval
 ```
-现在VoxelNeXt/data下可以找到nuscenes了
 ### b、数据集初始化
 按要求安装nuscenes-devkit==1.0.5
 ```
