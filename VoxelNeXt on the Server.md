@@ -166,3 +166,13 @@ screen -X -S 567**.test quit # 删除窗口
 https://blog.csdn.net/weixin_44612221/article/details/126279971
 
 https://blog.csdn.net/carefree2005/article/details/122415714
+## 开始测试
+```
+bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
+# 举例
+bash scripts/dist_test.sh 8 --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
+```
+### 可视化
+```
+python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/**/VoxelNeXt/output/kitti_models/voxelnext/default/ckpt/checkpoint_epoch_80.pth --data_path /home/**/VoxelNeXt/data/kitti/testing/velodyne/000010.bin
+```
