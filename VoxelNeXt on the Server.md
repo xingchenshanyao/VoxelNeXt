@@ -158,6 +158,11 @@ screen -ls # 查看当前窗口任务
 ```
 输出567**.test
 ```
-screen -r 567**
+screen -r 567** # 重新进入窗口
+screen -X -S 567**.test quit # 删除窗口
 ```
-出现进入窗口
+更多命令参考：
+
+https://blog.csdn.net/weixin_44612221/article/details/126279971
+
+https://blog.csdn.net/carefree2005/article/details/122415714
