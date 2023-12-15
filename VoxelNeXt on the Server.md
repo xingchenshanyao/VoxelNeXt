@@ -137,6 +137,7 @@ OSError: 1090 requested and 0 written
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
 ```
 ## 开始训练
+推荐服务器多显卡跑nuScenes数据集，修改tools/cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml中的BATCH_SIZE_PER_GPU=32
 ```
 cd tools
 #shell script
