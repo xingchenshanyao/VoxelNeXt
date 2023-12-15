@@ -140,7 +140,7 @@ python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos 
 ```
 cd tools
 #shell script
-python train.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml 
-sh scripts/dist_train.sh 4 --cfg_file cfgs/kitti_models/voxelnext.yaml # 多显卡还没试 # 4是显卡数量
+python train.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml  # 可以跑但是很慢
+bash scripts/dist_train.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml # 可以跑通 # 4是显卡数量
 ```
 
