@@ -83,3 +83,36 @@ pip install ShareArray
 pip install -r requirements.txt
 ```
 成功，再次运行python setup.py develop，未报错，BUG解决
+## 三、使用nuScenes数据集复现
+### a、准备nuScenes数据集
+服务器中已有nuScenes数据集，查看知nuScenes数据集文件夹结构已符合官网要求
+```
+OpenPCDet
+├── data
+│   ├── nuscenes
+│   │   │── v1.0-trainval (or v1.0-mini if you use mini)
+│   │   │   │── samples
+│   │   │   │── sweeps
+│   │   │   │── maps
+│   │   │   │── v1.0-trainval  
+├── pcdet
+├── tools
+```
+在VoxelNeXt/data文件夹下建立nuscenes软连接
+```
+ln -s /home/cbdes/data/nuscenes /home/cbdes/code/xuzeyuan/VoxelNeXt/data
+```
+现在VoxelNeXt/data下可以找到nuscenes了
+### b、数据集初始化
+按要求安装nuscenes-devkit==1.0.5
+```
+pip install nuscenes-devkit==1.0.5
+```
+仅跑lidar需要运行
+```
+python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval
+```
+跑multi-modal需要运行
+```
+python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
+```
