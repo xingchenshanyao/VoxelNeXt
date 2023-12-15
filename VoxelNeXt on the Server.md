@@ -144,4 +144,20 @@ cd tools
 python train.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml  # 可以跑但是很慢
 bash scripts/dist_train.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml # 可以跑通 # 4是显卡数量
 ```
+预计训练时间为30小时，未避免由于断网等因素终端，选择使用screen命令运行
 
+这样即使关闭本地电脑，服务器依旧能够运行
+```
+screen -S test # 创建一个新的窗口
+cd tools
+bash scripts/dist_train.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml # 运行程序
+```
+ctrl+a，然后按d即可退出screen，服务器仍会在后台运行程序
+```
+screen -ls # 查看当前窗口任务
+```
+输出567**.test
+```
+screen -r 567**
+```
+出现进入窗口
