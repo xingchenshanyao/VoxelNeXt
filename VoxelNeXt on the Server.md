@@ -172,12 +172,17 @@ bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO
 # 举例
 bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth
 ```
-numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也需要更改)或修改代码
 #### BUG5
 ```
 AttributeError: module 'numpy' has no attribute 'float'.
 `np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 ```
+numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也需要更改)或修改代码
+#### BUG6
+```
+torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 740615) of binary: /home/**/anaconda3/envs/VoxelNeXt/bin/python
+```
+多显卡设置的问题
 ### 可视化
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
