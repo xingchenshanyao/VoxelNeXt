@@ -181,6 +181,7 @@ numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也
 #### BUG6
 ```
 torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 740615) of binary: /home/**/anaconda3/envs/VoxelNeXt/bin/python
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
 ```
 多显卡设置的问题
 ### 可视化
