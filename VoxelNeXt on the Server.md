@@ -185,12 +185,14 @@ bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO
 bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth
 ```
 #### BUG5
+![BUG5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/0c198ce9-ef4d-4f3f-9aee-77d8f4a6cbe5)
 ```
 AttributeError: module 'numpy' has no attribute 'float'.
 `np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 ```
 numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也需要更改)或修改代码
 #### BUG6
+![BUG6](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d0f2f16a-fce2-429d-a835-82eb1f956fde)
 ```
 torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 740615) of binary: /home/**/anaconda3/envs/VoxelNeXt/bin/python
 torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
