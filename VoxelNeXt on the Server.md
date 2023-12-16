@@ -170,7 +170,7 @@ https://blog.csdn.net/carefree2005/article/details/122415714
 ```
 bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
 # 举例
-bash scripts/dist_test.sh 8 --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
+bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth
 ```
 ### 可视化
 ```
