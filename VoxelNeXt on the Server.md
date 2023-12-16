@@ -109,6 +109,18 @@ ln -s /data/nuscenes/v1.0-trainval /data/XZY_nuscenes/v1.0-trainval
 mkdir nuscenes
 ln -s /data/XZY_nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes
 ```
+为方便测试DEBUG，也将v1.0-mini上传并建立软连接
+```
+ln -s /data/nuscenes/v1.0-mini /home/**/VoxelNeXt/data/nuscenes
+```
+如使用nuscense_mini数据集，要修改VoxelNeXt-master/tools/cfgs/dataset_configs/nuscenes_dataset.yaml 中
+```
+VERSION: 'v1.0-trainval'
+```
+为
+```
+VERSION: 'v1.0-mini'
+```
 ### b、数据集初始化
 按要求安装nuscenes-devkit==1.0.5
 ```
