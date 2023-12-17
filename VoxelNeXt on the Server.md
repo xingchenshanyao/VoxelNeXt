@@ -232,4 +232,7 @@ python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --c
 ```
 #### BUG7
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4bbb8fbd-1f8b-4d00-bc2a-5d65185c2cbd)
-
+使用pdb方法DEBUG
+```
+import pdb; pdb.set_trace()
+```
