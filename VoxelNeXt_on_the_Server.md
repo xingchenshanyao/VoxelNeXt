@@ -121,6 +121,7 @@ VERSION: 'v1.0-trainval'
 ```
 VERSION: 'v1.0-mini'
 ```
+下面称 v1.0-trainval 为 all，v1.0-mini 为 all
 ### b、数据集初始化
 按要求安装nuscenes-devkit==1.0.5
 ```
