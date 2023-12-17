@@ -225,10 +225,12 @@ torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
 ### 可视化
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
+# or
+python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models_20231215/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
 ```
 or
 ```
-python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/kitti/testing/002323.bin
+python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models_20231215/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/kitti/testing/002323.bin
 ```
 ![2222](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7b002fee-4bc1-44b0-b957-2b9e14a3ffb6)
 #### BUG7
