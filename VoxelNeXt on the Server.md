@@ -208,7 +208,6 @@ tp = np.cumsum(tp).astype(np.float64)
 fp = np.cumsum(fp).astype(np.float64)
 ```
 #### BUG6
-![BUG6](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d0f2f16a-fce2-429d-a835-82eb1f956fde)
 ```
 torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 740615) of binary: /home/**/anaconda3/envs/VoxelNeXt/bin/python
 torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
@@ -222,3 +221,6 @@ or
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/kitti/testing/002323.bin
 ```
+#### BUG7
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4bbb8fbd-1f8b-4d00-bc2a-5d65185c2cbd)
+
