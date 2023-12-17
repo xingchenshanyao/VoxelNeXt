@@ -191,7 +191,7 @@ bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO
 # 举例
 bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth
 ```
-
+![2023-12-17 15-39-24屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/8f7d1962-4e16-4e84-a425-6fb30dc3021d)
 #### BUG5
 ![BUG5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/0c198ce9-ef4d-4f3f-9aee-77d8f4a6cbe5)
 ```
