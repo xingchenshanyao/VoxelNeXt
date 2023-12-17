@@ -190,14 +190,30 @@ bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxel
 AttributeError: module 'numpy' has no attribute 'float'.
 `np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
 ```
-numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也需要更改)或修改代码
+numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也需要更改)或修改代码，选择后者
+
+根据提示打开错误文件
+```
+cd /home/cbdes/anaconda3/envs/VoxelNeXt/lib/python3.9/site-packages/nuscenes/eval/detection/
+vim algo.py
+```
+将
+```
+tp = np.cumsum(tp).astype(np.float)
+fp = np.cumsum(fp).astype(np.float)
+```
+改为
+```
+tp = np.cumsum(tp).astype(np.float64)
+fp = np.cumsum(fp).astype(np.float64)
+```
 #### BUG6
 ![BUG6](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d0f2f16a-fce2-429d-a835-82eb1f956fde)
 ```
 torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 740615) of binary: /home/**/anaconda3/envs/VoxelNeXt/bin/python
 torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
 ```
-多显卡设置的问题
+多显卡设置的问题，在解决BUG5之后未弹出，暂时忽略
 ### 可视化
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
