@@ -204,8 +204,12 @@ fp = np.cumsum(fp).astype(np.float)
 ```
 改为
 ```
-tp = np.cumsum(tp).astype(np.float64)
-fp = np.cumsum(fp).astype(np.float64)
+try:
+  tp = np.cumsum(tp).astype(np.float)
+  fp = np.cumsum(fp).astype(np.float)
+except:
+  tp = np.cumsum(tp).astype(np.float64)
+  fp = np.cumsum(fp).astype(np.float64)
 ```
 #### BUG6
 ```
