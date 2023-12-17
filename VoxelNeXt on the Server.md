@@ -234,7 +234,21 @@ python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --c
 ```
 ![2222](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7b002fee-4bc1-44b0-b957-2b9e14a3ffb6)
 #### BUG7
-![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4bbb8fbd-1f8b-4d00-bc2a-5d65185c2cbd)
+```
+File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
+    main()
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 94, in main
+    for idx, data_dict in enumerate(demo_dataset):
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 59, in __getitem__
+    data_dict = self.prepare_data(data_dict=input_dict)
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/pcdet/datasets/dataset.py", line 180, in prepare_data
+    data_dict = self.point_feature_encoder.forward(data_dict)
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/pcdet/datasets/processor/point_feature_encoder.py", line 29, in forward
+    data_dict['points'], use_lead_xyz = getattr(self, self.point_encoding_config.encoding_type)(
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/pcdet/datasets/processor/point_feature_encoder.py", line 48, in absolute_coordinates_encoding
+    assert points.shape[-1] == len(self.src_feature_list)
+AssertionError
+```
 可以尝试使用pdb方法DEBUG
 ```
 import pdb; pdb.set_trace()
@@ -277,8 +291,17 @@ try:
 except:
   continue
 ```
-可以得到可视化结果，不过感觉结果不太正确
-
+到此，本地运行就可以得到可视化结果，不过感觉结果不太正确，服务器上出现新BUG
+```
+File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
+    main()
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 100, in main
+    V.draw_scenes(
+  File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/visual_utils/open3d_vis_utils.py", line 49, in draw_scenes
+    vis.get_render_option().point_size = 1.0
+AttributeError: 'NoneType' object has no attribute 'point_size'
+```
+处理中……
 参考来源：
 
 https://github.com/dvlab-research/VoxelNeXt/issues/15
