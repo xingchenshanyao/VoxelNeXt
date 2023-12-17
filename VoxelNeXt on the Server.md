@@ -194,8 +194,7 @@ numpy库版本过高，解决措施降低numpy库(此时一大堆库的版本也
 
 根据提示打开错误文件
 ```
-cd /home/cbdes/anaconda3/envs/VoxelNeXt/lib/python3.9/site-packages/nuscenes/eval/detection/
-vim algo.py
+vim /home/cbdes/anaconda3/envs/VoxelNeXt/lib/python3.9/site-packages/nuscenes/eval/detection/algo.py
 ```
 将
 ```
