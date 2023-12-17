@@ -293,6 +293,9 @@ except:
 ```
 到此，本地运行就可以得到可视化结果，不过感觉结果不佳，服务器上出现新BUG
 ```
+[Open3D WARNING] GLFW Error: X11: The DISPLAY environment variable is missing
+[Open3D WARNING] Failed to initialize GLFW
+Traceback (most recent call last):
 File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
     main()
   File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 100, in main
