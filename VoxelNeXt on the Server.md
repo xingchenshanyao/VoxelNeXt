@@ -113,7 +113,7 @@ ln -s /data/XZY_nuscenes/v1.0-trainval /home/**/VoxelNeXt/data/nuscenes
 ```
 ln -s /data/nuscenes/v1.0-mini /home/**/VoxelNeXt/data/nuscenes
 ```
-如使用nuscense_mini数据集，要修改VoxelNeXt-master/tools/cfgs/dataset_configs/nuscenes_dataset.yaml 中
+如使用nuscense_mini数据集，要修改VoxelNeXt/tools/cfgs/dataset_configs/nuscenes_dataset.yaml 中
 ```
 VERSION: 'v1.0-trainval'
 ```
