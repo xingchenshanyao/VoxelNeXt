@@ -178,6 +178,7 @@ screen -X -S 567**.test quit # 删除窗口
 https://blog.csdn.net/weixin_44612221/article/details/126279971
 
 https://blog.csdn.net/carefree2005/article/details/122415714
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/80ed1933-6055-4300-989c-7a8c6dcbed30)
 #### BUG8
 重新训练时出现错误
 ```
@@ -190,6 +191,7 @@ bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO
 # 举例
 bash scripts/dist_test.sh 4 --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth
 ```
+
 #### BUG5
 ![BUG5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/0c198ce9-ef4d-4f3f-9aee-77d8f4a6cbe5)
 ```
