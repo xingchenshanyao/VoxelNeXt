@@ -178,6 +178,12 @@ screen -X -S 567**.test quit # 删除窗口
 https://blog.csdn.net/weixin_44612221/article/details/126279971
 
 https://blog.csdn.net/carefree2005/article/details/122415714
+#### BUG8
+重新训练时出现错误
+```
+RuntimeError: DataLoader worker (pid 819355) is killed by signal: Terminated. ……
+```
+将output/nuscenes_models文件夹改名，就能重新训练了
 ## 开始测试
 ```
 bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
