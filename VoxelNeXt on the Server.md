@@ -230,6 +230,7 @@ or
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/kitti/testing/002323.bin
 ```
+![2222](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7b002fee-4bc1-44b0-b957-2b9e14a3ffb6)
 #### BUG7
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4bbb8fbd-1f8b-4d00-bc2a-5d65185c2cbd)
 可以尝试使用pdb方法DEBUG
@@ -240,8 +241,45 @@ import pdb; pdb.set_trace()
 
 nuScenes数据集bin点云里没有时间戳这一项，而demo.py里要求有
 
+解决措施，修改demo.py第48行
+```
+points = np.fromfile(self.sample_file_list[index], dtype=np.float32).reshape(-1, 4)
+```
+为
+```
+points = np.fromfile(self.sample_file_list[index],dtype=np.float32).reshape(-1, 5)
+# or
+points = np.fromfile(self.sample_file_list[index], dtype=np.float32).reshape(-1, 4)
+points = np.c_[points, np.zeros(points.shape[0])]
+```
+出现新的BUG
+```
+File "demo.py", line 115, in <module>
+    main()
+  File "demo.py", line 103, in main
+    V.draw_scenes(
+  File "/home/xingchen/Study/4D_GT/VoxelNeXt/tools/visual_utils/open3d_vis_utils.py", line 70, in draw_scenes
+    vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
+  File "/home/xingchen/Study/4D_GT/VoxelNeXt/tools/visual_utils/open3d_vis_utils.py", line 109, in draw_box
+    line_set.paint_uniform_color(box_colormap[ref_labels[i]])
+IndexError: list index out of range
+```
+修改tools/visual_utils/open3d_vis_utils.py中109行
+```
+line_set.paint_uniform_color(box_colormap[ref_labels[i]])
+```
+为
+```
+try:
+  line_set.paint_uniform_color(box_colormap[ref_labels[i]])
+except:
+  continue
+```
+可以得到可视化结果，不过感觉结果不太正确
+
+参考来源：
+
 https://github.com/dvlab-research/VoxelNeXt/issues/15
 
 https://blog.csdn.net/jin15203846657/article/details/123087367
 
-暂未解决
