@@ -291,7 +291,7 @@ try:
 except:
   continue
 ```
-到此，本地运行就可以得到可视化结果，不过感觉结果不太正确，服务器上出现新BUG
+到此，本地运行就可以得到可视化结果，不过感觉结果不佳，服务器上出现新BUG
 ```
 File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
     main()
@@ -302,6 +302,7 @@ File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
 AttributeError: 'NoneType' object has no attribute 'point_size'
 ```
 处理中……
+
 参考来源：
 
 https://github.com/dvlab-research/VoxelNeXt/issues/15
