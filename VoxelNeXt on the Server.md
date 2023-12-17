@@ -301,11 +301,13 @@ File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
     vis.get_render_option().point_size = 1.0
 AttributeError: 'NoneType' object has no attribute 'point_size'
 ```
-处理中……
+搜索得知是服务器上没有可视化工具，需要可视化的时候在本地可视化吧
 
 参考来源：
 
 https://github.com/dvlab-research/VoxelNeXt/issues/15
 
 https://blog.csdn.net/jin15203846657/article/details/123087367
+
+https://blog.csdn.net/weixin_44287798/article/details/126925297
 
