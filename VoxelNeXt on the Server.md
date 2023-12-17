@@ -238,6 +238,8 @@ import pdb; pdb.set_trace()
 ```
 在CSDN与GITHUB上搜索，有许多人遇到同样的问题，dome.py文件与nuScenes数据集的接口做的不对
 
+nuScenes数据集bin点云里没有时间戳这一项，而demo.py里要求有
+
 https://github.com/dvlab-research/VoxelNeXt/issues/15
 
 https://blog.csdn.net/jin15203846657/article/details/123087367
