@@ -228,6 +228,7 @@ torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
 ```
 多显卡设置的问题，在解决BUG5之后未弹出，暂时忽略
 ### 可视化
+可以直接看下一节 重新可视化
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
 # or
@@ -319,3 +320,5 @@ https://blog.csdn.net/jin15203846657/article/details/123087367
 
 https://blog.csdn.net/weixin_44287798/article/details/126925297
 
+## 重新可视化
+使用demo.py进行可视化的效果很差，最好重新编写一个可视化demo_nuScenes.py
