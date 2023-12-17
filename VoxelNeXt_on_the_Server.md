@@ -148,7 +148,7 @@ OSError: 1090 requested and 0 written
 ```
 python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-trainval --with_cam
 ```
-## 开始训练
+## 四、开始训练
 推荐服务器多显卡跑nuScenes数据集，修改tools/cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml中的BATCH_SIZE_PER_GPU=16
 ```
 cd tools
@@ -185,7 +185,7 @@ https://blog.csdn.net/carefree2005/article/details/122415714
 RuntimeError: DataLoader worker (pid 819355) is killed by signal: Terminated. ……
 ```
 将output/nuscenes_models文件夹改名，就能重新训练了
-## 开始测试
+## 五、开始测试
 ```
 bash scripts/dist_test.sh NUM_GPUS --cfg_file PATH_TO_CONFIG_FILE --ckpt PATH_TO_MODEL
 # 举例
@@ -227,7 +227,7 @@ torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0
 torch.distributed.elastic.multiprocessing.errors.ChildFailedError: **
 ```
 多显卡设置的问题，在解决BUG5之后未弹出，暂时忽略
-### 可视化
+### 六、可视化
 可以直接看下一节 重新可视化
 ```
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /data/XZY_nuscenes/data/nuscenes/v1.0-trainval/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
@@ -320,5 +320,5 @@ https://blog.csdn.net/jin15203846657/article/details/123087367
 
 https://blog.csdn.net/weixin_44287798/article/details/126925297
 
-## 重新可视化
+## 七、重新可视化
 使用demo.py进行可视化的效果很差，最好重新编写一个可视化demo_nuScenes.py
