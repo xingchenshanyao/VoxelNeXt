@@ -232,7 +232,14 @@ python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --c
 ```
 #### BUG7
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4bbb8fbd-1f8b-4d00-bc2a-5d65185c2cbd)
-使用pdb方法DEBUG
+可以尝试使用pdb方法DEBUG
 ```
 import pdb; pdb.set_trace()
 ```
+在CSDN与GITHUB上搜索，有许多人遇到同样的问题，dome.py文件与nuScenes数据集的接口做的不对
+
+https://github.com/dvlab-research/VoxelNeXt/issues/15
+
+https://blog.csdn.net/jin15203846657/article/details/123087367
+
+暂未解决
