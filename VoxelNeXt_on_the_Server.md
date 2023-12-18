@@ -62,7 +62,7 @@ WARNING: The repository located at ** is not a trusted or secure host and is bei
 pip config set global.index-url http:****
 pip config set install.trusted-host **
 ```
-### b、安装spconv-cu118
+### b、安装spconv-cu113
 ```
 pip install spconv-cu113
 ```
@@ -121,7 +121,7 @@ VERSION: 'v1.0-trainval'
 ```
 VERSION: 'v1.0-mini'
 ```
-下面称 v1.0-trainval 为 all，v1.0-mini 为 all
+下面称 v1.0-trainval 为 all，v1.0-mini 为 mini
 ### b、数据集初始化
 按要求安装nuscenes-devkit==1.0.5
 ```
