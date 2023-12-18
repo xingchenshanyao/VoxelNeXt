@@ -1,7 +1,7 @@
 # VoxelNeXt on the Server
 记录VoxelNeXt在服务器上的复现过程
 ### 部分说明
-ubuntu20.04、cuda11.6/11.3、A100*4、GPU Driver510
+ubuntu20.04、cuda11.3/11.6、A100*4、GPU Driver510、pytorch1.12.1+cu113
 ## 一、上传VoxelNeXt程序到服务器内
 ### a、安装Filezilla
 由于服务器无法连接外网(无法直接git clone)，必须通过Filezilla上传程序
