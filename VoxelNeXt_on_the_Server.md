@@ -323,3 +323,11 @@ https://blog.csdn.net/weixin_44287798/article/details/126925297
 
 ## 七、重新可视化
 使用demo.py进行可视化的效果很差，最好重新编写一个可视化demo_nuScenes.py
+
+有人在官方仓库里提到这个问题，官方给了一个demo(详见https://github.com/dvlab-research/VoxelNeXt/issues/15)
+
+但是感觉是后处理的，本地运行报错无法加载open3d.ml.torch
+```
+Exception: Version mismatch: Open3D needs PyTorch version 1.13.*, but version 2.0.0+cu118 is installed!
+```
+修改PyTorch版本太麻烦了，暂时跳过这个demo
