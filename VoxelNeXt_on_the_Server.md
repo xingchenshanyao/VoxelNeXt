@@ -240,6 +240,7 @@ or
 python demo.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt ~/code/xuzeyuan/VoxelNeXt/output/nuscenes_models_20231215/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /data/XZY_nuscenes/data/kitti/testing/002323.bin
 ```
 ![2222](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7b002fee-4bc1-44b0-b957-2b9e14a3ffb6)
+![2023-12-18 09-48-10屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/35cce7b7-b431-4b2b-b632-289a717742a9)
 #### BUG7
 ```
 File "/home/cbdes/code/xuzeyuan/VoxelNeXt/tools/demo.py", line 112, in <module>
