@@ -323,7 +323,7 @@ https://blog.csdn.net/jin15203846657/article/details/123087367
 https://blog.csdn.net/weixin_44287798/article/details/126925297
 
 ## 七、重新可视化
-使用demo.py进行可视化的效果很差，最好重新编写一个可视化demo_nuScenes.py
+使用demo.py进行可视化的效果很差，最好改写一个可视化demo.py
 
 有人在官方仓库里提到这个问题，官方给了一个demo(详见https://github.com/dvlab-research/VoxelNeXt/issues/15)
 
@@ -332,3 +332,33 @@ https://blog.csdn.net/weixin_44287798/article/details/126925297
 Exception: Version mismatch: Open3D needs PyTorch version 1.13.*, but version 2.0.0+cu118 is installed!
 ```
 修改PyTorch版本太麻烦了，暂时跳过这个demo
+
+最后的解决措施
+
+将 tools/cfgs/dataset_configs/nuscenes_dataset.yaml 中60行
+```
+used_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'],
+src_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'],
+```
+改为
+```
+used_feature_list: ['x', 'y', 'z', 'intensity'],
+src_feature_list: ['x', 'y', 'z', 'intensity'],
+```
+然后在 tools/demo.py 中 48行
+```
+points = np.fromfile(self.sample_file_list[index], dtype=np.float32).reshape(-1, 4)
+```
+改为
+```
+points = np.fromfile(self.sample_file_list[index],dtype=np.float32).reshape(-1, 5) # 读取nuScenes .bin文件时需要按包含时间戳的格式读取
+points = np.delete(points, 4, axis=1) # 然后删除时间戳这一列数据
+```
+本地可视化结果(服务器上无法可视化)
+```
+python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models0/cbgs_voxel0075_voxelnext/default/ckpt/voxelnext_nuscenes_kernel1.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/sweeps/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603847842.pcd.bin
+or
+python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models_All/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151604048025.pcd.bin
+```
+![2023-12-18 14-50-15屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/5c67b92e-e3c2-40d7-8b9b-589e2225be6b)
+![2023-12-18 14-57-26屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/3ab23c88-0a52-48ac-9c4f-7deb1a4f8477)
