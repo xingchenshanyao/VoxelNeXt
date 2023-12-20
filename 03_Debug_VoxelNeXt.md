@@ -304,26 +304,11 @@ for k, v in all_db_infos.items():
 with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kitti_dbinfos_train.pkl
     pickle.dump(all_db_infos, f)
 ```
----
 ***
+## 二、nuscenes_dataset
+### 2.1. nuscenes数据集介绍
 
-## 二、安装OpenPCDet环境
-### 0、最便捷的方法
-cuda11.8版本一样的话，直接到我这里拷贝环境
-### a、复制现有torch环境作为基础
-例如，将anaconda3/envs/torch20230517(一个能跑通YOLOP的torch环境)文件夹另存副本，改名为VoxelNeXt
 
-然后更改anaconda3/envs/VoxelNeXt/bin/pip中的
-```
-#!/home/xingchen/anaconda3/envs/torch20230517/bin/python
-```
-为
-```
-#!/home/xingchen/anaconda3/envs/VoxelNeXt/bin/python
-```
-### d、运行setup文件安装部分依赖库
-```
-python setup.py develop
-```
-#### DUG1
-运行步骤c报错
+
+
+
