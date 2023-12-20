@@ -519,6 +519,9 @@ parser.add_argument('--func', type=str, default='create_nuscenes_infos', help=''
 parser.add_argument('--version', type=str, default='v1.0-mini', help='')
 ```
 即可debug调试
+#### 2.2.1. main()
+```
 
+```
 
 ***
