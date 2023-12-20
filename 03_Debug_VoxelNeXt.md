@@ -9,6 +9,7 @@ KITTI数据集介绍：https://blog.csdn.net/zyw2002/article/details/127395975
 
 ### 部分说明
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
+***
 ## 一、kitti_dataset
 ### 1.1. kitti数据集介绍
 ```
@@ -73,6 +74,7 @@ DontCare -1 -1 -10 559.62 175.83 575.40 183.15 -1 -1 -1 -1000 -1000 -1000 -10
 - 第12-14列（浮点数）：3D物体的位置（location）——分别是x、y、z（单位：米），特别注意的是，这里的xyz是在相机坐标系下3D物体的中心点位置
 - 第15列（弧度数）：3D物体的空间方向（rotation_y）——取值范围为：-pi ~ pi（单位：rad）
 - 第16列（浮点数）：检测的置信度（score）
+  
   ![image](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7be4c5d3-4a3c-4a57-89fe-8b1dbd73e894)
 #### 1.1.4. velodyne
 velodyne文件是激光雷达的测量数据（绕其垂直轴（逆时针）连续旋转），以“000001.bin”文件为例，内容如下：
@@ -107,6 +109,7 @@ python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/datas
 
 
 
+***
 
 ## 二、安装OpenPCDet环境
 ### 0、最便捷的方法
