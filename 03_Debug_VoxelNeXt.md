@@ -7,6 +7,8 @@
 
 KITTI数据集介绍：https://blog.csdn.net/zyw2002/article/details/127395975
 
+NuScenes数据集介绍：https://blog.csdn.net/qq_47233366/article/details/123450282
+
 ### 部分说明
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
 ***
@@ -307,9 +309,9 @@ with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kit
 ***
 ## 二、nuscenes_dataset
 ### 2.1. nuscenes数据集介绍
-完整的nuscenes数据集有300多G，包含850scenes
+完整的nuscenes数据集有300多G，包含850scenes(700trains+150vals)
 
-为便于调试，使用只有3G和10scenes的nuscenes_mini数据集
+为便于调试，使用只有4 G和10scenes的nuscenes_mini数据集
 ```
 OpenPCDet
 ├── data
@@ -322,6 +324,30 @@ OpenPCDet
 ├── pcdet
 ├── tools
 ```
+samples中存放传感器（6个相机、1个激光雷达、5个毫米波雷达）所采集到的信息
+
+sweeps中存放的格式与samples是一样的，但是较为次要
+
+maps中存放四张地图照片
+
+ v1.0-mini中都是json文件，存放各种标签信息，以category.json为例
+ 
+![2023-12-20 17-10-06屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/39cbc038-4fc2-4683-a118-01e88efebfa3)
+
+- category：表示目标的种类，如汽车
+- attribute：实例属性，表示同一目标不同状态下的属性描述，如一辆车的移动与停止
+- visibility：实例的可见性
+- instance：表示一个实例对象，如某个汽车
+- sensor：传感器描述，如某个相机
+- calibrated_sensor：表示传感器的内外参数等信息
+- ego_pose：表示某个时间车辆的姿态
+- log：表示提取出数据的日志文件
+- scenes：来自日志文件中一个20s的连续帧
+- sample：表示每隔0.5s采集一次的经过标注的关键帧
+- sample_data：传感器返回的数据，如雷达点云或图片
+- sample_annotation：用于标注某个目标在一个sample中方向等信息的三维标注框
+
+
 
 
 
