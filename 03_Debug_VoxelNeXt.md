@@ -51,6 +51,7 @@ Tr_velo_to_cam：从雷达到相机0的旋转平移矩阵R^(3*4)
 Tr_imu_to_velo：从惯导或GPS装置到相机的旋转平移矩阵R^(3*4)
 #### 1.1.2. image_2
 image文件以8位PNG格式存储，图集如下：
+![2023-12-20 10-02-45屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a87fde09-6d9c-4841-8c9e-0809b7ef8b05)
 
 
 ### 1.2. 数据集初始化
