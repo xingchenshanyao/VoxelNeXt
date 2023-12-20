@@ -520,8 +520,230 @@ parser.add_argument('--version', type=str, default='v1.0-mini', help='')
 ```
 即可debug调试
 #### 2.2.1. main()
-```
+```python
+if __name__ == '__main__':
+    # python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-mini
+    import yaml
+    import argparse
+    from pathlib import Path
+    from easydict import EasyDict
+
+    parser = argparse.ArgumentParser(description='arg parser')
+    parser.add_argument('--cfg_file', type=str, default='tools/cfgs/dataset_configs/nuscenes_dataset.yaml', help='specify the config of dataset')
+    parser.add_argument('--func', type=str, default='create_nuscenes_infos', help='')
+    parser.add_argument('--version', type=str, default='v1.0-mini', help='')
+    args = parser.parse_args()
+
+    if args.func == 'create_nuscenes_infos':
+        dataset_cfg = EasyDict(yaml.safe_load(open(args.cfg_file))) # 打开配置文件nuscenes_dataset.yaml
+        ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve() # ROOT_DIR = /home/xingchen/Study/4D_GT/VoxelNeXt
+        dataset_cfg.VERSION = args.version # dataset_cfg.VERSION = 'v1.0-mini'
+        create_nuscenes_info(
+            version=dataset_cfg.VERSION,
+            data_path=ROOT_DIR / 'data' / 'nuscenes',
+            save_path=ROOT_DIR / 'data' / 'nuscenes',
+            max_sweeps=dataset_cfg.MAX_SWEEPS, # max_sweeps = 10 # 暂时不知道这是干嘛的
+        )
+
+        nuscenes_dataset = NuScenesDataset(
+            dataset_cfg=dataset_cfg, class_names=None,
+            root_path=ROOT_DIR / 'data' / 'nuscenes',
+            logger=common_utils.create_logger(), training=True
+        )
+        nuscenes_dataset.create_groundtruth_database(max_sweeps=dataset_cfg.MAX_SWEEPS) # 划分真值
 
 ```
+#### 2.2.2. create_nuscenes_info()
+需要继续改正第257行中
+```
+from . import nuscenes_utils
+```
+为
+```
+from pcdet.datasets.nuscenes import nuscenes_utils
+```
+```python
+def create_nuscenes_info(version, data_path, save_path, max_sweeps=10):
+    from nuscenes.nuscenes import NuScenes
+    from nuscenes.utils import splits
+    from pcdet.datasets.nuscenes import nuscenes_utils # 一个转化表格，eg:'human.pedestrian.adult' -> 'pedestrian'
+    data_path = data_path / version
+    save_path = save_path / version
 
+    assert version in ['v1.0-trainval', 'v1.0-test', 'v1.0-mini']
+    if version == 'v1.0-trainval':
+        train_scenes = splits.train
+        val_scenes = splits.val
+    elif version == 'v1.0-test':
+        train_scenes = splits.test
+        val_scenes = []
+    elif version == 'v1.0-mini':
+        train_scenes = splits.mini_train # train_scenes = ['scene-0061', 'scene-0553',..., 'scene-1100'] # 共8个
+        val_scenes = splits.mini_val # val_scenes = ['scene-0103', 'scene-0916']
+    else:
+        raise NotImplementedError
+
+    nusc = NuScenes(version=version, dataroot=data_path, verbose=True) # NuScenes()用于nuScenes的数据库类，帮助从数据库中查询和检索信息
+    available_scenes = nuscenes_utils.get_available_scenes(nusc) # 返回可用的场景 # 10个都可以用
+    available_scene_names = [s['name'] for s in available_scenes] # 返回可用的场景的名字 # available_scene_names = ['scene-0061', 'scene-0103', 'scene-0553', 'scene-0655', 'scene-0757', 'scene-0796', 'scene-0916', 'scene-1077', 'scene-1094', 'scene-1100']
+    train_scenes = list(filter(lambda x: x in available_scene_names, train_scenes)) # ['scene-0061', 'scene-0553', 'scene-0655', 'scene-0757', 'scene-0796', 'scene-1077', 'scene-1094', 'scene-1100']
+    val_scenes = list(filter(lambda x: x in available_scene_names, val_scenes)) # ['scene-0103', 'scene-0916']
+    train_scenes = set([available_scenes[available_scene_names.index(s)]['token'] for s in train_scenes])
+    val_scenes = set([available_scenes[available_scene_names.index(s)]['token'] for s in val_scenes]) # val_scenes = {'325cef682f064c55a255...625c533b75', 'fcbccedd61424f1b85dc...8f897f9754'} # 改成
+
+    print('%s: train scene(%d), val scene(%d)' % (version, len(train_scenes), len(val_scenes)))
+
+    train_nusc_infos, val_nusc_infos = nuscenes_utils.fill_trainval_infos(
+        data_path=data_path, nusc=nusc, train_scenes=train_scenes, val_scenes=val_scenes,
+        test='test' in version, max_sweeps=max_sweeps
+    ) # 编写nuscenes_infos_10sweeps_train.pkl和nuscenes_infos_10sweeps_val.pkl
+
+    if version == 'v1.0-test':
+        print('test sample: %d' % len(train_nusc_infos))
+        with open(save_path / f'nuscenes_infos_{max_sweeps}sweeps_test.pkl', 'wb') as f:
+            pickle.dump(train_nusc_infos, f)
+    else:
+        print('train sample: %d, val sample: %d' % (len(train_nusc_infos), len(val_nusc_infos)))
+        with open(save_path / f'nuscenes_infos_{max_sweeps}sweeps_train.pkl', 'wb') as f: # 新建并写入nuscenes_infos_10sweeps_train.pkl
+            pickle.dump(train_nusc_infos, f)
+        with open(save_path / f'nuscenes_infos_{max_sweeps}sweeps_val.pkl', 'wb') as f: # 新建并写入nuscenes_infos_10sweeps_val.pkl
+            pickle.dump(val_nusc_infos, f)
+
+```
+####  2.2.3. fill_trainval_infos()
+```python
+def fill_trainval_infos(data_path, nusc, train_scenes, val_scenes, test=False, max_sweeps=10):
+    train_nusc_infos = []
+    val_nusc_infos = []
+    progress_bar = tqdm.tqdm(total=len(nusc.sample), desc='create_info', dynamic_ncols=True)
+
+    ref_chan = 'LIDAR_TOP'  # The radar channel from which we track back n sweeps to aggregate the point cloud.
+    chan = 'LIDAR_TOP'  # The reference channel of the current sample_rec that the point clouds are mapped to.
+
+    for index, sample in enumerate(nusc.sample):
+        progress_bar.update()
+
+        ref_sd_token = sample['data'][ref_chan] # '9d9bf11fb0e144c8b446d54a8a00184f'
+        ref_sd_rec = nusc.get('sample_data', ref_sd_token) # {'token': '9d9bf11fb0e144c8b446...4a8a00184f', ..., 'channel': 'LIDAR_TOP'}
+        ref_cs_rec = nusc.get('calibrated_sensor', ref_sd_rec['calibrated_sensor_token']) # {'token': 'a183049901c24361a6b0...1b8013137c', ..., 'camera_intrinsic': []}
+        ref_pose_rec = nusc.get('ego_pose', ref_sd_rec['ego_pose_token']) # {'token': '9d9bf11fb0e144c8b446...4a8a00184f', ..., 'translation': [411.3039349319818, 1180.8903791765097, 0.0]}
+        ref_time = 1e-6 * ref_sd_rec['timestamp'] # 1532402927.647951
+
+        ref_lidar_path, ref_boxes, _ = get_sample_data(nusc, ref_sd_token) # lidar文件路径，数据信息
+
+        ref_cam_front_token = sample['data']['CAM_FRONT'] # 'e3d495d4ac534d54b321f50006683844'
+        ref_cam_path, _, ref_cam_intrinsic = nusc.get_sample_data(ref_cam_front_token) # camera文件路径，图片信息
+
+        # Homogeneous transform from ego car frame to reference frame # 从自车坐标系到参考坐标系的同质变换
+        ref_from_car = transform_matrix(
+            ref_cs_rec['translation'], Quaternion(ref_cs_rec['rotation']), inverse=True
+        )
+
+        # Homogeneous transformation matrix from global to _current_ ego car frame # 从全局坐标系到自车坐标系的同质变换
+        car_from_global = transform_matrix(
+            ref_pose_rec['translation'], Quaternion(ref_pose_rec['rotation']), inverse=True,
+        )
+
+        info = {
+            'lidar_path': Path(ref_lidar_path).relative_to(data_path).__str__(), # lidar的.bin文件路径
+            'cam_front_path': Path(ref_cam_path).relative_to(data_path).__str__(), # camera的.jpg文件路径
+            'cam_intrinsic': ref_cam_intrinsic, # camrea的**转换矩阵
+            'token': sample['token'], # 单个对象(点云+图像)唯一索引
+            'sweeps': [], # 
+            'ref_from_car': ref_from_car, # 坐标系**转换矩阵
+            'car_from_global': car_from_global, # 坐标系**转换矩阵
+            'timestamp': ref_time, # 时间戳
+        }
+
+        sample_data_token = sample['data'][chan] # '9d9bf11fb0e144c8b446d54a8a00184f'
+        curr_sd_rec = nusc.get('sample_data', sample_data_token)
+        sweeps = []
+        while len(sweeps) < max_sweeps - 1:
+            if curr_sd_rec['prev'] == '':
+                if len(sweeps) == 0:
+                    sweep = {
+                        'lidar_path': Path(ref_lidar_path).relative_to(data_path).__str__(),
+                        'sample_data_token': curr_sd_rec['token'],
+                        'transform_matrix': None,
+                        'time_lag': curr_sd_rec['timestamp'] * 0,
+                    }
+                    sweeps.append(sweep)
+                else:
+                    sweeps.append(sweeps[-1])
+            else:
+                curr_sd_rec = nusc.get('sample_data', curr_sd_rec['prev'])
+
+                # Get past pose
+                current_pose_rec = nusc.get('ego_pose', curr_sd_rec['ego_pose_token'])
+                global_from_car = transform_matrix(
+                    current_pose_rec['translation'], Quaternion(current_pose_rec['rotation']), inverse=False,
+                )
+
+                # Homogeneous transformation matrix from sensor coordinate frame to ego car frame.
+                current_cs_rec = nusc.get(
+                    'calibrated_sensor', curr_sd_rec['calibrated_sensor_token']
+                )
+                car_from_current = transform_matrix(
+                    current_cs_rec['translation'], Quaternion(current_cs_rec['rotation']), inverse=False,
+                )
+
+                tm = reduce(np.dot, [ref_from_car, car_from_global, global_from_car, car_from_current])
+
+                lidar_path = nusc.get_sample_data_path(curr_sd_rec['token'])
+
+                time_lag = ref_time - 1e-6 * curr_sd_rec['timestamp']
+
+                sweep = {
+                    'lidar_path': Path(lidar_path).relative_to(data_path).__str__(),
+                    'sample_data_token': curr_sd_rec['token'],
+                    'transform_matrix': tm,
+                    'global_from_car': global_from_car,
+                    'car_from_current': car_from_current,
+                    'time_lag': time_lag,
+                }
+                sweeps.append(sweep)
+
+        info['sweeps'] = sweeps
+
+        assert len(info['sweeps']) == max_sweeps - 1, \
+            f"sweep {curr_sd_rec['token']} only has {len(info['sweeps'])} sweeps, " \
+            f"you should duplicate to sweep num {max_sweeps - 1}"
+
+        if not test:
+            annotations = [nusc.get('sample_annotation', token) for token in sample['anns']]
+
+            # the filtering gives 0.5~1 map improvement
+            num_lidar_pts = np.array([anno['num_lidar_pts'] for anno in annotations])
+            num_radar_pts = np.array([anno['num_radar_pts'] for anno in annotations])
+            mask = (num_lidar_pts + num_radar_pts > 0)
+
+            locs = np.array([b.center for b in ref_boxes]).reshape(-1, 3)
+            dims = np.array([b.wlh for b in ref_boxes]).reshape(-1, 3)[:, [1, 0, 2]]  # wlh == > dxdydz (lwh)
+            velocity = np.array([b.velocity for b in ref_boxes]).reshape(-1, 3)
+            rots = np.array([quaternion_yaw(b.orientation) for b in ref_boxes]).reshape(-1, 1)
+            names = np.array([b.name for b in ref_boxes])
+            tokens = np.array([b.token for b in ref_boxes])
+            gt_boxes = np.concatenate([locs, dims, rots, velocity[:, :2]], axis=1)
+
+            assert len(annotations) == len(gt_boxes) == len(velocity)
+
+            info['gt_boxes'] = gt_boxes[mask, :]
+            info['gt_boxes_velocity'] = velocity[mask, :]
+            info['gt_names'] = np.array([map_name_from_general_to_detection[name] for name in names])[mask]
+            info['gt_boxes_token'] = tokens[mask]
+            info['num_lidar_pts'] = num_lidar_pts[mask]
+            info['num_radar_pts'] = num_radar_pts[mask]
+
+        if sample['scene_token'] in train_scenes:
+            train_nusc_infos.append(info)
+        else:
+            val_nusc_infos.append(info)
+
+    progress_bar.close()
+    return train_nusc_infos, val_nusc_infos
+```
+####  2.2.4. create_groundtruth_database()
+```python
+
+```
 ***
