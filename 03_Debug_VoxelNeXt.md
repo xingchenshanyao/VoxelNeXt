@@ -311,11 +311,11 @@ with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kit
 OpenPCDet
 ├── data
 │   ├── nuscenes
-│   │   │── v1.0-trainval (or v1.0-mini if you use mini)
+│   │   │── v1.0-mini
 │   │   │   │── samples
 │   │   │   │── sweeps
 │   │   │   │── maps
-│   │   │   │── v1.0-trainval (or v1.0-mini if you use mini)
+│   │   │   │── v1.0-mini
 ├── pcdet
 ├── tools
 ```
