@@ -335,21 +335,169 @@ maps中存放四张地图照片
 ![2023-12-20 17-10-06屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/39cbc038-4fc2-4683-a118-01e88efebfa3)
 
 - category：表示目标的种类，如汽车
+```
+{
+"token": "1fa93b757fc74fb197cdd60001ad8abf",
+"name": "human.pedestrian.adult",
+"description": "Adult subcategory."
+},
+```
 - attribute：实例属性，表示同一目标不同状态下的属性描述，如一辆车的移动与停止
+```
+{
+"token": "cb5118da1ab342aa947717dc53544259",
+"name": "vehicle.moving",
+"description": "Vehicle is moving."
+},
+```
 - visibility：实例的可见性
+```
+{
+"description": "visibility of whole object is between 0 and 40%",
+"token": "1",
+"level": "v0-40"
+},
+```
 - instance：表示一个实例对象，如某个汽车
+```
+{
+"token": "6dd2cbf4c24b4caeb625035869bca7b5",
+"category_token": "1fa93b757fc74fb197cdd60001ad8abf",
+"nbr_annotations": 39,
+"first_annotation_token": "ef63a697930c4b20a6b9791f423351da",
+"last_annotation_token": "8bb63134d48840aaa2993f490855ff0d"
+},
+```
 - sensor：传感器描述，如某个相机
+```
+{
+"token": "725903f5b62f56118f4094b46a4470d8",
+"channel": "CAM_FRONT",
+"modality": "camera"
+},
+```
 - calibrated_sensor：表示传感器的内外参数等信息
+```
+{
+"token": "f4d2a6c281f34a7eb8bb033d82321f79",
+"sensor_token": "47fcd48f71d75e0da5c8c1704a9bfe0a",
+"translation": [
+3.412,
+0.0,
+0.5
+],
+"rotation": [
+0.9999984769132877,
+0.0,
+0.0,
+0.0017453283658983088
+],
+"camera_intrinsic": []
+},
+```
 - ego_pose：表示某个时间车辆的姿态
+```
+{
+"token": "5ace90b379af485b9dcb1584b01e7212",
+"timestamp": 1532402927814384,
+"rotation": [
+0.5731787718287827,
+-0.0015811634307974854,
+0.013859363182046986,
+-0.8193116095230444
+],
+"translation": [
+410.77878632230204,
+1179.4673290964536,
+0.0
+]
+},
+```
 - log：表示提取出数据的日志文件
+```
+{
+"token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2",
+"logfile": "n015-2018-07-24-11-22-45+0800",
+"vehicle": "n015",
+"date_captured": "2018-07-24",
+"location": "singapore-onenorth"
+},
+```
 - scenes：来自日志文件中一个20s的连续帧
+```
+{
+"token": "cc8c0bf57f984915a77078b10eb33198",
+"log_token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2",
+"nbr_samples": 39,
+"first_sample_token": "ca9a282c9e77460f8360f564131a8af5",
+"last_sample_token": "ed5fc18c31904f96a8f0dbb99ff069c0",
+"name": "scene-0061",
+"description": "Parked truck, construction, intersection, turn left, following a van"
+},
+```
 - sample：表示每隔0.5s采集一次的经过标注的关键帧
+```
+{
+"token": "ca9a282c9e77460f8360f564131a8af5",
+"timestamp": 1532402927647951,
+"prev": "",
+"next": "39586f9d59004284a7114a68825e8eec",
+"scene_token": "cc8c0bf57f984915a77078b10eb33198"
+},
+```
 - sample_data：传感器返回的数据，如雷达点云或图片
+```
+{
+"token": "5ace90b379af485b9dcb1584b01e7212",
+"sample_token": "39586f9d59004284a7114a68825e8eec",
+"ego_pose_token": "5ace90b379af485b9dcb1584b01e7212",
+"calibrated_sensor_token": "f4d2a6c281f34a7eb8bb033d82321f79",
+"timestamp": 1532402927814384,
+"fileformat": "pcd",
+"is_key_frame": false,
+"height": 0,
+"width": 0,
+"filename": "sweeps/RADAR_FRONT/n015-2018-07-24-11-22-45+0800__RADAR_FRONT__1532402927814384.pcd",
+"prev": "f0b8593e08594a3eb1152c138b312813",
+"next": "978db2bcdf584b799c13594a348576d2"
+},
+```
 - sample_annotation：用于标注某个目标在一个sample中方向等信息的三维标注框
+```
+{
+"token": "70aecbe9b64f4722ab3c230391a3beb8",
+"sample_token": "cd21dbfc3bd749c7b10a5c42562e0c42",
+"instance_token": "6dd2cbf4c24b4caeb625035869bca7b5",
+"visibility_token": "4",
+"attribute_tokens": [
+"4d8821270b4a47e3a8a300cbec48188e"
+],
+"translation": [
+373.214,
+1130.48,
+1.25
+],
+"size": [
+0.621,
+0.669,
+1.642
+],
+"rotation": [
+0.9831098797903927,
+0.0,
+0.0,
+-0.18301629506281616
+],
+"prev": "a1721876c0944cdd92ebc3c75d55d693",
+"next": "1e8e35d365a441a18dd5503a0ee1c208",
+"num_lidar_pts": 5,
+"num_radar_pts": 0
+},
+```
 
 
 
 
 
 
-
+***
