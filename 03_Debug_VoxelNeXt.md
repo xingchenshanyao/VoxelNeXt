@@ -264,12 +264,47 @@ def get_infos(self, num_workers=4, has_label=True, count_inside_pts=True, sample
 ```
 ### 1.2.5. create_groundtruth_database()
 ```python
+for k in range(len(infos)): # 读取lidar信息
+    print('gt_database sample: %d/%d' % (k + 1, len(infos)))
+    info = infos[k]
+    sample_idx = info['point_cloud']['lidar_idx']
+    points = self.get_lidar(sample_idx)
+    annos = info['annos']
+    names = annos['name']
+    difficulty = annos['difficulty']
+    bbox = annos['bbox']
+    gt_boxes = annos['gt_boxes_lidar']
 
-```
-### 1.2.6. generate_prediction_dicts()
-```python
+    num_obj = gt_boxes.shape[0]
+    point_indices = roiaware_pool3d_utils.points_in_boxes_cpu(
+        torch.from_numpy(points[:, 0:3]), torch.from_numpy(gt_boxes)
+    ).numpy()  # (nboxes, npoints)
 
+    for i in range(num_obj):
+        filename = '%s_%s_%d.bin' % (sample_idx, names[i], i) # 序号_检测对象名_该检测对象在此文件中的序号
+        filepath = database_save_path / filename # eg. ROOT_DIR/data/kitti/gt_database/000000_Pedestrian_0.bin
+        gt_points = points[point_indices[i] > 0]
+
+        gt_points[:, :3] -= gt_boxes[i, :3]
+        with open(filepath, 'w') as f: # 写入ROOT_DIR/data/kitti/gt_database/000000_Pedestrian_0.bin
+            gt_points.tofile(f)
+
+        if (used_classes is None) or names[i] in used_classes:
+            db_path = str(filepath.relative_to(self.root_path))  # gt_database/xxxxx.bin
+            db_info = {'name': names[i], 'path': db_path, 'image_idx': sample_idx, 'gt_idx': i,
+                        'box3d_lidar': gt_boxes[i], 'num_points_in_gt': gt_points.shape[0],
+                        'difficulty': difficulty[i], 'bbox': bbox[i], 'score': annos['score'][i]}
+            if names[i] in all_db_infos:
+                all_db_infos[names[i]].append(db_info)
+            else:
+                all_db_infos[names[i]] = [db_info]
+for k, v in all_db_infos.items():
+    print('Database %s: %d' % (k, len(v)))
+
+with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kitti_dbinfos_train.pkl
+    pickle.dump(all_db_infos, f)
 ```
+
 
 
 
