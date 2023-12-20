@@ -103,7 +103,7 @@ Backend QtAgg is interactive backend. Turning interactive mode on.
 那就直接看代码吧
 
 ### 1.2.1. main()
-```
+```python
 if __name__ == '__main__':
     # python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
     import sys
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         )
 ```
 ### 1.2.2. create_kitti_infos()
-```
+```python
 def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4):
     dataset = KittiDataset(dataset_cfg=dataset_cfg, class_names=class_names, root_path=data_path, training=False) # KittiDataset()为kitti数据集加载函数
     train_split, val_split = 'train', 'val'
@@ -162,7 +162,9 @@ def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4
     print('---------------Data preparation Done---------------')
 ```
 ### 1.2.3. KittiDataset()
+```
 
+```
 
 
 
