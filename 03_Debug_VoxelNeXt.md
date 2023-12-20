@@ -330,9 +330,7 @@ sweeps中存放的格式与samples是一样的，但是较为次要
 
 maps中存放四张地图照片
 
- v1.0-mini中都是json文件，存放各种标签信息，以category.json为例
- 
-![2023-12-20 17-10-06屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/39cbc038-4fc2-4683-a118-01e88efebfa3)
+ v1.0-mini中都是json文件，存放各种标签信息
 
 - category：表示目标的种类，如汽车
 ```
