@@ -91,10 +91,32 @@ velodyne文件是激光雷达的测量数据（绕其垂直轴（逆时针）连
 ![image](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b939e45a-45cd-467d-bf59-3ffbb36bb645)
 
 ### 1.2. 数据集初始化
+原运行命令
 ```
 python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
 ```
-
+点调试出现bug
+```
+Backend QtAgg is interactive backend. Turning interactive mode on.
+```
+那就直接看代码吧
+```
+if __name__ == '__main__':
+    # python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
+    import sys
+    if sys.argv.__len__() > 1 and sys.argv[1] == 'create_kitti_infos': # 判断运行参数中有没有create_kitti_infos
+        import yaml
+        from pathlib import Path
+        from easydict import EasyDict
+        dataset_cfg = EasyDict(yaml.safe_load(open(sys.argv[2]))) # 打开配置文件kitti_dataset.yaml
+        ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve() # 文件夹绝对路径 # ROOT_DIR = /home/xingchen/Study/4D_GT/VoxelNeXt
+        create_kitti_infos(
+            dataset_cfg=dataset_cfg,
+            class_names=['Car', 'Pedestrian', 'Cyclist'], # 只加载三个类别
+            data_path=ROOT_DIR / 'data' / 'kitti',  # 数据集路径
+            save_path=ROOT_DIR / 'data' / 'kitti' # 处理数据集后的保存路径
+        )
+```
 
 
 
