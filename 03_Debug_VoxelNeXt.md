@@ -307,6 +307,18 @@ with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kit
 ***
 ## 二、nuscenes_dataset
 ### 2.1. nuscenes数据集介绍
+```
+OpenPCDet
+├── data
+│   ├── nuscenes
+│   │   │── v1.0-trainval (or v1.0-mini if you use mini)
+│   │   │   │── samples
+│   │   │   │── sweeps
+│   │   │   │── maps
+│   │   │   │── v1.0-trainval (or v1.0-mini if you use mini)
+├── pcdet
+├── tools
+```
 
 
 
