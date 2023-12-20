@@ -307,6 +307,9 @@ with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kit
 ***
 ## 二、nuscenes_dataset
 ### 2.1. nuscenes数据集介绍
+完整的nuscenes数据集有300多G，包含850scenes
+
+为便于调试，使用只有3G和10scenes的nuscenes_mini数据集
 ```
 OpenPCDet
 ├── data
