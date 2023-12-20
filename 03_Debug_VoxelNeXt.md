@@ -52,6 +52,7 @@ Tr_velo_to_cam：从雷达到相机0的旋转平移矩阵R^(3*4)
 Tr_imu_to_velo：从惯导或GPS装置到相机的旋转平移矩阵R^(3*4)
 #### 1.1.2. image_2
 image文件以8位PNG格式存储，图集如下：
+
 ![2023-12-20 10-02-45屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a87fde09-6d9c-4841-8c9e-0809b7ef8b05)
 #### 1.1.3. label_2
 label文件是KITTI中object的标签和评估数据，以“000001.txt”文件为例，包含样式如下：
@@ -100,6 +101,8 @@ python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/datas
 Backend QtAgg is interactive backend. Turning interactive mode on.
 ```
 那就直接看代码吧
+
+### 1.2.1. main()
 ```
 if __name__ == '__main__':
     # python -m pcdet.datasets.kitti.kitti_dataset create_kitti_infos tools/cfgs/dataset_configs/kitti_dataset.yaml
@@ -117,9 +120,48 @@ if __name__ == '__main__':
             save_path=ROOT_DIR / 'data' / 'kitti' # 处理数据集后的保存路径
         )
 ```
+### 1.2.2. create_kitti_infos()
+```
+def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4):
+    dataset = KittiDataset(dataset_cfg=dataset_cfg, class_names=class_names, root_path=data_path, training=False) # KittiDataset()为kitti数据集加载函数
+    train_split, val_split = 'train', 'val'
 
+    train_filename = save_path / ('kitti_infos_%s.pkl' % train_split) # train_filename = ROOT_DIR/data/kitti/kitti_infos_train.pkl
+    val_filename = save_path / ('kitti_infos_%s.pkl' % val_split) # val_filename = ROOT_DIR/data/kitti/kitti_infos_val.pkl
+    trainval_filename = save_path / 'kitti_infos_trainval.pkl' # trainval_filename = ROOT_DIR/data/kitti/kitti_infos_trainval.pkl
+    test_filename = save_path / 'kitti_infos_test.pkl' # test_filename = ROOT_DIR/data/kitti/kitti_infos_test.pkl
 
+    print('---------------Start to generate data infos---------------')
 
+    dataset.set_split(train_split) # 加载train的序号 # set_split()为数据集分割函数，根据ImageSets中的txt文件加载其中的序号
+    kitti_infos_train = dataset.get_infos(num_workers=workers, has_label=True, count_inside_pts=True) #
+    with open(train_filename, 'wb') as f: # 创建ROOT_DIR/data/kitti/kitti_infos_train.pkl，wb为以二进制写方式打开，只能写
+        pickle.dump(kitti_infos_train, f) 
+    print('Kitti info train file is saved to %s' % train_filename)
+
+    dataset.set_split(val_split) # 加载val的序号
+    kitti_infos_val = dataset.get_infos(num_workers=workers, has_label=True, count_inside_pts=True)
+    with open(val_filename, 'wb') as f: # 创建ROOT_DIR/data/kitti/kitti_infos_val.pkl，并写入
+        pickle.dump(kitti_infos_val, f)
+    print('Kitti info val file is saved to %s' % val_filename)
+
+    with open(trainval_filename, 'wb') as f: # 创建ROOT_DIR/data/kitti/kitti_infos_trainval.pkl，并写入
+        pickle.dump(kitti_infos_train + kitti_infos_val, f)
+    print('Kitti info trainval file is saved to %s' % trainval_filename)
+
+    dataset.set_split('test')# 加载test的序号
+    kitti_infos_test = dataset.get_infos(num_workers=workers, has_label=False, count_inside_pts=False)
+    with open(test_filename, 'wb') as f: # 创建ROOT_DIR/data/kitti/kitti_infos_test.pkl，并写入
+        pickle.dump(kitti_infos_test, f)
+    print('Kitti info test file is saved to %s' % test_filename)
+
+    print('---------------Start create groundtruth database for data augmentation---------------')
+    dataset.set_split(train_split)
+    dataset.create_groundtruth_database(train_filename, split=train_split) # 储存train的真值 # create_groundtruth_database()为创建gt_database文件夹，存储数据集真值信息
+
+    print('---------------Data preparation Done---------------')
+```
+### 1.2.3. KittiDataset()
 
 
 
