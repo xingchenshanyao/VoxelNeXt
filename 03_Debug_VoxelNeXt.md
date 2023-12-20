@@ -7,7 +7,7 @@
 
 KITTI数据集介绍：https://blog.csdn.net/zyw2002/article/details/127395975
 
-NuScenes数据集介绍：https://blog.csdn.net/qq_47233366/article/details/123450282
+NuScenes数据集介绍：https://blog.csdn.net/qq_47233366/article/details/123450282；https://blog.csdn.net/weixin_43253464/article/details/120669293
 
 ### 部分说明
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
@@ -492,7 +492,12 @@ maps中存放四张地图照片
 "num_radar_pts": 0
 },
 ```
-
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/8c1165dd-1cb6-45eb-8b87-03405f5ef288)
+### 2.2. 数据集初始化
+原命令
+```
+python -m pcdet.datasets.nuscenes.nuscenes_dataset --func create_nuscenes_infos --cfg_file tools/cfgs/dataset_configs/nuscenes_dataset.yaml --version v1.0-mini
+```
 
 
 
