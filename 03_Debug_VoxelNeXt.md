@@ -163,11 +163,104 @@ def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4
 ```
 ### 1.2.3. KittiDataset()
 ```python
+class KittiDataset(DatasetTemplate):
+    def __init__(self, dataset_cfg, class_names, training=True, root_path=None, logger=None):
+        """
+        Args: # 第一次传入的参数
+            root_path: # ROOT_DIR/data/kitti
+            dataset_cfg: # kitti_dataset.yaml
+            class_names: # ['Car', 'Pedestrian', 'Cyclist']
+            training: # False
+            logger: # None
+        """
+        super().__init__(
+            dataset_cfg=dataset_cfg, class_names=class_names, training=training, root_path=root_path, logger=logger
+        )
+        self.split = self.dataset_cfg.DATA_SPLIT[self.mode] # DATA_SPLIT: {'train': train,'test': val}
+        self.root_split_path = self.root_path / ('training' if self.split != 'test' else 'testing') # eg. ROOT_DIR/data/kitti/training
 
+        split_dir = self.root_path / 'ImageSets' / (self.split + '.txt') # eg. ROOT_DIR/data/kitti/ImageSets/train.txt
+        self.sample_id_list = [x.strip() for x in open(split_dir).readlines()] if split_dir.exists() else None 
+
+        self.kitti_infos = []
+        self.include_kitti_data(self.mode) # 读取kitti文件夹结构
+        # ……
 ```
 ### 1.2.4. get_infos()
 ```python
+def get_infos(self, num_workers=4, has_label=True, count_inside_pts=True, sample_id_list=None):
+        import concurrent.futures as futures
+        # 获取具体的文件信息
+        def process_single_scene(sample_idx): # sample_idx是文件序号
+            print('%s sample_idx: %s' % (self.split, sample_idx))
+            info = {}
+            pc_info = {'num_features': 4, 'lidar_idx': sample_idx}
+            info['point_cloud'] = pc_info
 
+            image_info = {'image_idx': sample_idx, 'image_shape': self.get_image_shape(sample_idx)}
+            info['image'] = image_info
+            calib = self.get_calib(sample_idx)
+
+            P2 = np.concatenate([calib.P2, np.array([[0., 0., 0., 1.]])], axis=0)
+            R0_4x4 = np.zeros([4, 4], dtype=calib.R0.dtype)
+            R0_4x4[3, 3] = 1.
+            R0_4x4[:3, :3] = calib.R0
+            V2C_4x4 = np.concatenate([calib.V2C, np.array([[0., 0., 0., 1.]])], axis=0)
+            calib_info = {'P2': P2, 'R0_rect': R0_4x4, 'Tr_velo_to_cam': V2C_4x4}
+
+            info['calib'] = calib_info
+
+            if has_label: # 读取标签信息
+                obj_list = self.get_label(sample_idx)
+                annotations = {}
+                annotations['name'] = np.array([obj.cls_type for obj in obj_list])
+                annotations['truncated'] = np.array([obj.truncation for obj in obj_list])
+                annotations['occluded'] = np.array([obj.occlusion for obj in obj_list])
+                annotations['alpha'] = np.array([obj.alpha for obj in obj_list])
+                annotations['bbox'] = np.concatenate([obj.box2d.reshape(1, 4) for obj in obj_list], axis=0)
+                annotations['dimensions'] = np.array([[obj.l, obj.h, obj.w] for obj in obj_list])  # lhw(camera) format
+                annotations['location'] = np.concatenate([obj.loc.reshape(1, 3) for obj in obj_list], axis=0)
+                annotations['rotation_y'] = np.array([obj.ry for obj in obj_list])
+                annotations['score'] = np.array([obj.score for obj in obj_list])
+                annotations['difficulty'] = np.array([obj.level for obj in obj_list], np.int32)
+
+                num_objects = len([obj.cls_type for obj in obj_list if obj.cls_type != 'DontCare'])
+                num_gt = len(annotations['name'])
+                index = list(range(num_objects)) + [-1] * (num_gt - num_objects)
+                annotations['index'] = np.array(index, dtype=np.int32)
+
+                loc = annotations['location'][:num_objects]
+                dims = annotations['dimensions'][:num_objects]
+                rots = annotations['rotation_y'][:num_objects]
+                loc_lidar = calib.rect_to_lidar(loc)
+                l, h, w = dims[:, 0:1], dims[:, 1:2], dims[:, 2:3]
+                loc_lidar[:, 2] += h[:, 0] / 2
+                gt_boxes_lidar = np.concatenate([loc_lidar, l, w, h, -(np.pi / 2 + rots[..., np.newaxis])], axis=1)
+                annotations['gt_boxes_lidar'] = gt_boxes_lidar
+
+                info['annos'] = annotations
+
+                if count_inside_pts: # 读取点云等信息
+                    points = self.get_lidar(sample_idx)
+                    calib = self.get_calib(sample_idx)
+                    pts_rect = calib.lidar_to_rect(points[:, 0:3])
+
+                    fov_flag = self.get_fov_flag(pts_rect, info['image']['image_shape'], calib)
+                    pts_fov = points[fov_flag]
+                    corners_lidar = box_utils.boxes_to_corners_3d(gt_boxes_lidar)
+                    num_points_in_gt = -np.ones(num_gt, dtype=np.int32)
+
+                    for k in range(num_objects):
+                        flag = box_utils.in_hull(pts_fov[:, 0:3], corners_lidar[k])
+                        num_points_in_gt[k] = flag.sum()
+                    annotations['num_points_in_gt'] = num_points_in_gt
+
+            return info
+
+        sample_id_list = sample_id_list if sample_id_list is not None else self.sample_id_list
+        with futures.ThreadPoolExecutor(num_workers) as executor:
+            infos = executor.map(process_single_scene, sample_id_list)
+        return list(infos)
 ```
 ### 1.2.5. create_groundtruth_database()
 ```python
