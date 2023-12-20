@@ -744,6 +744,47 @@ def fill_trainval_infos(data_path, nusc, train_scenes, val_scenes, test=False, m
 ```
 ####  2.2.4. create_groundtruth_database()
 ```python
+def create_groundtruth_database(self, used_classes=None, max_sweeps=10):
+        import torch
 
+        database_save_path = self.root_path / f'gt_database_{max_sweeps}sweeps_withvelo' # PosixPath('/home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/gt_database_10sweeps_withvelo')
+        db_info_save_path = self.root_path / f'nuscenes_dbinfos_{max_sweeps}sweeps_withvelo.pkl' # PosixPath('/home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/nuscenes_dbinfos_10sweeps_withvelo.pkl')
+
+        database_save_path.mkdir(parents=True, exist_ok=True)
+        all_db_infos = {}
+
+        for idx in tqdm(range(len(self.infos))):
+            sample_idx = idx # 0
+            info = self.infos[idx] # {'lidar_path': 'samples/LIDAR_TOP/n0...51.pcd.bin', 'cam_front_path': 'samples/CAM_FRONT/n0...612460.jpg', 'cam_intrinsic': array([[1.26641720e+...000e+00]]), 'token': 'ca9a282c9e77460f8360...64131a8af5', 'sweeps': [{...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}, {...}], 'ref_from_car': array([[ 0.00203327,...       ]]), 'car_from_global': array([[-3.45552926e...000e+00]]), 'timestamp': 1532402927.647951, 'gt_boxes': array([[ 1.84143850e...306e-03]]), 'gt_boxes_velocity': array([[ 3.07550587e...595e-02]]), 'gt_names': array(['pedestrian',...pe='<U20'), 'gt_boxes_token': array(['ef63a697930c...pe='<U32'), 'num_lidar_pts': array([  1,   2,   5...      27]), 'num_radar_pts': array([ 0,  0,  0,  ...,  1,  2])}
+            points = self.get_lidar_with_sweeps(idx, max_sweeps=max_sweeps) # 去除了某些点，静态点？小于10个点的对象框？
+            gt_boxes = info['gt_boxes'] # 66个三维对象框
+            gt_names = info['gt_names'] # 66个对象框类别
+
+            box_idxs_of_pts = roiaware_pool3d_utils.points_in_boxes_gpu(
+                torch.from_numpy(points[:, 0:3]).unsqueeze(dim=0).float().cuda(),
+                torch.from_numpy(gt_boxes[:, 0:7]).unsqueeze(dim=0).float().cuda()
+            ).long().squeeze(dim=0).cpu().numpy() # box_idxs_of_pts = array([-1, -1, -1, ..., -1, -1, -1]) # -1表示不是背景
+
+            for i in range(gt_boxes.shape[0]): # 分别建立写入66个对象
+                filename = '%s_%s_%d.bin' % (sample_idx, gt_names[i], i) # '0_pedestrian_0.bin'
+                filepath = database_save_path / filename # PosixPath('/home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/gt_database_10sweeps_withvelo/0_pedestrian_0.bin')
+                gt_points = points[box_idxs_of_pts == i] # array([[1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00],       [1.8647348e+01, 5.9553642e+01, 5.0377835e-02, 3.5000000e+01,        0.0000000e+00]], dtype=float32)
+
+                gt_points[:, :3] -= gt_boxes[i, :3]
+                with open(filepath, 'w') as f: # 
+                    gt_points.tofile(f)
+
+                if (used_classes is None) or gt_names[i] in used_classes:
+                    db_path = str(filepath.relative_to(self.root_path))  # 'gt_database_10sweeps_withvelo/0_pedestrian_0.bin'
+                    db_info = {'name': gt_names[i], 'path': db_path, 'image_idx': sample_idx, 'gt_idx': i,
+                               'box3d_lidar': gt_boxes[i], 'num_points_in_gt': gt_points.shape[0]} # {'name': 'pedestrian', 'path': 'gt_database_10sweeps...rian_0.bin', 'image_idx': 0, 'gt_idx': 0, 'box3d_lidar': array([ 1.84143850e+...4613e-04]), 'num_points_in_gt': 10}
+                    if gt_names[i] in all_db_infos:
+                        all_db_infos[gt_names[i]].append(db_info)
+                    else:
+                        all_db_infos[gt_names[i]] = [db_info]
+        for k, v in all_db_infos.items():
+            print('Database %s: %d' % (k, len(v)))
+
+        with open(db_info_save_path, 'wb') as f: # 打开<_io.BufferedWriter name='/home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/nuscenes_dbinfos_10sweeps_withvelo.pkl'>并写入
+            pickle.dump(all_db_infos, f)
 ```
-***
