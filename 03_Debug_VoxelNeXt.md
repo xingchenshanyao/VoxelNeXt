@@ -162,11 +162,21 @@ def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4
     print('---------------Data preparation Done---------------')
 ```
 ### 1.2.3. KittiDataset()
-```
+```python3.8
 
 ```
+### 1.2.4. get_infos()
+```python
 
+```
+### 1.2.5. create_groundtruth_database()
+```python
 
+```
+### 1.2.6. generate_prediction_dicts()
+```python
+
+```
 
 
 
