@@ -163,11 +163,35 @@ def create_kitti_infos(dataset_cfg, class_names, data_path, save_path, workers=4
 ```
 ### 1.2.3. KittiDataset()
 ```python3.8
-
+class KittiDataset(DatasetTemplate):
+    def __init__(self, dataset_cfg, class_names, training=True, root_path=None, logger=None):
+        """
+        Args:
+            root_path:
+            dataset_cfg:
+            class_names:
+            training:
+            logger:
+        """
+        super().__init__(
+            dataset_cfg=dataset_cfg, class_names=class_names, training=training, root_path=root_path, logger=logger
+        )
 ```
 ### 1.2.4. get_infos()
 ```python
-
+class KittiDataset(DatasetTemplate):
+    def __init__(self, dataset_cfg, class_names, training=True, root_path=None, logger=None):
+        """
+        Args:
+            root_path:
+            dataset_cfg:
+            class_names:
+            training:
+            logger:
+        """
+        super().__init__(
+            dataset_cfg=dataset_cfg, class_names=class_names, training=training, root_path=root_path, logger=logger
+        )
 ```
 ### 1.2.5. create_groundtruth_database()
 ```python
