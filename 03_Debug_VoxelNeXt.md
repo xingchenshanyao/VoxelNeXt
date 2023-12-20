@@ -304,15 +304,7 @@ for k, v in all_db_infos.items():
 with open(db_info_save_path, 'wb') as f: # 所有gt写入ROOT_DIR/data/kitti/kitti_dbinfos_train.pkl
     pickle.dump(all_db_infos, f)
 ```
-
-
-
-
-
-
-
-
-
+---
 ***
 
 ## 二、安装OpenPCDet环境
