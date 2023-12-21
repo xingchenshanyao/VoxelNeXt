@@ -4,6 +4,10 @@
 调试demo、test、train时，配置文件直接调用cbgs_voxel0075_voxelnext.yaml与nuscenes_dataset.yaml
 
 为便于代码分析，调试过程在本地完成
+
+参考来源：
+
+https://blog.csdn.net/xuchaoxin1375/article/details/117402006
 ### 部分说明
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
 ***
