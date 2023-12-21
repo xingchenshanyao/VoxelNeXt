@@ -39,5 +39,36 @@ parser.add_argument('--ckpt', type=str, default='/home/xingchen/Study/4D_GT/Voxe
 
 ![2023-12-21 10-33-45屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2b0f11b3-8b88-4aa8-a967-8017abac327e)
 ### 1.1. main()
+```python
+def main():
+    args, cfg = parse_config() # args为输入路径，cfg为配置文件
+    logger = common_utils.create_logger() # 创建日志
+    logger.info('-----------------Quick Demo of OpenPCDet-------------------------')
+    demo_dataset = DemoDataset(
+        dataset_cfg=cfg.DATA_CONFIG, class_names=cfg.CLASS_NAMES, training=False,
+        root_path=Path(args.data_path), ext=args.ext, logger=logger
+    )
+    logger.info(f'Total number of samples: \t{len(demo_dataset)}')
 
+    model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=demo_dataset) # 加载模型
+    model.load_params_from_file(filename=args.ckpt, logger=logger, to_cpu=True) # 加载参数
+    model.cuda()
+    model.eval()
+    with torch.no_grad():
+        for idx, data_dict in enumerate(demo_dataset):
+            logger.info(f'Visualized sample index: \t{idx + 1}')
+            data_dict = demo_dataset.collate_batch([data_dict])
+            load_data_to_gpu(data_dict)
+            pred_dicts, _ = model.forward(data_dict) # 检测结果
+
+            V.draw_scenes( # 绘制检测框
+                points=data_dict['points'][:, 1:], ref_boxes=pred_dicts[0]['pred_boxes'],
+                ref_scores=pred_dicts[0]['pred_scores'], ref_labels=pred_dicts[0]['pred_labels']
+            )
+
+            if not OPEN3D_FLAG:
+                mlab.show(stop=True)
+
+    logger.info('Demo done.')
+```
 
