@@ -31,5 +31,9 @@ parser.add_argument('--data_path', type=str, default='/home/xingchen/Study/4D_GT
 parser.add_argument('--ckpt', type=str, default='/home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models_All/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth', help='specify the pretrained model')
     parser.add_argument('--ext', type=str, default='.bin', help='specify the extension of your point cloud data file')
 ```
+随后发现cd tools文件夹后，点击调试debug，vscode会自动cd回父目录，导致运行错误，解决方法如下
+
+![2023-12-21 10-33-45屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2b0f11b3-8b88-4aa8-a967-8017abac327e)
 ### 1.1. main()
+
 
