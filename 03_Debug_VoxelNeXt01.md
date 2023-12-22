@@ -335,76 +335,76 @@ maps中存放四张地图照片
 - category：表示目标的种类，如汽车
 ```
 {
-"token": "1fa93b757fc74fb197cdd60001ad8abf",
-"name": "human.pedestrian.adult",
-"description": "Adult subcategory."
+"token": "1fa93b757fc74fb197cdd60001ad8abf", # 种类标识符 共23种
+"name": "human.pedestrian.adult", # 类别名称
+"description": "Adult subcategory." # 类别描述
 },
 ```
 - attribute：实例属性，表示同一目标不同状态下的属性描述，如一辆车的移动与停止
 ```
 {
-"token": "cb5118da1ab342aa947717dc53544259",
-"name": "vehicle.moving",
-"description": "Vehicle is moving."
+"token": "cb5118da1ab342aa947717dc53544259", # 属性的唯一标识符 共8个
+"name": "vehicle.moving", # 属性名称
+"description": "Vehicle is moving." # 具体描述
 },
 ```
 - visibility：实例的可见性
 ```
 {
-"description": "visibility of whole object is between 0 and 40%",
-"token": "1",
-"level": "v0-40"
+"description": "visibility of whole object is between 0 and 40%", # 可见性描述
+"token": "1", # 可见性标识符
+"level": "v0-40" # 可见性等级
 },
 ```
 - instance：表示一个实例对象，如某个汽车
 ```
 {
-"token": "6dd2cbf4c24b4caeb625035869bca7b5",
-"category_token": "1fa93b757fc74fb197cdd60001ad8abf",
-"nbr_annotations": 39,
-"first_annotation_token": "ef63a697930c4b20a6b9791f423351da",
-"last_annotation_token": "8bb63134d48840aaa2993f490855ff0d"
+"token": "6dd2cbf4c24b4caeb625035869bca7b5", # 每个实例的唯一标识符
+"category_token": "1fa93b757fc74fb197cdd60001ad8abf", # 实例所属类别（category.json）的唯一标识符
+"nbr_annotations": 39, # 存在的标签数量？
+"first_annotation_token": "ef63a697930c4b20a6b9791f423351da", # 上一个标签标识符
+"last_annotation_token": "8bb63134d48840aaa2993f490855ff0d" # 下一个标签标识符
 },
 ```
 - sensor：传感器描述，如某个相机
 ```
 {
-"token": "725903f5b62f56118f4094b46a4470d8",
-"channel": "CAM_FRONT",
-"modality": "camera"
+"token": "725903f5b62f56118f4094b46a4470d8", # 传感器唯一标识符
+"channel": "CAM_FRONT", # 位置
+"modality": "camera" # 类别
 },
 ```
 - calibrated_sensor：表示传感器的内外参数等信息
 ```
 {
-"token": "f4d2a6c281f34a7eb8bb033d82321f79",
-"sensor_token": "47fcd48f71d75e0da5c8c1704a9bfe0a",
-"translation": [
+"token": "f4d2a6c281f34a7eb8bb033d82321f79", # 校准的传感器信息的唯一标识符
+"sensor_token": "47fcd48f71d75e0da5c8c1704a9bfe0a", # 传感器（sensor.json）的唯一标识符，与该校准信息相关联 共12个（6camera 1lidar 5radar）
+"translation": [ # 传感器的平移信息，使用 x、y、z 坐标表示（以米为单位）
 3.412,
 0.0,
 0.5
 ],
-"rotation": [
+"rotation": [ # 传感器的旋转信息，使用四元数表示
 0.9999984769132877,
 0.0,
 0.0,
 0.0017453283658983088
 ],
-"camera_intrinsic": []
+"camera_intrinsic": [] # 相机传感器的内参信息，包括焦距、主点坐标和畸变参数等
 },
 ```
-- ego_pose：表示某个时间车辆的姿态
+- ego_pose：表示某个时间车辆的姿态，这个姿态是相对于世界坐标系的
 ```
 {
-"token": "5ace90b379af485b9dcb1584b01e7212",
-"timestamp": 1532402927814384,
-"rotation": [
+"token": "5ace90b379af485b9dcb1584b01e7212", # 车辆自身姿态信息的唯一标识符
+"timestamp": 1532402927814384, # 时间戳
+"rotation": [ # 车辆的旋转信息，使用四元数表示
 0.5731787718287827,
 -0.0015811634307974854,
 0.013859363182046986,
 -0.8193116095230444
 ],
-"translation": [
+"translation": [ # 车辆的平移信息，使用 x、y、z 坐标表示（以米为单位）
 410.77878632230204,
 1179.4673290964536,
 0.0
@@ -421,7 +421,7 @@ maps中存放四张地图照片
 "location": "singapore-onenorth" # 日志文件记录的车辆位置的全球定位系统（GPS）坐标
 },
 ```
-- scenes：来自日志文件中一个20s的连续帧
+- scene：来自日志文件中一个20s的连续帧
 ```
 {
 "token": "cc8c0bf57f984915a77078b10eb33198", # 每个场景的唯一标识符 共10个
@@ -433,63 +433,78 @@ maps中存放四张地图照片
 "description": "Parked truck, construction, intersection, turn left, following a van" # 场景描述
 },
 ```
+- map：地图文件
+```
+{
+"category": "semantic_prior", # 类别(标注情况？)
+"token": "37819e65e09e5547b8a3ceaefba56bb2", # 地图的唯一标识符 共4个
+"filename": "maps/37819e65e09e5547b8a3ceaefba56bb2.png", # 地图路径
+"log_tokens": [ # 对应的日志文件的标识符
+"853a9f9fe7e84bb8b24bff8ebf23f287",
+"e55205b1f2894b49957905d7ddfdb96d",
+"8fefc430cbfa4c2191978c0df302eb98",
+"f93e8d66ce4b4fbea7062d19b1fe29fb",
+"89a56a5dc3aa4e56a2e57b52de738da5"
+]
+}
+```
 - sample：表示每隔0.5s采集一次的经过标注的关键帧
 ```
 {
-"token": "ca9a282c9e77460f8360f564131a8af5",
-"timestamp": 1532402927647951,
-"prev": "",
-"next": "39586f9d59004284a7114a68825e8eec",
-"scene_token": "cc8c0bf57f984915a77078b10eb33198"
+"token": "ca9a282c9e77460f8360f564131a8af5", # 每个样本/关键帧的唯一标识符 每个场景下约40个
+"timestamp": 1532402927647951, # 时间戳
+"prev": "", # 前一个样本的唯一标识符
+"next": "39586f9d59004284a7114a68825e8eec", # 下一个样本的唯一标识符
+"scene_token": "cc8c0bf57f984915a77078b10eb33198" # 样本所属场景（scene.json）的唯一标识符
 },
 ```
-- sample_data：传感器返回的数据，如雷达点云或图片
+- sample_data：传感器返回的数据，如雷达点云或图片，包括已标注和未标注的点云数据与图片信息
 ```
 {
-"token": "5ace90b379af485b9dcb1584b01e7212",
-"sample_token": "39586f9d59004284a7114a68825e8eec",
-"ego_pose_token": "5ace90b379af485b9dcb1584b01e7212",
-"calibrated_sensor_token": "f4d2a6c281f34a7eb8bb033d82321f79",
-"timestamp": 1532402927814384,
-"fileformat": "pcd",
-"is_key_frame": false,
-"height": 0,
-"width": 0,
-"filename": "sweeps/RADAR_FRONT/n015-2018-07-24-11-22-45+0800__RADAR_FRONT__1532402927814384.pcd",
-"prev": "f0b8593e08594a3eb1152c138b312813",
-"next": "978db2bcdf584b799c13594a348576d2"
+"token": "5ace90b379af485b9dcb1584b01e7212", #  每个样本的唯一标识符 
+"sample_token": "39586f9d59004284a7114a68825e8eec", # 代表此样本的**样本/关键帧**的唯一标识符
+"ego_pose_token": "5ace90b379af485b9dcb1584b01e7212", # 车辆的自身姿态信息（ego_pose.json）的唯一标识符，数值上与 每个标注框的唯一标识符相同
+"calibrated_sensor_token": "f4d2a6c281f34a7eb8bb033d82321f79", # 校准的传感器信息（calibrated_sensor.json）的唯一标识符
+"timestamp": 1532402927814384, # 时间戳
+"fileformat": "pcd", # 样本数据的文件格式，例如图像文件的格式（jpg、png）或激光雷达数据的格式（pcd）
+"is_key_frame": false, # 标识样本数据是否为关键帧
+"height": 0, # 样本数据的高度（以像素为单位）
+"width": 0, # 样本数据的宽度（以像素为单位）
+"filename": "sweeps/RADAR_FRONT/n015-2018-07-24-11-22-45+0800__RADAR_FRONT__1532402927814384.pcd", # 文件路径
+"prev": "f0b8593e08594a3eb1152c138b312813", # 上一个样本数据的唯一标识符
+"next": "978db2bcdf584b799c13594a348576d2" # 下一个样本数据的唯一标识符
 },
 ```
-- sample_annotation：用于标注某个目标在一个sample中方向等信息的三维标注框
+- sample_annotation：用于标注某个目标在一个sample中方向等信息的三维标注框 # 标注时应该是照着图片在点云文件里标的
 ```
 {
-"token": "70aecbe9b64f4722ab3c230391a3beb8",
-"sample_token": "cd21dbfc3bd749c7b10a5c42562e0c42",
-"instance_token": "6dd2cbf4c24b4caeb625035869bca7b5",
-"visibility_token": "4",
-"attribute_tokens": [
-"4d8821270b4a47e3a8a300cbec48188e"
+"token": "70aecbe9b64f4722ab3c230391a3beb8", # 每个3D标注框的唯一标识符 每个关键帧大约有50-80个
+"sample_token": "cd21dbfc3bd749c7b10a5c42562e0c42", # 此3D框所在的**样本/关键帧**的唯一标识符，普通帧没有标注信息
+"instance_token": "6dd2cbf4c24b4caeb625035869bca7b5", # 样本标注所属实例（object instance）的唯一标识符
+"visibility_token": "4", # 样本标注的可见性（visibility）的唯一标识符
+"attribute_tokens": [ # 样本标注的属性（attribute）（描述运动状态等）的唯一标识符列表
+"4d8821270b4a47e3a8a300cbec48188e" 
 ],
-"translation": [
+"translation": [ # 样本标注的位置信息，包括 x、y、z 坐标（以米为单位）
 373.214,
 1130.48,
 1.25
 ],
-"size": [
+"size": [ # 样本标注的尺寸信息，包括长、宽、高（以米为单位）
 0.621,
 0.669,
 1.642
 ],
-"rotation": [
+"rotation": [ # 样本标注的姿态信息，包括四元数表示的旋转
 0.9831098797903927,
 0.0,
 0.0,
 -0.18301629506281616
 ],
-"prev": "a1721876c0944cdd92ebc3c75d55d693",
-"next": "1e8e35d365a441a18dd5503a0ee1c208",
-"num_lidar_pts": 5,
-"num_radar_pts": 0
+"prev": "a1721876c0944cdd92ebc3c75d55d693", # 前者的标记符
+"next": "1e8e35d365a441a18dd5503a0ee1c208", # 后者的标记符
+"num_lidar_pts": 5, # 激光雷达的点数
+"num_radar_pts": 0 # 毫米波雷达的点数
 },
 ```
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/8c1165dd-1cb6-45eb-8b87-03405f5ef288)
