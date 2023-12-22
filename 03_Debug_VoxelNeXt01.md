@@ -414,23 +414,23 @@ maps中存放四张地图照片
 - log：表示提取出数据的日志文件
 ```
 {
-"token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2",
-"logfile": "n015-2018-07-24-11-22-45+0800",
-"vehicle": "n015",
-"date_captured": "2018-07-24",
-"location": "singapore-onenorth"
+"token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2", # 每个日志文件的唯一标识符
+"logfile": "n015-2018-07-24-11-22-45+0800", # 日志文件的文件名
+"vehicle": "n015", # 与日志文件相关联的车辆的唯一标识符
+"date_captured": "2018-07-24", # 采集时间
+"location": "singapore-onenorth" # 日志文件记录的车辆位置的全球定位系统（GPS）坐标
 },
 ```
 - scenes：来自日志文件中一个20s的连续帧
 ```
 {
-"token": "cc8c0bf57f984915a77078b10eb33198",
-"log_token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2",
-"nbr_samples": 39,
-"first_sample_token": "ca9a282c9e77460f8360f564131a8af5",
-"last_sample_token": "ed5fc18c31904f96a8f0dbb99ff069c0",
-"name": "scene-0061",
-"description": "Parked truck, construction, intersection, turn left, following a van"
+"token": "cc8c0bf57f984915a77078b10eb33198", # 每个场景的唯一标识符 共10个
+"log_token": "7e25a2c8ea1f41c5b0da1e69ecfa71a2",  # 与场景相关联的日志文件（log.json）的唯一标识符
+"nbr_samples": 39, # 场景中的样本数（sample.json 中的样本）
+"first_sample_token": "ca9a282c9e77460f8360f564131a8af5", # 场景中第一个样本的唯一标识符
+"last_sample_token": "ed5fc18c31904f96a8f0dbb99ff069c0", # 场景中最后一个样本的唯一标识符
+"name": "scene-0061", # 场景名
+"description": "Parked truck, construction, intersection, turn left, following a van" # 场景描述
 },
 ```
 - sample：表示每隔0.5s采集一次的经过标注的关键帧
