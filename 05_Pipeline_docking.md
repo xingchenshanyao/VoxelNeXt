@@ -52,3 +52,33 @@ Car [0.43 0.57 9.73] [-54.39 -76.99 -6.57] 0
 "num_radar_pts": 0 # 毫米波雷达的点数
 },
 ```
+四元数转化角度值
+```
+import math
+def EulerAndQuaternionTransform(intput_data):
+    data_len = len(intput_data)
+    angle_is_not_rad = True # True:角度值 False:弧度制
+ 
+    if data_len == 4:
+ 
+        w = intput_data[0] 
+        x = intput_data[1]
+        y = intput_data[2]
+        z = intput_data[3]
+ 
+        r = math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y))
+        p = math.asin(2 * (w * y - z * x))
+        y = math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z))
+ 
+        if angle_is_not_rad : # pi -> 180
+            r = math.degrees(r)
+            p = math.degrees(p)
+            y = math.degrees(y)
+        return [r,p,y]
+
+input_data = [0.8391977432162915, 0.0, 0.0, 0.5438263948914979]
+# output_data = [0.0, 0.0, 1.1499799908438055] # 弧度值pi
+# output_data = [0.0, 0.0, 65.88899999984311] # 角度值180
+output_data = EulerAndQuaternionTransform(input_data)
+print(output_data)
+```
