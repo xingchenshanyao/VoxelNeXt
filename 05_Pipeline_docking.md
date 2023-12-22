@@ -52,7 +52,7 @@ Car [0.43 0.57 9.73] [-54.39 -76.99 -6.57] 0
 "num_radar_pts": 0 # 毫米波雷达的点数
 },
 ```
-四元数转化角度值
+rotation四元数转化角度值
 ```
 import math
 def EulerAndQuaternionTransform(intput_data):
