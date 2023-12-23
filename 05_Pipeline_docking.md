@@ -53,14 +53,38 @@ Car [0.43 0.57 9.73] [-54.39 -76.99 -6.57] 0
 },
 ```
 rotation四元数转化角度值
-```
+```python
 import math
 def EulerAndQuaternionTransform(intput_data):
     data_len = len(intput_data)
     angle_is_not_rad = True # True:角度值 False:弧度制
- 
-    if data_len == 4:
- 
+    if data_len == 3:
+            r = 0
+            p = 0
+            y = 0
+            if angle_is_not_rad: # 180 ->pi
+                r = math.radians(intput_data[0]) 
+                p = math.radians(intput_data[1])
+                y = math.radians(intput_data[2])
+            else:
+                r = intput_data[0] 
+                p = intput_data[1]
+                y = intput_data[2]
+     
+            sinp = math.sin(p/2)
+            siny = math.sin(y/2)
+            sinr = math.sin(r/2)
+     
+            cosp = math.cos(p/2)
+            cosy = math.cos(y/2)
+            cosr = math.cos(r/2)
+     
+            w = cosr*cosp*cosy + sinr*sinp*siny
+            x = sinr*cosp*cosy - cosr*sinp*siny
+            y = cosr*sinp*cosy + sinr*cosp*siny
+            z = cosr*cosp*siny - sinr*sinp*cosy
+            return [w,x,y,z]
+    elif data_len == 4:
         w = intput_data[0] 
         x = intput_data[1]
         y = intput_data[2]
