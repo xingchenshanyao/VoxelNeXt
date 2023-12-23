@@ -58,7 +58,7 @@ import math
 def EulerAndQuaternionTransform(intput_data):
     data_len = len(intput_data)
     angle_is_not_rad = True # True:角度值 False:弧度制
-    if data_len == 3:
+    if data_len == 3: # 角度值转四元数
             r = 0
             p = 0
             y = 0
@@ -84,7 +84,7 @@ def EulerAndQuaternionTransform(intput_data):
             y = cosr*sinp*cosy + sinr*cosp*siny
             z = cosr*cosp*siny - sinr*sinp*cosy
             return [w,x,y,z]
-    elif data_len == 4:
+    elif data_len == 4: # 四元数转角度值
         w = intput_data[0] 
         x = intput_data[1]
         y = intput_data[2]
