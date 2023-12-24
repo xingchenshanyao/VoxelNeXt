@@ -133,5 +133,40 @@ eg. [{'pred_boxes':tensor([[ 1.2003e+01,  3.4673e+01, -1.9518e-01,  4.5309e+00, 
 雷达坐标系中，x为red(车前进方向右90°)，y为green(车前进方向)，z为blue(垂直地面向上)
 
 ![2023-12-24 11-38-59屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/189a744c-052c-4c78-bfc3-c0d2fba8e371)
+### 1.4 伪标签可视化demo
+修改demo.py文件，在75行后添加
+```python
+parser.add_argument('--txt_path', type=str, default='/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/kitti/training/label_2/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt',
+                        help='specify the point cloud data file or directory')
+```
+注释104行，并添加
+```python
+pred_boxes, pred_scores, pred_labels= [],[],[]
+            with open(args.txt_path, 'r') as f:
+                for line in f:
+                    line.strip()
+                    a = line.split() # 读取列表
+                    pred_boxes.append([float(a[1]),float(a[2]),float(a[3]),float(a[4]),float(a[5]),float(a[6]),float(a[7]),0,0])
+                    pred_scores.append(1.0)
+                    pred_labels.append(int(a[0]))
+            # 弥补Bebug: pred_boxes中的最后一个框不会被画出来
+            pred_boxes.append([2,2,2,10,10,10,0,0,0])
+            pred_scores.append(0.1)
+            pred_labels.append(0)
+
+            device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+            pred_boxes = torch.tensor(pred_boxes).to(device)
+            pred_scores = torch.tensor(pred_scores).to(device)
+            pred_labels = torch.tensor(pred_labels).to(device)
+            pred_dicts = [{'pred_boxes':pred_boxes,'pred_scores':pred_scores,'pred_labels':pred_labels,'pred_ious':[None, None, None, None, None, None]}]
+```
+使用伪标签
+```
+0 -0.00 0.16 -0.40 2.80 2.66 2.24 0
+1 -24.39 -26.99 -0.57 0.43 0.57 3.73 1.57
+```
+可视化结果为
+
+![2023-12-24 12-56-23屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a57f03ba-bfa6-4386-9e78-85002b736e4f)
 
 
