@@ -163,10 +163,12 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
 使用伪标签
 ```
 0 -0.00 0.16 -0.40 2.80 2.66 2.24 0
-1 -24.39 -26.99 -0.57 0.43 0.57 3.73 1.57
+1 -24.39 -26.99 -0.57 1.43 1.57 3.73 1.57
+2 10 10 0 1 1 2 1
 ```
 可视化结果为
 
-![2023-12-24 12-56-23屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a57f03ba-bfa6-4386-9e78-85002b736e4f)
+![3](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7168916f-a8f0-477c-bade-632bd2bbaee1)
+
 
 
