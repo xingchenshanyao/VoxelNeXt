@@ -55,11 +55,26 @@ def main():
     model.cuda()
     model.eval()
     with torch.no_grad():
-        for idx, data_dict in enumerate(demo_dataset):
+        for idx, data_dict in enumerate(demo_dataset): # data_dict = {'points':[[x,y,z,intensity],...],'frame_id':0,'use_lead_xyz':True,'voxels':[[[x,y,z,intensity]*10],...],'voxel_coords':[[z,x,y]?,...],'voxel_num_points':[1,...]}
             logger.info(f'Visualized sample index: \t{idx + 1}')
-            data_dict = demo_dataset.collate_batch([data_dict])
-            load_data_to_gpu(data_dict)
-            pred_dicts, _ = model.forward(data_dict) # 检测结果
+            data_dict = demo_dataset.collate_batch([data_dict]) #  data_dict = {'points': [[0,x,y,z,intensity],...], 'frame_id':[0], 'use_lead_xyz':[True], 'voxels':[[x,y,z,intensity],...], 'voxel_coords':[[batch_size = 0,z,x,y]?,...], 'voxel_num_points':[1,...], 'batch_size': 1}
+            load_data_to_gpu(data_dict) # 把data_dict放到gpu上,array变成tensor的格式
+            pred_dicts, _ = model.forward(data_dict) # 检测结果 
+            # pred_dicts = [{'pred_boxes':[9个参数],'pred_scores':[0.2692,...],'pred_labels':[1,...],'pred_ious':[None,...]}]
+            # eg. [{'pred_boxes':tensor([[ 1.2003e+01,  3.4673e+01, -1.9518e-01,  4.5309e+00,  1.9496e+00,1.6281e+00, -1.2367e-01, -9.0418e-05,  4.2779e-05]], device='cuda:0'),'pred_scores':[0.2692],'pred_labels':[1],'pred_ious':[None, None, None, None, None, None]}]
+            
+            
+            # # 为确定pred_boxes的9个参数分别是啥：
+            # # 激光雷达坐标为原点 x(red) y(green) z(blue) 长(x方向) 宽(y方向) 高(z方向) 弧度制表示的与+x,+y,+z夹角(但是后续+y+z夹角被置0了)
+            # pred_box0 = [ 0,  0, 0, 10,  5,  2, 0, 0, 1]
+            # pred_box1 = [ -3.19,  -22.85, -1.89, 4.27,  1.83,  1.66, -1.42, 0, 0]
+            # pred_box2 = [ -3.19,  -22.85, -1.89, 4.27,  1.83,  1.66, -1.42, 1.28, -8.38]
+            # Bebug: pred_boxes中的最后一个框不会被画出来
+            # pred_boxes = [pred_box0,pred_box1,pred_box2]
+            # device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+            # pred_boxes = torch.tensor(pred_boxes).to(device)
+            # # pred_dicts = [{'pred_boxes':pred_boxes,'pred_scores':torch.tensor([0.1,0.1,0.2,0.3,0.4]).to(device),'pred_labels':torch.tensor([1,1,1,1,1]).to(device),'pred_ious':[None, None, None, None, None, None]}]
+            # pred_dicts = [{'pred_boxes':pred_boxes,'pred_scores':torch.tensor([0.4,0.5,0.5]).to(device),'pred_labels':torch.tensor([1,1,1]).to(device),'pred_ious':[None, None, None, None, None, None]}]
 
             V.draw_scenes( # 绘制检测框
                 points=data_dict['points'][:, 1:], ref_boxes=pred_dicts[0]['pred_boxes'],
