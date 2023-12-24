@@ -12,7 +12,7 @@
 Car [0.80 2.66 1.24] [-0.00 0.16 -0.40] 0
 Car [0.43 0.57 9.73] [-54.39 -76.99 -6.57] 0
 ```
-- 第1列（字符串）：代表物体类别（type）——总共有9类，分别是：Car、Pedestrian、Cyclist
+- 第1列（字符串）：代表物体类别（type）——总共有9类，分别是：Car、Pedestrian、Cyclist等
 - 第2~4列（浮点数）：3D物体的尺寸——分别是高、宽、长（单位：米）
 - 第5-7列（浮点数）：3D物体的位置（location）——分别是x、y、z（单位：米），特别注意的是，这里的xyz是在**雷达坐标系**下3D物体的中心点位置
 - 第8列（浮点数）：3D物体的空间方向（rotation_y）——取值范围为：-pi ~ pi（单位：rad）
@@ -106,3 +106,32 @@ input_data = [0.8391977432162915, 0.0, 0.0, 0.5438263948914979]
 output_data = EulerAndQuaternionTransform(input_data)
 print(output_data)
 ```
+### 1.3 demo生成预测框数据格式
+```python
+pred_dicts = [{'pred_boxes':[9个参数],'pred_scores':[0.2692,...],'pred_labels':[1,...],'pred_ious':[None,...]}]
+eg. [{'pred_boxes':tensor([[ 1.2003e+01,  3.4673e+01, -1.9518e-01,  4.5309e+00,  1.9496e+00,1.6281e+00, -1.2367e-01, -9.0418e-05,  4.2779e-05]], device='cuda:0'),'pred_scores':[0.2692],'pred_labels':[1],'pred_ious':[None, None, None, None, None, None]}]
+```
+在demo.py第103行使用以下代码确定9个参数含义
+```python
+            # 为确定pred_boxes的9个参数分别是啥：
+            # 激光雷达坐标为原点 x(red) y(green) z(blue) 长(x方向) 宽(y方向) 高(z方向) 弧度制表示的与+x,+y,+z夹角(但是后续+y+z夹角被置0了)
+            pred_box0 = [ 0,  0, 0, 10,  5,  2, 0, 0, 1]
+            pred_box1 = [ -3.19,  -22.85, -1.89, 4.27,  1.83,  1.66, -1.42, 0, 0]
+            pred_box2 = [ -3.19,  -22.85, -1.89, 4.27,  1.83,  1.66, -1.42, 1.28, -8.38]
+            # Bebug: pred_boxes中的最后一个框不会被画出来
+            pred_boxes = [pred_box0,pred_box1,pred_box2]
+            device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+            pred_boxes = torch.tensor(pred_boxes).to(device)
+            pred_dicts = [{'pred_boxes':pred_boxes,'pred_scores':torch.tensor([0.4,0.5,0.5]).to(device),'pred_labels':torch.tensor([1,1,1]).to(device),'pred_ious':[None, None, None, None, None, None]}]
+```
+最终确定：
+- 坐标系原点：激光雷达中心
+- 第1~3个参数：代表预测框中心点的xyz坐标，单位为米
+- 第4~6个参数：代表预测框的长宽高，单位为米，长宽高分别是xyz方向上的边长
+- 第7~9个参数：代表预测框的旋转角，单位为rad，旋转角分别是与+x+y+z的夹角
+
+雷达坐标系中，x为red(车前进方向右90°)，y为green(车前进方向)，z为blue(垂直地面向上)
+
+![2023-12-24 11-38-59屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/189a744c-052c-4c78-bfc3-c0d2fba8e371)
+
+
