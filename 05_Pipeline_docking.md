@@ -202,6 +202,6 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
             info['gt_boxes'] = np.array(false_gt_boxes)
             info['gt_boxes_velocity'] = velocity[mask, :]
             info['gt_names'] = false_gt_names
-            print("VoxelNext/pcdet is running !") # 一个影响不大的Bug
+            print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
 ```
 
