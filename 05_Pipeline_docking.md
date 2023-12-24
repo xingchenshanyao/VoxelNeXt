@@ -169,6 +169,39 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
 可视化结果为
 
 ![3](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7168916f-a8f0-477c-bade-632bd2bbaee1)
-
-
+### 1.5 伪标签划分数据集
+为使用伪标签进行模型训练，可以选择在划分数据集的时候将伪标签与真值替换，生成新的
+```
+gt_database_10sweeps_withvelo
+nuscenes_infos_10sweeps_train.pkl
+nuscenes_infos_10sweeps_val.pkl
+nuscenes_dbinfos_10sweeps_withvelo.pkl
+```
+在pcdet/datasets/nuscenes/nuscenes_utils.py中367行注释掉
+```python
+            info['gt_boxes'] = gt_boxes[mask, :]
+            info['gt_boxes_velocity'] = velocity[mask, :]
+            info['gt_names'] = np.array([map_name_from_general_to_detection[name] for name in names])[mask]
+```
+并添加
+```python
+            # 修改成伪标签
+            false_gt_boxes, false_gt_names = [],[]
+            import os
+            folder_path = '/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/false_gt'  # 替换为伪标签的文件夹路径
+            # txt_name = info['lidar_path'].split("/")[-1][:-4]+'.txt' # 伪标签的名称
+            txt_name = 'n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt' # 仅测试
+            dic = {0:'Car',1:'Pedestrian',2:'Cyclist'}
+            txt_path = os.path.join(folder_path, txt_name)
+            with open(txt_path, 'r') as f:
+                for line in f:
+                    line.strip()
+                    a = line.split() # 读取列表
+                    false_gt_boxes.append([float(a[1]),float(a[2]),float(a[3]),float(a[4]),float(a[5]),float(a[6]),float(a[7]),0,0])
+                    false_gt_names.append(dic[int(a[0])])
+            info['gt_boxes'] = np.array(false_gt_boxes)
+            info['gt_boxes_velocity'] = velocity[mask, :]
+            info['gt_names'] = false_gt_names
+            print("VoxelNext/pcdet is running !") # 一个影响不大的Bug
+```
 
