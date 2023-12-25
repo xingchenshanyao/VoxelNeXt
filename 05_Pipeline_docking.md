@@ -271,7 +271,7 @@ def compute_overlap(bbox1, bbox2):
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2679a080-4d72-439e-acb4-1ee316ea4300/></td>
     </tr>
 </table>
-**
+***
 
 ## 二、对接上游
 使用nuScenes数据集的原始点云数据与上游给予的伪标签作为训练数据集进行训练
@@ -310,3 +310,14 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
             info['gt_names'] = false_gt_names
             print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
 ```
+***
+
+## 三、对接下游
+使用伪标签训练出的权重重新检测数据集获得对应的标签传递下游
+### 3.1. 生成txt文件
+
+
+
+
+### 3.2. txt 转pkl文件
+
