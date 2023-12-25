@@ -286,9 +286,7 @@ def compute_overlap(bbox1, bbox2):
 
 <table>
     <tr>
-            <th>show1</th>
-            <th>show2</th>
-            <th>show3</th>
+            <th>confidence_threshold = 0.2</th>
     </tr>
     <tr>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77 /></td>
