@@ -329,7 +329,7 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
 ## 三、对接下游
 使用伪标签训练出的权重重新检测数据集获得对应的标签传递下游
 
-基于test.py修改，在parse_config()中填入--cfg_file、--batch_sizeh和--ckpt的参数
+调试test.py，在parse_config()中填入--cfg_file、--batch_sizeh和--ckpt的参数
 
 运行时报错
 ```
@@ -358,8 +358,21 @@ output_dir = cfg.ROOT_DIR / 'output' / 'false_results'
 
 将测试集内容换成训练集，然后保存测试评估时生成的结果转成对应格式即可即
 
+用test评估data/nuscenes/v1.0-mini/nuscenes_infos_10sweeps_val.pkl可以得到检测结果result.pkl(包含2场景81帧)
+
+将data/nuscenes/v1.0-mini/nuscenes_infos_10sweeps_train.pkl重命名为data/nuscenes/v1.0-mini/nuscenes_infos_10sweeps_val.pkl评估，得到result.pkl(包含2场景323帧)
+
+result.pkl格式如下
+
+![2023-12-25 16-15-07屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/18d3e9dd-ab52-4f77-8488-60abe003407d)
+
+编写程序读取以上两个result.pkl，生成符合下游对接要求的pkl文件
+```python
+
+```
 
 
 
-### 3.2. txt 转pkl文件
+
+
 
