@@ -187,7 +187,7 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
 
 添加置信度阈值(confidence_threshold = 0.2)后可视化
 
-![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003)
 
 ### 1.6. 检测NMS添加
 为了更好地体现检测效果，对demo的结果进行非极大值抑制NMS(1.7包含1.6的改动)
