@@ -317,7 +317,23 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
 ## 三、对接下游
 使用伪标签训练出的权重重新检测数据集获得对应的标签传递下游
 ### 3.1. 生成txt文件
+基于test.py修改，在parse_config()中填入--cfg_file、--batch_sizeh和--ckpt的参数
 
+运行时报错
+```
+File "/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/tools/../pcdet/datasets/processor/point_feature_encoder.py", line 50, in absolute_coordinates_encoding
+    assert points.shape[-1] == len(self.src_feature_list)
+```
+需要修改tools/cfgs/dataset_configs/nuscenes_dataset.yaml中60行
+```python
+used_feature_list: ['x', 'y', 'z', 'intensity'], # 可视化时需要去掉时间戳
+src_feature_list: ['x', 'y', 'z', 'intensity'],
+```
+为
+```python
+used_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'], # 训练测试时最好还是加上时间戳
+src_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'],
+```
 
 
 
