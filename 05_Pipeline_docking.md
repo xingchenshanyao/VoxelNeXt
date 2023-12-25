@@ -182,9 +182,11 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
             continue
 ```
 未添加置信度阈值前可视化
+
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)
 
 添加置信度阈值(confidence_threshold = 0.2)后可视化
+
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003
 
 ### 1.6. 检测NMS添加
