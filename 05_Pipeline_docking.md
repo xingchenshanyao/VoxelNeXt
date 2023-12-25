@@ -153,6 +153,11 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
             pred_boxes.append([2,2,2,10,10,10,0,0,0])
             pred_scores.append(0.1)
             pred_labels.append(0)
+            # 另一种解决方式
+            # 在tools/visual_utils/open3d_vis_utils.py第105行中，修改
+            # for i in range(gt_boxes.shape[0]-1):
+            # 为
+            # for i in range(gt_boxes.shape[0]):
 
             device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
             pred_boxes = torch.tensor(pred_boxes).to(device)
