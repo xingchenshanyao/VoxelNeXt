@@ -210,8 +210,8 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
             print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
 ```
 ### 1.6 检测置信度阈值添加
-在tools/visual_utils/open3d_vis_utils.py第104行下添加
-```
+在tools/visual_utils/open3d_vis_utils.py第104行下添加(1.7包含1.6的改动)
+```python
         # 添加预测框置信度阈值进行筛选
         confidence_threshold = 0.2
         if score[i] <= confidence_threshold:
@@ -221,6 +221,78 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)
 
 添加置信度阈值(confidence_threshold = 0.2)后可视化
-![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003)
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003
+### 1.7 检测NMS添加
+为了更好地体现检测效果，对demo的结果进行非极大值抑制NMS(1.7包含1.6的改动)
 
+在tools/visual_utils/open3d_vis_utils.py第104行下添加
+```python
+threshold,confidence_threshold=0.5,0.2
+    # threshold = 0.5 为交并比阈值
+    # confidence_threshold = 0.2 为置信度阈值
+    gt_boxes, score = non_maximum_suppression(gt_boxes, score, threshold=threshold,confidence_threshold=confidence_threshold) # 非极大值抑制 # 20231225
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    gt_boxes = np.array(gt_boxes)
+    score = torch.tensor(score).to(device)
+```
+并增加函数
+```python
+def non_maximum_suppression(bboxes, scores, threshold=0.5,confidence_threshold = 0.2):
+    # 初始化结果列表
+    selected_bboxes = []
+    selected_scores = []
 
+    # 按照置信度降序排序
+    sorted_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+
+    while len(sorted_indices) > 0:
+        # 选择具有最高置信度的边界框
+        best_idx = sorted_indices[0]
+        selected_bboxes.append(bboxes[best_idx])
+        selected_scores.append(scores[best_idx])
+
+        # 计算与已选中边界框的重叠程度
+        overlap_indices = []
+        for idx in sorted_indices[1:]:
+            if scores[idx] <= confidence_threshold: # 筛选出置信度低的
+                overlap_indices.append(idx)
+                continue
+
+            overlap = compute_overlap(bboxes[best_idx], bboxes[idx]) # 筛选出交并比高的
+            if overlap >= threshold:
+                overlap_indices.append(idx)
+
+        # 从排序列表中移除重叠的边界框
+        sorted_indices = [idx for idx in sorted_indices if idx not in overlap_indices] # 保留满足要求的
+        sorted_indices = sorted_indices[1:]
+
+    return selected_bboxes,selected_scores
+
+# 辅助函数：计算两个边界框的重叠程度
+def compute_overlap(bbox1, bbox2):
+    # 根据具体应用选择适当的重叠度量方式，例如交并比（IoU）
+    # 这里仅简单计算重叠面积占较小边界框面积的比例
+    x1, y1, w1, h1 = bbox1[0],bbox1[1],bbox1[3],bbox1[4]
+    x2, y2, w2, h2 = bbox2[0],bbox2[1],bbox2[3],bbox2[4]
+
+    area1 = w1 * h1
+    area2 = w2 * h2
+
+    intersection_area = max(0, min(x1 + w1, x2 + w2) - max(x1, x2)) * max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
+    overlap = intersection_area / min(area1, area2)
+    return overlap
+```
+添加NMS后可视化效果
+
+<table>
+    <tr>
+            <th>show1</th>
+            <th>show2</th>
+            <th>show3</th>
+    </tr>
+    <tr>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77 /></td>
+        <td><img src=![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)/></td>
+        <td><img src=![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)/></td>
+    </tr>
+</table>
