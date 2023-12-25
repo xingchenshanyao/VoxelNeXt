@@ -1,9 +1,7 @@
 # Pipeline docking
 记录本地管道对接的过程，包括VoxelNeXt与上下游对接
 
-## 一、对接上游
-使用nuScenes数据集的原始点云数据与上游给予的伪标签作为训练数据集进行训练
-
+## 一、准备工作
 ### 1.1. 伪标签格式
 参考kitti的txt标签格式，每个bin点云文件对应一个txt标签
 
@@ -17,7 +15,7 @@
 - 第5-7列（浮点数）：3D物体的尺寸——分别是高、宽、长（单位：米）
 - 第8列（浮点数）：3D物体的空间方向（rotation），为目标前进方向与激光雷达坐标系+x轴的夹角——取值范围为：-pi ~ pi（单位：rad）
 
-### 1.2 nuScenes数据格式
+### 1.2. nuScenes数据格式
 3D标签保存在sample_annotation.json中，
 
 - sample_annotation：用于标注某个目标在一个sample中方向等信息的三维标注框 # 标注时应该是照着图片在点云文件里标的
@@ -106,7 +104,7 @@ input_data = [0.8391977432162915, 0.0, 0.0, 0.5438263948914979]
 output_data = EulerAndQuaternionTransform(input_data)
 print(output_data)
 ```
-### 1.3 demo生成预测框数据格式
+### 1.3. demo生成预测框数据格式
 ```python
 pred_dicts = [{'pred_boxes':[9个参数],'pred_scores':[0.2692,...],'pred_labels':[1,...],'pred_ious':[None,...]}]
 eg. [{'pred_boxes':tensor([[ 1.2003e+01,  3.4673e+01, -1.9518e-01,  4.5309e+00,  1.9496e+00,1.6281e+00, -1.2367e-01, -9.0418e-05,  4.2779e-05]], device='cuda:0'),'pred_scores':[0.2692],'pred_labels':[1],'pred_ious':[None, None, None, None, None, None]}]
@@ -133,7 +131,7 @@ eg. [{'pred_boxes':tensor([[ 1.2003e+01,  3.4673e+01, -1.9518e-01,  4.5309e+00, 
 雷达坐标系中，x为red(车前进方向右90°)，y为green(车前进方向)，z为blue(垂直地面向上)
 
 ![2023-12-24 11-38-59屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/189a744c-052c-4c78-bfc3-c0d2fba8e371)
-### 1.4 伪标签可视化demo
+### 1.4. 伪标签可视化demo
 修改demo.py文件，在75行后添加
 ```python
 parser.add_argument('--txt_path', type=str, default='/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/kitti/training/label_2/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt',
@@ -174,42 +172,8 @@ pred_boxes, pred_scores, pred_labels= [],[],[]
 可视化结果为
 
 ![3](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7168916f-a8f0-477c-bade-632bd2bbaee1)
-### 1.5 伪标签划分数据集
-为使用伪标签进行模型训练，可以选择在划分数据集的时候将伪标签与真值替换，生成新的
-```
-gt_database_10sweeps_withvelo
-nuscenes_infos_10sweeps_train.pkl
-nuscenes_infos_10sweeps_val.pkl
-nuscenes_dbinfos_10sweeps_withvelo.pkl
-```
-在pcdet/datasets/nuscenes/nuscenes_utils.py中367行注释掉
-```python
-            info['gt_boxes'] = gt_boxes[mask, :]
-            info['gt_boxes_velocity'] = velocity[mask, :]
-            info['gt_names'] = np.array([map_name_from_general_to_detection[name] for name in names])[mask]
-```
-并添加
-```python
-            # 修改成伪标签
-            false_gt_boxes, false_gt_names = [],[]
-            import os
-            folder_path = '/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/false_gt'  # 替换为伪标签的文件夹路径
-            # txt_name = info['lidar_path'].split("/")[-1][:-4]+'.txt' # 伪标签的名称
-            txt_name = 'n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt' # 仅测试
-            dic = {0:'Car',1:'Pedestrian',2:'Cyclist'}
-            txt_path = os.path.join(folder_path, txt_name)
-            with open(txt_path, 'r') as f:
-                for line in f:
-                    line.strip()
-                    a = line.split() # 读取列表
-                    false_gt_boxes.append([float(a[1]),float(a[2]),float(a[3]),float(a[4]),float(a[5]),float(a[6]),float(a[7]),0,0])
-                    false_gt_names.append(dic[int(a[0])])
-            info['gt_boxes'] = np.array(false_gt_boxes)
-            info['gt_boxes_velocity'] = velocity[mask, :]
-            info['gt_names'] = false_gt_names
-            print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
-```
-### 1.6 检测置信度阈值添加
+
+### 1.5. 检测置信度阈值添加
 在tools/visual_utils/open3d_vis_utils.py第104行下添加(1.7包含1.6的改动)
 ```python
         # 添加预测框置信度阈值进行筛选
@@ -222,7 +186,8 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
 
 添加置信度阈值(confidence_threshold = 0.2)后可视化
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003
-### 1.7 检测NMS添加
+
+### 1.6. 检测NMS添加
 为了更好地体现检测效果，对demo的结果进行非极大值抑制NMS(1.7包含1.6的改动)
 
 在tools/visual_utils/open3d_vis_utils.py第104行下添加
@@ -306,3 +271,42 @@ def compute_overlap(bbox1, bbox2):
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2679a080-4d72-439e-acb4-1ee316ea4300/></td>
     </tr>
 </table>
+**
+
+## 二、对接上游
+使用nuScenes数据集的原始点云数据与上游给予的伪标签作为训练数据集进行训练
+### 2.1. 伪标签划分数据集
+为使用伪标签进行模型训练，可以选择在划分数据集的时候将伪标签与真值替换，生成新的
+```
+gt_database_10sweeps_withvelo
+nuscenes_infos_10sweeps_train.pkl
+nuscenes_infos_10sweeps_val.pkl
+nuscenes_dbinfos_10sweeps_withvelo.pkl
+```
+在pcdet/datasets/nuscenes/nuscenes_utils.py中367行注释掉
+```python
+            info['gt_boxes'] = gt_boxes[mask, :]
+            info['gt_boxes_velocity'] = velocity[mask, :]
+            info['gt_names'] = np.array([map_name_from_general_to_detection[name] for name in names])[mask]
+```
+并添加
+```python
+            # 修改成伪标签
+            false_gt_boxes, false_gt_names = [],[]
+            import os
+            folder_path = '/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/false_gt'  # 替换为伪标签的文件夹路径
+            # txt_name = info['lidar_path'].split("/")[-1][:-4]+'.txt' # 伪标签的名称
+            txt_name = 'n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt' # 仅测试
+            dic = {0:'Car',1:'Pedestrian',2:'Cyclist'}
+            txt_path = os.path.join(folder_path, txt_name)
+            with open(txt_path, 'r') as f:
+                for line in f:
+                    line.strip()
+                    a = line.split() # 读取列表
+                    false_gt_boxes.append([float(a[1]),float(a[2]),float(a[3]),float(a[4]),float(a[5]),float(a[6]),float(a[7]),0,0])
+                    false_gt_names.append(dic[int(a[0])])
+            info['gt_boxes'] = np.array(false_gt_boxes)
+            info['gt_boxes_velocity'] = velocity[mask, :]
+            info['gt_names'] = false_gt_names
+            print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
+```
