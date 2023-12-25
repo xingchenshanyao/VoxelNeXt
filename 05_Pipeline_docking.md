@@ -204,4 +204,18 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
             info['gt_names'] = false_gt_names
             print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
 ```
+### 1.6 检测置信度阈值添加
+在tools/visual_utils/open3d_vis_utils.py第104行下添加
+```
+        # 添加预测框置信度阈值进行筛选
+        confidence_threshold = 0.2
+        if score[i] <= confidence_threshold:
+            continue
+```
+未添加置信度阈值前可视化
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)
+
+添加置信度阈值(confidence_threshold = 0.2)后可视化
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/48900d2d-3864-4e26-a339-7d80bbda2003)
+
 
