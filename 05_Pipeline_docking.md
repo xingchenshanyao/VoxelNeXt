@@ -334,7 +334,14 @@ src_feature_list: ['x', 'y', 'z', 'intensity'],
 used_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'], # 训练测试时最好还是加上时间戳
 src_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp'],
 ```
-
+修改生成文件地址，test.py中159行(其余文件夹改动不赘述了)
+```python
+output_dir = cfg.ROOT_DIR / 'output' / cfg.EXP_GROUP_PATH / cfg.TAG / args.extra_tag
+```
+为
+```python
+output_dir = cfg.ROOT_DIR / 'output' / 'false_results'
+```
 
 
 ### 3.2. txt 转pkl文件
