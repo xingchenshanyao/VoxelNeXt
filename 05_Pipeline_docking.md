@@ -366,10 +366,120 @@ result.pkl格式如下
 
 ![2023-12-25 16-15-07屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/18d3e9dd-ab52-4f77-8488-60abe003407d)
 
-编写程序读取以上两个result.pkl，生成符合下游对接要求的pkl文件
+编写程序读取以上两个result.pkl，生成符合下游对接要求的pkl文件，程序如下
 ```python
+import pickle
+from nuscenes.nuscenes import NuScenes
 
+def non_maximum_suppression(bboxes, scores, labels, threshold=0.5,confidence_threshold = 0.2):
+    # 初始化结果列表
+    selected_bboxes = []
+    selected_scores = []
+    selected_labels = []
+
+    # 按照置信度降序排序
+    sorted_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+
+    while len(sorted_indices) > 0:
+        # 选择具有最高置信度的边界框
+        best_idx = sorted_indices[0]
+        selected_bboxes.append(bboxes[best_idx])
+        selected_scores.append(scores[best_idx])
+        selected_labels.append(labels[best_idx])
+
+        # 计算与已选中边界框的重叠程度
+        overlap_indices = []
+        for idx in sorted_indices[1:]:
+            if scores[idx] <= confidence_threshold: # 筛选出置信度低的
+                overlap_indices.append(idx)
+                continue
+
+            overlap = compute_overlap(bboxes[best_idx], bboxes[idx]) # 筛选出交并比高的
+            if overlap >= threshold:
+                overlap_indices.append(idx)
+
+        # 从排序列表中移除重叠的边界框
+        sorted_indices = [idx for idx in sorted_indices if idx not in overlap_indices] # 保留满足要求的
+        sorted_indices = sorted_indices[1:]
+
+    return selected_bboxes,selected_scores,selected_labels
+
+# 辅助函数：计算两个边界框的重叠程度
+def compute_overlap(bbox1, bbox2):
+    # 根据具体应用选择适当的重叠度量方式，例如交并比（IoU）
+    # 这里仅简单计算重叠面积占较小边界框面积的比例
+    x1, y1, w1, h1 = bbox1[0],bbox1[1],bbox1[3],bbox1[4]
+    x2, y2, w2, h2 = bbox2[0],bbox2[1],bbox2[3],bbox2[4]
+
+    area1 = w1 * h1
+    area2 = w2 * h2
+
+    intersection_area = max(0, min(x1 + w1, x2 + w2) - max(x1, x2)) * max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
+    overlap = intersection_area / min(area1, area2)
+
+    return overlap
+
+def find_ts(nusc,token):
+    # 选择要查询的关键帧的 token
+    keyframe_token = token  # 替换为要查询的关键帧的实际 token
+
+    # 使用关键帧的 token 获取时间戳
+    keyframe = nusc.get('sample', keyframe_token)
+    timestamp = keyframe['timestamp']
+    return timestamp
+
+
+def main():
+    output_path = 'output/false_results/false_results.pkl'
+    input_path1, input_path2 = 'output/false_results/result_train.pkl','output/false_results/result_val.pkl'
+    threshold,confidence_threshold=0.5,0.2
+    # threshold = 0.5 为交并比阈值
+    # confidence_threshold = 0.2 为置信度阈值
+
+    # 指定 nuScenes 数据集路径
+    nusc = NuScenes(version='v1.0-mini', dataroot='data/nuscenes/v1.0-mini', verbose=True)
+
+    out_data = {} # 所有检测结果
+    for input_path in [input_path1, input_path2]:
+        with open(input_path, 'rb') as in1:
+            loaded_data = pickle.load(in1)
+            for line in loaded_data:
+                scores = line['score']
+                boxes = line['boxes_lidar']
+                labels = line['pred_labels']
+                token = line['metadata']['token']
+                boxes, scores, labels = non_maximum_suppression(boxes, scores, labels,threshold=threshold,confidence_threshold=confidence_threshold) # 非极大值抑制 # 20231225
+                
+                # 通过token寻找时间戳ts
+                ts = find_ts(nusc,token)
+
+                out_line = [] # 一帧的检测结果
+                for i in range(len(scores)):
+                    sample = [] # 一帧里的一个检测框
+                    x,y,z = boxes[i][0],boxes[i][1],boxes[i][2] # 中心点
+                    l,w,h = boxes[i][3],boxes[i][4],boxes[i][5] # 长宽高
+                    theta = boxes[i][6] # 角度
+                    p = scores[i] # 检测框置信度
+                    k = labels[i] # 检测框类别
+                    if k not in [0,1,2]: # 只保留前三类对象
+                        continue
+                    sample = [x,y,z,l,w,h,theta,p,k]
+                    out_line.append(sample)
+                    
+                out_data[ts] = out_line
+
+    with open(output_path, 'wb') as out:
+        pickle.dump(out_data, out)
+    print('Finish!!!')
+
+
+if __name__ == '__main__':
+    main()
 ```
+生成的pkl文件内容
+
+![2023-12-25 17-14-23屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/5d8bc615-7140-40b7-a8ac-fe16e4bfaa22)
+
 
 
 
