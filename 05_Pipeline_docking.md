@@ -292,7 +292,7 @@ def compute_overlap(bbox1, bbox2):
     </tr>
     <tr>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77 /></td>
-        <td><img src=![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)/></td>
-        <td><img src=![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77)/></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77/></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/19d217f1-ac73-417e-9bc1-86c8d83b3a77/></td>
     </tr>
 </table>
