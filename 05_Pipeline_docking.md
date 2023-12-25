@@ -271,6 +271,7 @@ def compute_overlap(bbox1, bbox2):
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2679a080-4d72-439e-acb4-1ee316ea4300/></td>
     </tr>
 </table>
+
 ***
 
 ## 二、对接上游
@@ -310,6 +311,7 @@ nuscenes_dbinfos_10sweeps_withvelo.pkl
             info['gt_names'] = false_gt_names
             print("4D_GT/**VoxelNeXt**/pcdet is running !") # 一个影响不大的Bug
 ```
+
 ***
 
 ## 三、对接下游
