@@ -285,7 +285,7 @@ def compute_overlap(bbox1, bbox2):
 - l w h 长宽高
 - theta 角度
 - p 检测框置信度
-- k 检测框类别
+- k 检测框类别——0:car，1:pedestrian
 ***
 
 ## 二、对接上游
@@ -441,6 +441,7 @@ def main():
     # 指定 nuScenes 数据集路径
     nusc = NuScenes(version='v1.0-mini', dataroot='data/nuscenes/v1.0-mini', verbose=True)
 
+    k_change = {1:0,9:1} # 改变label类别,car:1->0,pedestrian:9->1
     out_data = {} # 所有检测结果
     for input_path in [input_path1, input_path2]:
         with open(input_path, 'rb') as in1:
@@ -463,16 +464,17 @@ def main():
                     theta = boxes[i][6] # 角度
                     p = scores[i] # 检测框置信度
                     k = labels[i] # 检测框类别
-                    if k not in [0,1,2]: # 只保留前三类对象
+                    if k not in [1,9]: # 只保留car,pedestrian # 1:'car',2:'truck',3:'construction_vehicle',4:'bus',5:'trailer',6:'barrier',7:'motorcycle',8:'bicycle',9:'pedestrian',10:'traffic_cone'
                         continue
-                    sample = [x,y,z,l,w,h,theta,p,k]
+                    sample = [x,y,z,l,w,h,theta,p,k_change[k]]
                     out_line.append(sample)
                     
                 out_data[ts] = out_line
+                print(ts,'is finished!!!')
 
     with open(output_path, 'wb') as out:
         pickle.dump(out_data, out)
-    print('Finish!!!')
+    print('All is finished!!!')
 
 
 if __name__ == '__main__':
