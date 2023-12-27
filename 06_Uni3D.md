@@ -26,9 +26,7 @@ Uni3D可以将不一致的点云对齐到相同点云范围下进行训练，与
   
 ## 二、参考信息
 ### 2.1. 数据集差异
-常见点云数据集检测对象尺寸差异
-
-[Statistical Results of Object Size](https://github.com/PJLab-ADG/3DTrans/blob/master/docs/STATISTICAL_RESULTS.md)
+常见点云数据集检测对象尺寸差异：[Statistical Results of Object Size](https://github.com/PJLab-ADG/3DTrans/blob/master/docs/STATISTICAL_RESULTS.md)
 
 
   
