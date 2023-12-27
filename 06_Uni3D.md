@@ -2,7 +2,8 @@
 记录从Uni3D论文及对应代码仓库中学习筛选的对多激光雷达数据集3D目标检测泛化课题可能有用的信息，以及本地复现Uni3D的过程
 
 参考来源：
-论文：(Uni3D: A Unified Baseline for Multi-dataset 3D Object Detection)[https://readpaper.com/pdf-annotate/note?pdfId=4750598536836431873&noteId=2098620142363720192]
+论文：[Uni3D: A Unified Baseline for Multi-dataset 3D Object Detection](https://readpaper.com/pdf-annotate/note?pdfId=4750598536836431873&noteId=2098620142363720192)
+
 代码：https://github.com/PJLab-ADG/3DTrans
 
 ## 一、信息筛选
