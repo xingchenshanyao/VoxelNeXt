@@ -1,5 +1,5 @@
 # VoxelNeXt
-本仓库仅用于记录本人复现VoxelNeXt的流程及各种BUG与解决措施
+记录复现VoxelNeXt的流程及各种BUG与解决措施
 
 参考来源
 
