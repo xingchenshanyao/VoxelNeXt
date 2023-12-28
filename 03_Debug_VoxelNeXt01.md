@@ -342,14 +342,14 @@ maps中存放四张地图照片
 ```
 1:'car'
 2:'truck'
-3:'construction_vehicle'
+3:'construction_vehicle' # 施工车辆
 4:'bus'
-5:'trailer'
-6:'barrier'
+5:'trailer' # 拖车
+6:'barrier' # 隔离栏
 7:'motorcycle'
 8:'bicycle'
 9:'pedestrian'
-10:'traffic_cone'
+10:'traffic_cone' # 交通锥
 ```
 ```
 {
