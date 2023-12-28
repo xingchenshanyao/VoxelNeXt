@@ -6,3 +6,5 @@
 记录VoxelNeXt在服务器上的复现过程
 ## 03_Debug_VoxelNeXt01
 本文为调试代码(细读代码)的记录，按kitti_dataset、nuscenes_dataset、(demo、test、train)的顺序进行
+## 04_Debug_VoxelNeXt02
+本文为调试代码(细读代码)的记录，按demo、(test、train)的顺序进行
