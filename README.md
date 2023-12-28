@@ -8,3 +8,5 @@
 本文为调试代码(细读代码)的记录，按kitti_dataset、nuscenes_dataset、(demo、test、train)的顺序进行
 ## 04_Debug_VoxelNeXt02
 本文为调试代码(细读代码)的记录，按demo、(test、train)的顺序进行
+## 05_Pipeline_docking
+记录本地管道对接的过程，包括VoxelNeXt与上下游对接
