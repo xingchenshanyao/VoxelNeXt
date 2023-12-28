@@ -1,5 +1,5 @@
 # Debug_VoxelNeXt_kitti_dataset_nuscenes_dataset
-本文为调试代码(细读代码)的记录，按kitti_dataset、nuscenes_dataset、demo、test、train的顺序进行
+本文为调试代码(细读代码)的记录，按kitti_dataset、nuscenes_dataset、(demo、test、train)的顺序进行
 
 为便于代码分析，调试过程在本地完成
 
