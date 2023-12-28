@@ -340,6 +340,18 @@ maps中存放四张地图照片
 
 - category：表示目标的种类，如汽车
 ```
+1:'car'
+2:'truck'
+3:'construction_vehicle'
+4:'bus'
+5:'trailer'
+6:'barrier'
+7:'motorcycle'
+8:'bicycle'
+9:'pedestrian'
+10:'traffic_cone'
+```
+```
 {
 "token": "1fa93b757fc74fb197cdd60001ad8abf", # 种类标识符 共23种
 "name": "human.pedestrian.adult", # 类别名称
