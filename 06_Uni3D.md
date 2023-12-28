@@ -64,4 +64,37 @@ Uni3D可以将不一致的点云对齐到相同点云范围下进行训练，与
 | H (mean, std, min, max, median) | 1.737, 0.094, 1.410, 2.090, 1.750 |  1.303, 0.352, 0.501, 2.223, 1.156 | 1.770, 0.186, 0.890, 2.470, 1.800 |
 | SHIFT of Z-coordinate | 1.415 = 0.794 - (-0.621)） |  1.864 = 0.794 - (-1.070)  | \ |
 
-  
+## 三、代码复现
+参考https://github.com/PJLab-ADG/3DTrans
+
+克隆库后，运行
+```
+python setup.py develop
+```
+ 出现bug
+ ```
+running develop
+/home/xingchen/anaconda3/envs/3DTrans/lib/python3.8/site-packages/setuptools/command/easy_install.py:144: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+/home/xingchen/anaconda3/envs/3DTrans/lib/python3.8/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running egg_info
+writing pcdet.egg-info/PKG-INFO
+writing dependency_links to pcdet.egg-info/dependency_links.txt
+writing requirements to pcdet.egg-info/requires.txt
+writing top-level names to pcdet.egg-info/top_level.txt
+reading manifest file 'pcdet.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'pcdet.egg-info/SOURCES.txt'
+running build_ext
+/home/xingchen/anaconda3/envs/3DTrans/lib/python3.8/site-packages/torch/utils/cpp_extension.py:398: UserWarning: There are no g++ version bounds defined for CUDA version 11.8
+  warnings.warn(f'There are no {compiler_name} version bounds defined for CUDA version {cuda_str_version}')
+building 'pcdet.ops.iou3d_nms.iou3d_nms_cuda' extension
+Emitting ninja build file /home/xingchen/Study/4D_GT/3DTrans/build/temp.linux-x86_64-cpython-38/build.ninja...
+Compiling objects...
+```
+推测原因是g++与gcc安装不正确
+
+***
+
+暂时搁置
