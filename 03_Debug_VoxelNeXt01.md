@@ -5,9 +5,15 @@
 
 参考来源：
 
-KITTI数据集介绍：https://blog.csdn.net/zyw2002/article/details/127395975
+KITTI数据集介绍：
 
-NuScenes数据集介绍：https://blog.csdn.net/qq_47233366/article/details/123450282；https://blog.csdn.net/weixin_43253464/article/details/120669293
+https://blog.csdn.net/zyw2002/article/details/127395975
+
+NuScenes数据集介绍：
+
+https://blog.csdn.net/qq_47233366/article/details/123450282
+
+https://blog.csdn.net/weixin_43253464/article/details/120669293
 
 ### 部分说明
 ubuntu18.04、cuda11.8、python3.8、GPU3070、GPU Driver 520.61.05、torch2.0.0+cu118
