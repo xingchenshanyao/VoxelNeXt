@@ -258,19 +258,19 @@ def compute_overlap(bbox1, bbox2):
             <th>confidence_threshold = 0.4</th>
     </tr>
     <tr>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7c6e3169-c186-4988-a83b-d7d2fc8a0e13/></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d3935f82-356e-45f9-bce8-dea5544f0851/></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a53d8831-cee0-4d86-8cd7-62a089478d84/></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7c6e3169-c186-4988-a83b-d7d2fc8a0e13 /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d3935f82-356e-45f9-bce8-dea5544f0851 /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a53d8831-cee0-4d86-8cd7-62a089478d84 /></td>
     </tr>
     <tr>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b46fa7fd-95a9-42a4-974a-1bb4ce2a4936 /></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1862cf76-90b2-4022-81c2-4421d2182a2e/></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/6f1ea0db-319c-4c50-8d98-b17989c2e447/></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1862cf76-90b2-4022-81c2-4421d2182a2e /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/6f1ea0db-319c-4c50-8d98-b17989c2e447 /></td>
     </tr>
     <tr>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/45f5f3e8-1406-493f-89eb-ef10340a0304 /></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7bbb4432-d3fb-483a-b5fb-0948bd790668/></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2679a080-4d72-439e-acb4-1ee316ea4300/></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7bbb4432-d3fb-483a-b5fb-0948bd790668 /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2679a080-4d72-439e-acb4-1ee316ea4300 /></td>
     </tr>
 </table>
 
