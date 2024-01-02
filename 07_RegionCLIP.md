@@ -5,15 +5,15 @@
 
 https://github.com/microsoft/RegionCLIP
 
-## 一、安装环境
+## 一、安装环境cuda12.1
 参考仓库中docs/INSTALL.md
 
-踩坑记录：cuda版本要求12.1 ！！！
+踩坑记录：以下命令安装pytorch2.1.2，要求cuda12.1 ！！！，如果cuda为11.8，请跳到**安装环境cuda11.8**
 
 ```
 # environment
-conda create -n regionclip python=3.9
-source activate regionclip
+conda create -n RegionCLIP python=3.9
+source activate RegionCLIP
 conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 
 # RegionCLIP
@@ -61,8 +61,19 @@ pip install opencv-python timm diffdist h5py scikit-learn ftfy
 ```
 DEPRECATION: detectron2 RegionCLIP has a non-standard version number. pip 24.0 will enforce this behaviour change. A possible replacement is to upgrade to a newer version of detectron2 or contact the author to suggest that they release a version with a conforming version number. Discussion can be found at https://github.com/pypa/pip/issues/12063
 ```
+## 二、安装环境cuda11.8
+```
+conda create -n RegionCLIP python=3.9
+conda activate RegionCLIP
+```
+在Pytorch官网查看PyTorch下载指令
+```
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
 
-## 二、代码测试
+
+
+## 三、代码测试
 ### a. 配置权重
 于 https://drive.google.com/drive/folders/1hzrJBvcCrahoRcqJRqzkIGFO_HUSJIii ，下载权重(1.6G)
 
@@ -73,6 +84,10 @@ DEPRECATION: detectron2 RegionCLIP has a non-standard version number. pip 24.0 w
 在RegionCLIP/datasets下新建lvis，并把下载好的文件解压lvis_v1_val.json放在此处
 
 ### c. 代码执行
+```
+python ./tools/train_net.py --eval-only --num-gpus 1 --config-file ./configs/LVISv1-InstanceSegmentation/CLIP_fast_rcnn_R_50_C4_custom_img.yaml MODEL.WEIGHTS ./pretrained_ckpt/regionclip/regionclip_pretrained-cc_rn50x4.pth MODEL.CLIP.TEXT_EMB_PATH ./pretrained_ckpt/concept_emb/lvis_1203_cls_emb_rn50x4.pth MODEL.CLIP.OFFLINE_RPN_CONFIG ./configs/LVISv1-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml MODEL.CLIP.TEXT_EMB_DIM 640 
+MODEL.RESNETS.DEPTH 200 MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION 18 
+```
 ```
 python ./tools/train_net.py \
 --eval-only \
