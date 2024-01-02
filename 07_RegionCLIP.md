@@ -59,3 +59,14 @@ pip install opencv-python timm diffdist h5py scikit-learn ftfy
 DEPRECATION: detectron2 RegionCLIP has a non-standard version number. pip 24.0 will enforce this behaviour change. A possible replacement is to upgrade to a newer version of detectron2 or contact the author to suggest that they release a version with a conforming version number. Discussion can be found at https://github.com/pypa/pip/issues/12063
 ```
 
+## 二、代码测试
+### a. 配置权重
+于 https://drive.google.com/drive/folders/1hzrJBvcCrahoRcqJRqzkIGFO_HUSJIii ，下载权重(1.6G)
+
+将下载的文件夹重命名为pretrained_ckpt，放在RegionCLIP文件夹下
+### b. 配置数据集
+使用LVIS验证集标签，官网 https://www.lvisdataset.org/dataset 下载Validation set(192MB)
+
+```
+
+```
