@@ -63,10 +63,11 @@ DEPRECATION: detectron2 RegionCLIP has a non-standard version number. pip 24.0 w
 ### a. 配置权重
 于 https://drive.google.com/drive/folders/1hzrJBvcCrahoRcqJRqzkIGFO_HUSJIii ，下载权重(1.6G)
 
-将下载的文件夹重命名为pretrained_ckpt，放在RegionCLIP文件夹下
+将下载的文件夹解压后，重命名为pretrained_ckpt，放在RegionCLIP文件夹下
 ### b. 配置数据集
-使用LVIS验证集标签，官网 https://www.lvisdataset.org/dataset 下载Validation set(192MB)
+使用LVIS验证集标签，官网 https://www.lvisdataset.org/dataset 下载Validation set的标签(192MB)
 
+在RegionCLIP/datasets下新建lvis，并把下载好的文件解压lvis_v1_val.json放在此处
 ```
 
 ```
