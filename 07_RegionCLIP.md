@@ -1,5 +1,5 @@
 # RegionCLIP
-记录复现RegionCLIP的流程及各种BUG与解决措施
+记录本地和服务器复现RegionCLIP的流程及各种BUG与解决措施
 
 参考来源
 
@@ -108,6 +108,13 @@ pip install Pillow==8.4.0 -i https://pypi.mirrors.ustc.edu.cn/simple/
 ```
 torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 802.00 MiB. GPU 0 has a total capacty of 7.77 GiB of which 484.94 MiB is free. Including non-PyTorch memory, this process has 6.52 GiB memory in use. Of the allocated memory 4.37 GiB is allocated by PyTorch, and 850.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
+## 三、服务器环境配置和代码测试
+
+
+
+
+
+## 四、本地可视化
 可视化代码
 ```
 python ./tools/visualize_json_results.py \
