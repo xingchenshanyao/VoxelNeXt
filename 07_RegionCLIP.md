@@ -18,7 +18,7 @@ git clone git@github.com:microsoft/RegionCLIP.git
 python -m pip install -e RegionCLIP # BUG1
 
 # other dependencies
-pip install opencv-python timm diffdist h5py sklearn ftfy
+pip install opencv-python timm diffdist h5py sklearn ftfy # BUG2
 pip install git+https://github.com/lvis-dataset/lvis-api.git
 ```
 出现BUG1
@@ -35,4 +35,21 @@ Preparing metadata (setup.py) ... error
 解决方式
 ```
 pip install --upgrade pip setuptools==57.5.0
+```
+出现BUG2
+```
+Collecting sklearn
+  Using cached https://mirrors.aliyun.com/pypi/packages/b9/0e/b2a4cfaa9e12b9ca4c71507bc26d2c99d75de172c0088c9835a98cf146ff/sklearn-0.0.post10.tar.gz (3.6 kB)
+  Preparing metadata (setup.py) ... error
+  error: subprocess-exited-with-error
+
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [18 lines of output]
+      The 'sklearn' PyPI package is deprecated, use 'scikit-learn'
+      rather than 'sklearn' for pip commands.
+```
+sklearn已被弃用，应下载scikit-learn
+```
+pip install opencv-python timm diffdist h5py scikit-learn ftfy 
 ```
