@@ -48,8 +48,14 @@ Collecting sklearn
   ╰─> [18 lines of output]
       The 'sklearn' PyPI package is deprecated, use 'scikit-learn'
       rather than 'sklearn' for pip commands.
+……
 ```
 sklearn已被弃用，应下载scikit-learn
 ```
 pip install opencv-python timm diffdist h5py scikit-learn ftfy 
 ```
+安装时出现警告，暂时忽略
+```
+DEPRECATION: detectron2 RegionCLIP has a non-standard version number. pip 24.0 will enforce this behaviour change. A possible replacement is to upgrade to a newer version of detectron2 or contact the author to suggest that they release a version with a conforming version number. Discussion can be found at https://github.com/pypa/pip/issues/12063
+```
+
