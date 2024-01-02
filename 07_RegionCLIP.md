@@ -118,5 +118,4 @@ python ./tools/visualize_json_results.py \
 --show-unique-boxes \
 --max-boxes 25 \
 --small-region-px 8100\ 
-
 ```
