@@ -5,6 +5,8 @@
 
 https://github.com/microsoft/RegionCLIP
 
+https://blog.csdn.net/wzk4869/article/details/131731416
+
 ## 一、安装环境
 参考仓库中docs/INSTALL.md
 ```
