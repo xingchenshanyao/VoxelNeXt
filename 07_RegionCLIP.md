@@ -7,6 +7,9 @@ https://github.com/microsoft/RegionCLIP
 
 ## 一、安装环境
 参考仓库中docs/INSTALL.md
+
+踩坑记录：cuda版本要求12.1 ！！！
+
 ```
 # environment
 conda create -n regionclip python=3.9
