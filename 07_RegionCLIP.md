@@ -104,7 +104,19 @@ module 'PIL.Image' has no attribute 'LINEAR'
 pip install Pillow==8.4.0 -i https://pypi.mirrors.ustc.edu.cn/simple/
 ```
 ### BUG5
-本地显存不够。。。
+本地显存不够，只能放服务器上解决了
 ```
 torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 802.00 MiB. GPU 0 has a total capacty of 7.77 GiB of which 484.94 MiB is free. Including non-PyTorch memory, this process has 6.52 GiB memory in use. Of the allocated memory 4.37 GiB is allocated by PyTorch, and 850.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+```
+可视化代码
+```
+python ./tools/visualize_json_results.py \
+--input ./output/inference/lvis_instances_results.json \
+--output ./output/regions \
+--dataset lvis_v1_val_custom_img \
+--conf-threshold 0.05 \
+--show-unique-boxes \
+--max-boxes 25 \
+--small-region-px 8100\ 
+
 ```
