@@ -121,9 +121,26 @@ pip install torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl
 pip install torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl
 pip install torchaudio==0.9.1 # 与torch-1.9.1+cu111匹配
 conda install cudatoolkit=10.0 # 随便调了一个老版本的
+
+cd /home/test/users/xuzeyuan
+pip install --upgrade pip setuptools==57.5.0
+python -m pip install -e RegionCLIP
+pip install opencv-python timm diffdist h5py scikit-learn ftfy
+
+pip install git+https://github.com/lvis-dataset/lvis-api.git
 ```
-
-
+下载https://github.com/lvis-dataset/lvis-api.git
+```
+git clone https://github.com/lvis-dataset/lvis-api.git
+```
+上传lvis-api到服务器/home/test/users/xuzeyuan中
+```
+pip install lvis-api/
+```
+测试代码
+```
+python ./tools/train_net.py --eval-only --num-gpus 1 --config-file ./configs/LVISv1-InstanceSegmentation/CLIP_fast_rcnn_R_50_C4_custom_img.yaml MODEL.WEIGHTS ./pretrained_ckpt/regionclip/regionclip_pretrained-cc_rn50x4.pth MODEL.CLIP.TEXT_EMB_PATH ./pretrained_ckpt/concept_emb/lvis_1203_cls_emb_rn50x4.pth MODEL.CLIP.OFFLINE_RPN_CONFIG ./configs/LVISv1-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml MODEL.CLIP.TEXT_EMB_DIM 640 MODEL.RESNETS.DEPTH 200 MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION 18
+```
 
 
 
