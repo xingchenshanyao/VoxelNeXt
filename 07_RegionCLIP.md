@@ -143,3 +143,5 @@ python ./tools/visualize_json_results.py \
 ```
 可视化效果
 
+![sample_img1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/47d84170-906b-4c01-a939-8a02d716e4ac)
+![sample_img2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1d0816ba-bd72-4a9c-a443-a59681e8e765)
