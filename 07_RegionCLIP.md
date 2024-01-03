@@ -114,11 +114,12 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 802.00 MiB. G
 ![2024-01-02 18-24-49屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/5e242b81-c294-4853-905d-7559f6ad9131)
 
 ## 三、服务器环境配置和代码测试
-.38服务器为cuda11.6，配置环境
+.38服务器为cuda11.6，有torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl和torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl，配置环境
 ```
-conda create -n RegionCLIP python=3.9
+conda create -n RegionCLIP python=3.8
 conda activate RegionCLIP
-pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116 # 于官网针对cuda11.6找的指令
+pip install torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl
+pip install torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl
 ```
 
 
