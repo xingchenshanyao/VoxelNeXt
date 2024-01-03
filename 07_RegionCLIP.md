@@ -110,10 +110,9 @@ pip install Pillow==8.4.0 -i https://pypi.mirrors.ustc.edu.cn/simple/
 ```
 torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 802.00 MiB. GPU 0 has a total capacty of 7.77 GiB of which 484.94 MiB is free. Including non-PyTorch memory, this process has 6.52 GiB memory in use. Of the allocated memory 4.37 GiB is allocated by PyTorch, and 850.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 ```
-
-![2024-01-02 18-24-49屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/5e242b81-c294-4853-905d-7559f6ad9131)
-
 ## 三、服务器环境配置和代码测试
+上传代码到服务器/home/test/users/xuzeyuan中
+
 .38服务器为cuda11.6，有torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl和torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl，配置环境
 ```
 conda create -n RegionCLIP python=3.8
@@ -121,6 +120,8 @@ conda activate RegionCLIP
 pip install torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl
 pip install torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl
 ```
+
+
 
 
 
