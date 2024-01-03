@@ -141,12 +141,24 @@ pip install lvis-api/
 ```
 python ./tools/train_net.py --eval-only --num-gpus 1 --config-file ./configs/LVISv1-InstanceSegmentation/CLIP_fast_rcnn_R_50_C4_custom_img.yaml MODEL.WEIGHTS ./pretrained_ckpt/regionclip/regionclip_pretrained-cc_rn50x4.pth MODEL.CLIP.TEXT_EMB_PATH ./pretrained_ckpt/concept_emb/lvis_1203_cls_emb_rn50x4.pth MODEL.CLIP.OFFLINE_RPN_CONFIG ./configs/LVISv1-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml MODEL.CLIP.TEXT_EMB_DIM 640 MODEL.RESNETS.DEPTH 200 MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION 18
 ```
-
-
-
-
-
-
+### BUG6
+```
+ImportError: libGL.so.1: cannot open shared object file: No such file or directory
+```
+解决措施
+```
+pip install opencv-python-headless
+```
+### BUG7
+```
+module 'PIL.Image' has no attribute 'LINEAR'
+```
+解决方法，降低Pillow版本
+```
+pip install Pillow==8.4.0 -i https://pypi.mirrors.ustc.edu.cn/simple/
+```
+运行通过，成功在output/inference下生成lvis_instances_results.json
+![2024-01-03 12-53-49屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/94d46e1b-20b4-415e-9c1f-52d487d9d413)
 ## 四、本地可视化
 根据生成的文件output/inference/lvis_instances_results.json进行可视化
 ```
