@@ -178,3 +178,11 @@ python ./tools/visualize_json_results.py \
 
 ![sample_img1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/47d84170-906b-4c01-a939-8a02d716e4ac)
 ![sample_img2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1d0816ba-bd72-4a9c-a443-a59681e8e765)
+
+## 五、测试nuScenes图片
+拿官方提供的权重与nuScenes数据集中的图片直接进行检测，效果不佳，可视化结果为
+
+![n008-2018-08-27-11-48-51-0400__CAM_FRONT__1535385097362404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/6bfd9a18-e867-4687-a909-1c4533e36c2c)
+![n008-2018-08-27-11-48-51-0400__CAM_FRONT__1535385093612404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/beb6da71-2f40-4496-8913-ba0b5447c3d1)
+
+
