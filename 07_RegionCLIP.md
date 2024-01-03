@@ -120,7 +120,7 @@ conda activate RegionCLIP
 pip install torch-1.9.1+cu111-cp38-cp38-linux_x86_64.whl
 pip install torchvision-0.10.1+cu111-cp38-cp38-linux_x86_64.whl
 pip install torchaudio==0.9.1 # 与torch-1.9.1+cu111匹配
-
+conda install cudatoolkit=10.0 # 随便调了一个老版本的
 ```
 
 
