@@ -155,7 +155,7 @@ module 'PIL.Image' has no attribute 'LINEAR'
 ```
 解决方法，降低Pillow版本
 ```
-pip install Pillow==8.4.0 -i https://pypi.mirrors.ustc.edu.cn/simple/
+pip install Pillow==8.4.0
 ```
 运行通过，成功在output/inference下生成lvis_instances_results.json
 ![2024-01-03 12-53-49屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/94d46e1b-20b4-415e-9c1f-52d487d9d413)
