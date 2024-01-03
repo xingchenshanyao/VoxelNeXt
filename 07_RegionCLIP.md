@@ -127,7 +127,10 @@ pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --e
 
 
 ## 四、本地可视化
-可视化代码
+根据生成的文件output/inference/lvis_instances_results.json进行可视化
+```
+python ./tools/visualize_json_results.py --input ./output/inference/lvis_instances_results.json --output ./output/regions --dataset lvis_v1_val_custom_img --conf-threshold 0.05 --show-unique-boxes --max-boxes 25 --small-region-px 8100\
+```
 ```
 python ./tools/visualize_json_results.py \
 --input ./output/inference/lvis_instances_results.json \
@@ -138,3 +141,5 @@ python ./tools/visualize_json_results.py \
 --max-boxes 25 \
 --small-region-px 8100\ 
 ```
+可视化效果
+
