@@ -7,6 +7,8 @@ https://github.com/microsoft/RegionCLIP
 
 https://blog.csdn.net/wzk4869/article/details/131731416
 
+https://blog.csdn.net/qq_47233366/article/details/126575414
+
 ## 一、安装环境
 参考仓库中docs/INSTALL.md
 ```
@@ -185,4 +187,10 @@ python ./tools/visualize_json_results.py \
 ![n008-2018-08-27-11-48-51-0400__CAM_FRONT__1535385097362404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/6bfd9a18-e867-4687-a909-1c4533e36c2c)
 ![n008-2018-08-27-11-48-51-0400__CAM_FRONT__1535385093612404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/beb6da71-2f40-4496-8913-ba0b5447c3d1)
 
+## 六、训练自己的权重
+下载COCO2017数据集
+```
+百度云链接： https://pan.baidu.com/s/1U3pPJ5nDluGdCtYi0njejg
+提取码: x3qk 复制这段内容后打开百度网盘手机App，操作更方便哦
+```
 
