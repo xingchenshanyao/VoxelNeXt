@@ -519,5 +519,5 @@ classes_path        = 'model_data/nuScenes.txt'
 ```
 "classes_path"      : 'model_data/nuScenes.txt',
 ```
-总训练轮次设定为50，其中冻结主干轮次为10，训练结果为
+总训练轮次设定为100，其中冻结主干轮次为10，训练结果为
 
