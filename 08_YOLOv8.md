@@ -28,5 +28,5 @@ python3 export_2d_annotations_as_json.py --dataroot /home/xingchen/Study/4D_GT/V
 ### b. json to txt
 将json格式转成COCO数据集的txt格式
 
-需要注意
+需要注意nuScenes数据集中类别共23类，仅需提取为person、car、cycle三类
 
