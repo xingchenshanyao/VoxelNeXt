@@ -14,3 +14,5 @@
 记录从Uni3D论文及对应代码仓库中学习筛选的对多激光雷达数据集3D目标检测泛化课题可能有用的信息，以及本地复现Uni3D的过程
 ## 07_RegionCLIP
 记录本地和服务器复现RegionCLIP的流程及各种BUG与解决措施
+## 08_YOLOv8
+使用YOLOv8实现nuScenes图像检测，并将3Dbbox框与图像2Dbox匹配以确定bbox类别
