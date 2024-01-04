@@ -451,5 +451,47 @@ if __name__ == '__main__':
 
 ### d. 剔除不存在标签的图片
 由于某些图片中没有给定的类别，所以其没有对应的xml标签，需要将其剔除
+```
+import xml.dom.minidom
+import os
+
+# 改为自己的目录
+root_path = '/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/'
+annotation_path = root_path + 'data/nuscenes/v1.0-mini/v1.0-mini/xml/'
+img_path = root_path + 'data/nuscenes/v1.0-mini/samples/ALL_Images/'
+annotation_list = os.listdir(annotation_path)
+img_list = os.listdir(img_path)
+
+# for _ in annotation_list:
+#     xml_name = _.split('.')[0]
+#     img_name = xml_name + '.jpg'
+#     if img_name not in img_list:
+#         print("error xml:", img_name)
+# print('ok')
+
+if len(img_list) != len(annotation_list):
+    print("图片和标签数目不匹配")
+    if len(img_list) < len(annotation_list):
+        print("标签比图片多")
+        error_xml = []
+        for _ in annotation_list:
+            xml_name = _.split('.')[0]
+            img_name = xml_name + '.jpg'
+            if img_name not in img_list:
+                error_xml.append(_)
+                os.remove(annotation_path+_)
+        print("error xml:", error_xml)
+    else:
+        print("图片比标签多")
+        error_img = []
+        for _ in img_list:
+            img_name = _.split('.')[0]
+            xml_name = img_name + '.xml'
+            if xml_name not in annotation_list:
+                error_img.append(_)
+                os.remove(img_path+_)
+        print("缺少标签的图片:", error_img)
+```
+剔除后检查，图片和xml标签文件数量均为2177
 
 
