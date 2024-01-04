@@ -160,38 +160,30 @@ def yolo_parser(json_path, targat_path):
             x2 = float(lines[idx + 9].rstrip(','))
             y2 = float(lines[idx + 10])
             cls = line[16:17]
-
             """ in case when labelling, points are not in the right order """
         xmin = min(x1, x2)
         xmax = max(x1, x2)
         ymin = min(y1, y2)
     ymax = max(y1, y2)
     img_path = str('%s/dataset/%s.jpg' % (wd, os.path.splitext(json_name)[0]))
-
     im = Image.open(img_path)
     w = int(im.size[0])
     h = int(im.size[1])
-
     print(w, h)
     print(xmin, xmax, ymin, ymax)
     b = (xmin, xmax, ymin, ymax)
     bb = convert((w, h), b)
     print(bb)
     txt_outfile.write(cls + " " + " ".join([str(a) for a in bb]) + '\n')
-
     os.rename(txt_path, json_backup + json_name)  # move json file to backup folder
-
     """ Save those images with bb into list"""
     if txt_file.read().count("label") != 0:
         list_file.write('%s/dataset/%s.jpg\n' % (wd, os.path.splitext(txt_name)[0]))
-
     list_file.close()
-
 
 def nuscenes_parser(label_path, target_path, img_path):
     json_backup = "json_backup/"
     wd = getcwd()
-
     dict = {
         'human.pedestrian.adult': '1',
         'human.pedestrian.child': '1',
@@ -217,20 +209,16 @@ def nuscenes_parser(label_path, target_path, img_path):
         # 'movable_object.debris': '10',
         # 'tatic_object.bicycle_rack': '11'
     }
-
     json_name_list = []
     for file in tqdm(os.listdir(label_path)):
         if file.endswith(".json"):
             json_name_list.append(file)
             data = json.load(open(label_path + file))
-
             # Aggregate the bounding boxes associate with each image
             unique_img_names = []
             for i in tqdm(range(len(data))):
                 unique_img_names.append(data[i]['filename'])
-
             unique_img_names = list(dict.fromkeys(unique_img_names))
-
             i: int
             for i in tqdm(range(len(unique_img_names))):
                 f = open(target_path + unique_img_names[i].split('/')[1] + '/' +
@@ -258,8 +246,6 @@ def nuscenes_parser(label_path, target_path, img_path):
             n.write('animal \n')
             n.close()
         write_training_data_path_synced_with_labels(img_path)
-
-
 if __name__ == '__main__':
     args = parse_arguments()
     if args.data_type == 'yolo':
@@ -273,3 +259,10 @@ if __name__ == '__main__':
         print('{} data is not included in this parser!'.format(args.data_type))
 ```
 在2D_label_parser/target_labels下新建文件夹CAM_BACK、CAM_BACK_LEFT、CAM_BACK_RIGHT、CAM_FRONT、CAM_FRONT_LEFT、CAM_FRONT_RIGHT
+```
+python label_parse.py
+```
+得到txt格式的标签
+
+### c. txt to xml
+从COCO的txt格式到VOC的xml格式
