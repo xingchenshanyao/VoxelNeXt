@@ -519,5 +519,22 @@ classes_path        = 'model_data/nuScenes.txt'
 ```
 "classes_path"      : 'model_data/nuScenes.txt',
 ```
-总训练轮次设定为100，其中冻结主干轮次为10，训练结果为
+总训练轮次设定为100，其中冻结主干轮次为10，训练得到best_epoch_weights.pth
 
+进行评估，修改yolo.py中28行
+```
+"model_path"        : 'model_data/yolov8_s.pth',
+```
+为
+```
+"model_path"        : 'logs/log3/best_epoch_weights.pth',
+```
+运行get_map.py，得到
+
+![2024-01-04 16-09-16屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d9b98b08-78e3-495e-bc75-055c6a81c13c)
+
+运行predict.py，获得可视化结果
+
+![n008-2018-08-01-15-16-36-0400__CAM_BACK__1533151609937558](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/89c44822-272c-45c1-82c3-6668d9c40ccc)
+
+![n008-2018-08-01-15-16-36-0400__CAM_FRONT__1533151609512404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b626a7b8-09b2-4852-b24d-e07491a7f675)
