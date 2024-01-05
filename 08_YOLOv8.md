@@ -538,3 +538,23 @@ classes_path        = 'model_data/nuScenes.txt'
 ![n008-2018-08-01-15-16-36-0400__CAM_BACK__1533151609937558](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/89c44822-272c-45c1-82c3-6668d9c40ccc)
 
 ![n008-2018-08-01-15-16-36-0400__CAM_FRONT__1533151609512404](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b626a7b8-09b2-4852-b24d-e07491a7f675)
+
+## 四、导出检测结果
+将YOLOv8的检测结果以txt文件生成
+
+每张图片对应一个txt文件，每一行对应一个对象
+
+在yolo.py文件206行下添加
+```
+if create_txt:
+                Txt_save_path = Txt_save_dir + image.filename.split('/')[-1][:-4] + '.txt'
+                line = [c,left,top,right,bottom,"%.2f"%score] # 类别，x1，y1，x2，y2，分数
+                line_str = ' '.join(str(ii) for ii in line)
+                with open(Txt_save_path, 'a') as file:
+                     file.write(line_str+'\n')
+```
+有关create_txt、 Txt_save_dir的写入接口不再赘述
+
+生成结果为
+
+![image](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/9c067388-3672-40ab-8b10-20cd057762af)
