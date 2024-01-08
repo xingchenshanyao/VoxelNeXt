@@ -17,4 +17,4 @@
 ## 08_YOLOv8
 使用YOLOv8实现nuScenes图像检测，并导出检测结果
 ## 09_Pipeline_docking02
-将3Dbbox框与图像2Dbox匹配以确定bbox类别
+将3D bbox与图像2D bbox匹配以确定bbox类别
