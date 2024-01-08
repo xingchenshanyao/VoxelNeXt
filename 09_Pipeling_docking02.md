@@ -462,5 +462,11 @@ if __name__ == '__main__':
 
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/c7f7c84b-a4bc-4c00-94e2-77a042570790)
 
+点云数据的所有3D bbox 投影效果
+
+![30](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/5275e978-e07f-4786-9726-cdc6453cd6f6)
+
+![31](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1e3717c2-b516-4af5-b9ea-106ceea39477)
+
 ## 二、NuScenes 聚类点云3D bbox投影到图像上
 以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json_GT.py为基础修改，复制重命名为export_2d_annotations_as_json_cluster.py
