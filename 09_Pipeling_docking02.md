@@ -472,6 +472,7 @@ if __name__ == '__main__':
 以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json_GT.py为基础修改，复制重命名为export_2d_annotations_as_json_cluster.py
 聚类结果此txt文件为例
 ```
+# 世界坐标系下
 # 伪类别 x y z l w h r
 1 637.14 1636.25 -0.23 0.62 0.65 1.78 139
 1 612.72 1632.14 0.49 0.69 0.94 1.90 1.37
@@ -483,4 +484,8 @@ if __name__ == '__main__':
 1 583.55 1656.39 1.27 1.87 4.49 1.51 152
 1 619.03 1648.94 0.41 0.58 0.61 1.75 153.79
 ```
+可视化结果(以前和前左为例)
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/02f30d46-f666-4675-bdee-2b88d602fa7a)
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1499bf1d-0d8a-4adf-8258-65a2c7e0d490)
+
 
