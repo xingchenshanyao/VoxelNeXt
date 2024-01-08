@@ -6,7 +6,7 @@
 https://blog.csdn.net/qq_45779334/article/details/126942387
 
 ## 一、NuScenes GT点云3D bbox投影到图像上
-以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json.py为基础修改
+以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json.py为基础修改，并添加注释
 ```python
 # nuScenes dev-kit.
 # Code written by Sergi Adipraja Widjaja, 2019.
