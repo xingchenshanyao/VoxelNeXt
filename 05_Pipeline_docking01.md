@@ -28,11 +28,15 @@ k [x y z] [l w h] r
 "attribute_tokens": [ # 样本标注的属性（attribute）（描述运动状态等）的唯一标识符列表
 "4d8821270b4a47e3a8a300cbec48188e" 
 ],
-"translation": [ # 样本标注的位置信息，包括 x、y、z 坐标（以米为单位）
+"translation": [ # 样本标注的位置信息，包括 x、y、z 坐标（以体素为单位） 
 373.214,
 1130.48,
 1.25
 ],
+# POINT_CLOUD_RANGE: [-54.0, -54.0, -5.0, 54.0, 54.0, 3.0]
+# VOXEL_SIZE: [0.075, 0.075, 0.2]
+# MAX_POINTS_PER_VOXEL: 10
+# MAX_NUMBER_OF_VOXELS: {'train': 120000,'test': 160000}
 "size": [ # 样本标注的尺寸信息，包括长、宽、高（以米为单位）
 0.621,
 0.669,
