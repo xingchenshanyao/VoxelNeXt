@@ -487,5 +487,22 @@ if __name__ == '__main__':
 可视化结果(以前和前左为例)
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/02f30d46-f666-4675-bdee-2b88d602fa7a)
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1499bf1d-0d8a-4adf-8258-65a2c7e0d490)
+```
+# 自车坐标系下
+# 伪类别 x y z l w h r
+1 0 8 0.4 0.5 0.5 1.7 0
+1 8 0 0.4 0.5 0.5 1.7 45
+1 0 -8 0.4 0.5 0.5 1.7 0
+1 -8 0 0.4 0.5 0.5 1.7 45
+1 0 -4 0.4 0.5 0.5 1.7 0
+1 0 -2 0.4 0.5 0.5 1.7 0
+1 8 8 0.4 0.5 0.5 1.7 0
+1 -8 -8 0.4 0.5 0.5 1.7 0
+1 -8 8 0.4 0.5 0.5 1.7 0
+1 8 -8 0.4 0.5 0.5 1.7 0
+```
+可视化结果
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/30a07891-df1e-41be-96fe-23dac69116ca)
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2b809401-4026-4719-b82b-8c6aa717c6cf)
 
 
