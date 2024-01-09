@@ -943,11 +943,79 @@ if __name__ == '__main__':
 ```
 
 ## 四、匹配结果返回聚类结果
-将图像匹配获得的对象类别信息，赋予聚类对象
+将图像匹配获得的对象类别信息，取交并比最高的匹配结果赋予聚类对象
 
 新建脚本get_false_gt.py
 ```python
+import argparse
+import os
+from typing import List
+from nuscenes.nuscenes import NuScenes
+from nuscenes.utils.geometry_utils import view_points
+from tqdm import tqdm
 
+
+def main(args):
+
+    False_cluster_dir = "data/false_cluster"
+    False_gt_dir = 'data/false_gt'
+    names = os.listdir(False_cluster_dir)
+    for name in names:
+        sample_data_camera_tokens = []
+        txt_path = False_cluster_dir+'/'+name
+        save_txt_path = False_gt_dir+'/'+name
+        with open(txt_path, 'r') as f:
+            pcd_lines = []
+            for line in f:
+                line = line.strip('\n')
+                line_list = line.split(' ')
+                pcd_lines.append(line_list) # 读取pcd.txt内信息
+
+            
+        # 加载False_GT_dir中包含的点云文件对应的6个相机图片的索引
+        False_GT_name = 'samples/LIDAR_TOP/'+name[:-4]+'.bin'
+        for s in nusc.sample_data:
+            if s['filename'] == False_GT_name:
+                sample_data_camera_token = s['sample_token']
+                break
+        for s in nusc.sample_data:
+            if s['sample_token'] == sample_data_camera_token and s['sensor_modality'] == 'camera':
+                sample_data_camera_tokens.append(s['token'])
+
+        img_lines = []
+        for token in tqdm(sample_data_camera_tokens):
+            sd_rec = nusc.get('sample_data', token)
+            cam_rec = sd_rec['filename']
+            img_txt_path = 'data/false_3D_bbox/' + cam_rec.split('/')[-1][:-4] + '.txt'
+            try:
+                with open(img_txt_path, 'r') as f:
+                    for line in f:
+                        line = line.strip('\n')
+                        line_list = line.split(' ')
+                        img_lines.append(line_list) # 读取对应的6张图片的txt内信息
+            except:
+                continue
+        with open(save_txt_path,'w') as f:
+            for i in range(len(pcd_lines)):
+                pcd_line = pcd_lines[i]
+                max_overlap = 0
+                for img_line in img_lines:
+                    if int(img_line[-2]) == i and float(img_line[-1]) >= max_overlap:
+                        pcd_line[0] = img_line[0]
+                pcd_line = ' '.join(item for item in pcd_line)
+                f.write(pcd_line+'\n')
+
+            print(save_txt_path,'is saved !')
+        
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Export 2D annotations from reprojections to a .json file.',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--dataroot', type=str, default='/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/nuscenes/v1.0-mini', help="Path where nuScenes is saved.")
+    parser.add_argument('--version', type=str, default='v1.0-mini', help='Dataset version.')
+    args = parser.parse_args()
+    nusc = NuScenes(dataroot=args.dataroot, version=args.version)
+    main(args)
 ```
 原聚类信息文件data/false_cluster/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt
 ```
@@ -961,7 +1029,49 @@ if __name__ == '__main__':
 -1 583.55 1656.39 1.27 1.87 4.49 1.51 152
 -1 619.03 1648.94 0.41 0.58 0.61 1.75 153.79
 ```
-返回后，生成可用于训练的伪标签文件
+返回后，生成可用于训练的伪标签文件data/false_gt/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt
+```
+1 637.14 1636.25 -0.23 0.62 0.65 1.78 139
+1 612.72 1632.14 0.49 0.69 0.94 1.90 1.37
+-1 660.85 1604.4 -0.42 1.8 4.5 1.56 138
+1 637.79 1636.67 -0.01 0.7 0.74 1.95 137
+1 619.6 1624.65 0.07 0.67 0.74 1.89 36.36
+-1 602.15 1626.3 0.23 0.49 0.49 1 58.21
+1 598.1 1642.08 1.03 0.63 0.61 1.93 20
+0 583.55 1656.39 1.27 1.87 4.49 1.51 152
+1 619.03 1648.94 0.41 0.58 0.61 1.75 153.79
 ```
 
+## 五、聚类结果优化
+对于图像检测没有识别的聚类对象，根据聚类对象的尺寸进行判断
+
+长宽均小于1的识别为人1，其余识别为车0
+```python
+        with open(save_txt_path,'w') as f:
+            for i in range(len(pcd_lines)):
+                pcd_line = pcd_lines[i]
+                max_overlap = 0
+                for img_line in img_lines:
+                    if int(img_line[-2]) == i and float(img_line[-1]) >= max_overlap:
+                        pcd_line[0] = img_line[0]
+                if pcd_line[0] == '-1':
+                    if float(pcd_line[4]) < 1 and float(pcd_line[5]) < 1:
+                        pcd_line[0] = '1'
+                    else:
+                        pcd_line[0] = '0'
+                pcd_line = ' '.join(item for item in pcd_line)
+                f.write(pcd_line+'\n')
 ```
+优化后的可用于训练的伪标签文件data/false_gt/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.txt
+```
+1 637.14 1636.25 -0.23 0.62 0.65 1.78 139
+1 612.72 1632.14 0.49 0.69 0.94 1.90 1.37
+0 660.85 1604.4 -0.42 1.8 4.5 1.56 138
+1 637.79 1636.67 -0.01 0.7 0.74 1.95 137
+1 619.6 1624.65 0.07 0.67 0.74 1.89 36.36
+1 602.15 1626.3 0.23 0.49 0.49 1 58.21
+1 598.1 1642.08 1.03 0.63 0.61 1.93 20
+0 583.55 1656.39 1.27 1.87 4.49 1.51 152
+1 619.03 1648.94 0.41 0.58 0.61 1.75 153.79
+```
+
