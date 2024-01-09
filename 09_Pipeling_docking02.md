@@ -822,5 +822,14 @@ def get_box2(self, sample_annotation_token: str, a:list) -> Box:
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2b809401-4026-4719-b82b-8c6aa717c6cf)
 
 ## 三、聚类结果投影与图像匹配结果匹配
-
+在data下新建部分文件夹，统一说明文件夹存放内容
+```
+2 false_2D_bbox # 存放聚类结果的二维投影
+3 false_3D_bbox # 类别匹配后伪标签
+1 false_cluster # 存放聚类结果
+4 false_gt # 准备进行训练的数据集伪标签 == 类别匹配后伪标签
+0 nuscenes # 数据集
+2 true_2D_bbox # 二维图像检测结果
+```
+以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json_cluster.py为基础修改，复制重命名为export_2d_annotations_as_json_2D_bbox.py
 
