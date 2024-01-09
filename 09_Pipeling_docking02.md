@@ -855,7 +855,71 @@ if True: #保存2D_bbox
 ```
 新建脚本calculate_IOU.py进行IOU计算匹配，并将结果保存到data/false_3D_bbox
 ```python
+import os
 
+# 辅助函数：计算两个边界框的重叠程度
+def compute_overlap(bbox1, bbox2):
+    # 根据具体应用选择适当的重叠度量方式，例如交并比（IoU）
+    # 这里仅简单计算重叠面积占较小边界框面积的比例
+    
+    x1, y1, w1, h1 = (bbox1[0]+bbox1[2])/2,(bbox1[1]+bbox1[3])/2,bbox1[2]-bbox1[0],bbox1[3]-bbox1[1]
+    x2, y2, w2, h2 = (bbox2[0]+bbox2[2])/2,(bbox2[1]+bbox2[3])/2,bbox2[2]-bbox2[0],bbox2[3]-bbox2[1]
+
+    area1 = w1 * h1
+    area2 = w2 * h2
+
+    intersection_area = max(0, min(x1 + w1, x2 + w2) - max(x1, x2)) * max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
+    overlap = intersection_area / min(area1, area2)
+
+    return overlap
+
+def main():
+    false_2D_bbox_dir = 'data/false_2D_bbox'
+    true_2D_bbox_dir = 'data/true_2D_bbox'
+    false_3D_bbox_dir = 'data/false_3D_bbox'
+    names = os.listdir(false_2D_bbox_dir)
+    for name in names:
+        false_2D_bbox_path = false_2D_bbox_dir + '/' + name 
+        true_2D_bbox_path = true_2D_bbox_dir + '/' + name
+        name = name[:-4] + '.pcd.txt'
+        false_3D_bbox_path = false_3D_bbox_dir + '/' + name
+        with open(false_2D_bbox_path, 'r') as f1:
+            line3s = []
+            for line1 in f1:
+                max_overlap = 0
+                line1 = line1.strip('\n')
+                line1_list = line1.split(' ')
+                bbox1 = [int(line1_list[1]), int(line1_list[2]), int(line1_list[3]), int(line1_list[4])]
+                try:
+                    with open(true_2D_bbox_path, 'r') as f2:
+                        for line2 in f2:
+                            line2 = line2.strip('\n')
+                            line2_list = line2.split(' ')
+                            bbox2 = [int(line2_list[1]), int(line2_list[2]), int(line2_list[3]), int(line2_list[4])]
+                            overlap = compute_overlap(bbox1, bbox2)
+                            if max_overlap < overlap:
+                                max_overlap = overlap
+                                c =  line2_list[0]
+                    if max_overlap > 0.5:
+                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
+                        line3s.append(line3_list) 
+                    else:
+                        c = '-1' # 类别还是未知
+                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
+                        line3s.append(line3_list)
+                except:
+                    c = '-1' # 类别还是未知
+                    line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
+                    line3s.append(line3_list)
+
+                
+        with open(false_3D_bbox_path, 'w') as f3:
+            for line3 in line3s:
+                f3.write(line3+'\n')
+            print(false_3D_bbox_path,'is saved !')
+        
+if __name__ == '__main__':
+    main()
 ```
 
 以下为n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.jpg的示例
@@ -870,3 +934,7 @@ if True: #保存2D_bbox
 1 218 356 448 851 0.74
 ```
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/965188f3-425f-4503-95a3-437f669e2a9b)
+匹配后获得n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.pcd.txt
+```
+1 197 342 449 882 # 配合获取类别
+```
