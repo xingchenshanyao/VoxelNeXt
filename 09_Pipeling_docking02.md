@@ -561,9 +561,12 @@ def get_2d_boxes(sample_data_token: str, visibilities: List[str],txt_path:str) -
     repro_recs = []
     corner_coords_draw_all = []
     final_coords_draw_all = []
+    num_lines = []
 
     with open(txt_path,'r') as f:
+        num_line = -1
         for line in f:
+            num_line = num_line + 1
             line.strip() # 理论上是去除换行符，但是不知道为什么没有起作用
             a = line.split() # 读取列表
             # a = ['1', '1329.515', '903.467', '1.307', '0.732', '0.641', '1.632', '138.3']
@@ -598,6 +601,7 @@ def get_2d_boxes(sample_data_token: str, visibilities: List[str],txt_path:str) -
             
             corner_coords_draw_all.append(corner_coords)
             final_coords_draw_all.append(final_coords)
+            num_lines.append(num_line)
 
             if (max_x - min_x)  > 1 and False: # 只绘制部分框
                 cam_rec = sd_rec['filename']
@@ -848,8 +852,8 @@ if True: #保存2D_bbox
         if len(final_coords_draw_all):
         # if True:
             with open(Save_path,'a') as f:
-                for i in final_coords_draw_all:
-                    line = '-1 '+' '.join(str(int(item)) for item in i)
+                for i in range(len(final_coords_draw_all)):
+                    line = '-1 '+' '.join(str(int(item)) for item in final_coords_draw_all[i]) + ' '+str(num_lines[i]) 
                     f.write(line+'\n')
                 print(txt_name,'is saved !')
 ```
@@ -901,18 +905,17 @@ def main():
                                 max_overlap = overlap
                                 c =  line2_list[0]
                     if max_overlap > 0.5:
-                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
+                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:]) + ' '+str(max_overlap)
                         line3s.append(line3_list) 
                     else:
                         c = '-1' # 类别还是未知
-                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
+                        line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:]) + ' 0'
                         line3s.append(line3_list)
                 except:
                     c = '-1' # 类别还是未知
                     line3_list = c+' ' + ' '.join(str(item) for item in line1_list[1:])
                     line3s.append(line3_list)
 
-                
         with open(false_3D_bbox_path, 'w') as f3:
             for line3 in line3s:
                 f3.write(line3+'\n')
@@ -926,15 +929,15 @@ if __name__ == '__main__':
 
 聚类结果投影data/false_2D_bbox/n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.txt
 ```
--1 197 342 449 882 # -1表示类别未知
+-1 197 342 449 882 6 # -1表示类别未知 # 6表示点云聚类结果的行数，便于类别匹配后返回聚类结果
 ```
 ![15](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/f7f37a33-5662-4483-8863-4907690dde35)
 图像检测结果
 ```
-1 218 356 448 851 0.74
+1 218 356 448 851 0.74 # 1 为类别 # 0.74为检测分数
 ```
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/965188f3-425f-4503-95a3-437f669e2a9b)
-匹配后获得n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.pcd.txt
+匹配后获得data/false_3D_bbox/n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.txt
 ```
-1 197 342 449 882 # 配合获取类别
+1 197 342 449 882 6 0.9828282828282828 # 1为匹配到的类别 # 0.98为IOU
 ```
