@@ -733,10 +733,10 @@ def EulerAndQuaternionTransform(intput_data):
 
 def main(args):
     False_GT_dir = "data/false_cluster"
-    sample_data_camera_tokens = []
     names = os.listdir(False_GT_dir)
     
     for name in names:
+        sample_data_camera_tokens = []
         txt_path = 'data/false_cluster/'+name
         # 加载False_GT_dir中包含的点云文件对应的6个相机图片的索引
         False_GT_name = 'samples/LIDAR_TOP/'+name[:-4]+'.bin'
@@ -833,3 +833,40 @@ def get_box2(self, sample_annotation_token: str, a:list) -> Box:
 ```
 以nuscenes-devkit/python-sdk/nuscenes/scripts/export_2d_annotations_as_json_cluster.py为基础修改，复制重命名为export_2d_annotations_as_json_2D_bbox.py
 
+在 绘制所有投影的bbox 代码
+```python
+if False: # 绘制所有投影的bbox
+        cam_rec = sd_rec['filename']
+        image = os.path.join('/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/nuscenes/v1.0-mini', cam_rec)
+        draw_all_box(image,corner_coords_draw_all,final_coords_draw_all)
+```
+下方添加
+```python
+if True: #保存2D_bbox
+        txt_name = sd_rec['filename'].split('/')[-1][:-4]+'.txt'
+        Save_path = 'data/false_2D_bbox/'+txt_name
+        if len(final_coords_draw_all):
+        # if True:
+            with open(Save_path,'a') as f:
+                for i in final_coords_draw_all:
+                    line = '-1 '+' '.join(str(int(item)) for item in i)
+                    f.write(line+'\n')
+                print(txt_name,'is saved !')
+```
+新建脚本calculate_IOU.py进行IOU计算匹配，并将结果保存到data/false_3D_bbox
+```python
+
+```
+
+以下为n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.jpg的示例
+
+聚类结果投影data/false_2D_bbox/n008-2018-08-01-15-16-36-0400__CAM_BACK_RIGHT__1533151603528113.txt
+```
+-1 197 342 449 882 # -1表示类别未知
+```
+![15](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/f7f37a33-5662-4483-8863-4907690dde35)
+图像检测结果
+```
+1 218 356 448 851 0.74
+```
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/965188f3-425f-4503-95a3-437f669e2a9b)
