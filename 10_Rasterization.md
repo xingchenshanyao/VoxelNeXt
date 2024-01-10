@@ -383,7 +383,7 @@ def add_color_ground(points,color):
             color[i] = color_on_the_ground
     return color
 ```
-可视化结果
+可视化结果，直接按z坐标划分范围效果较差
 ![5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b1c423fc-19d5-4949-b31b-c97d57848a15)
 
 # 五、栅格可视化
