@@ -356,5 +356,10 @@ def get_gt():
     return 0,0
 ```
 可视化结果
+```
+python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models_All/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/nuscenes/v1.0-mini/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin
+```
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/3e3f7c26-646d-4dca-8569-dd40e4be31f4)
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/316b8d5e-3bf1-4f75-9253-dd636af9c537)
+![3](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/f32b48b0-2ca1-4c9d-8887-e5b735303d38)
+![4](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a41bc88c-a3d8-4384-a6d0-8a658ab7d068)
