@@ -284,7 +284,10 @@ def add_color(box,label,points,color):
     bbox_center = np.array([box[0], box[1], box[2]])
     bbox_size = np.array([box[3], box[4], box[5]])
     bbox_rotation = box[6] 
-    color_in_bbox = box_colormap[label]
+    try:
+        color_in_bbox = box_colormap[label]
+    except:
+        color_in_bbox = np.array([1, 1, 1])
     # if label == 1:
     #     color_in_bbox = np.array([1, 0, 0])  # 红色
     # else:
@@ -292,3 +295,13 @@ def add_color(box,label,points,color):
     color = color_points_in_bbox(points, bbox_center, bbox_size, bbox_rotation, color_in_bbox,color)
     return color
 ```
+可视化结果1
+```
+python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models_All/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt/data/nuscenes/v1.0-mini/samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151604048025.pcd.bin
+```
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/1367c215-b6a4-49d7-978e-4275ec92d3f0)
+可视化结果2
+```
+python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --ckpt /home/xingchen/Study/4D_GT/VoxelNeXt/output/nuscenes_models_All/cbgs_voxel0075_voxelnext/default/ckpt/checkpoint_epoch_20.pth --data_path /home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/nuscenes/v1.0-mini/samples/LIDAR_TOP/n015-2018-11-21-19-38-26+0800__LIDAR_TOP__1542800988948006.pcd.bin
+```
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d7a8b896-985c-42b3-8778-f161f3744e51)
