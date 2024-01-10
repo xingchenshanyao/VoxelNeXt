@@ -307,3 +307,54 @@ python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/d7a8b896-985c-42b3-8778-f161f3744e51)
 
 # 三、按真值进行上色
+修改tools/demo2.py中
+```python
+V.draw_scenes( # 绘制检测框
+                    points=data_dict['points'][:, 1:], ref_boxes=pred_dicts[0]['pred_boxes'],
+                    ref_scores=pred_dicts[0]['pred_scores'], ref_labels=gt_labels,
+                    point_colors=np.ones((data_dict['points'][:, 1:].shape[0], 3)), draw_origin=True
+                )
+```
+为
+```python
+get_gt_boxes = True
+            if get_gt_boxes:
+                gt_boxes, gt_labels = get_gt() # 以samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin为例
+                V.draw_scenes( # 绘制检测框
+                points=data_dict['points'][:, 1:], ref_boxes=gt_boxes,
+                ref_scores=np.ones_like(gt_labels) * 1, ref_labels=pred_dicts[0]['pred_labels'],
+                point_colors=np.ones((data_dict['points'][:, 1:].shape[0], 3)), draw_origin=True)
+            else:
+                # points[0] = [x,y,z,intensity]
+                V.draw_scenes( # 绘制检测框
+                    points=data_dict['points'][:, 1:], ref_boxes=pred_dicts[0]['pred_boxes'],
+                    ref_scores=pred_dicts[0]['pred_scores'], ref_labels=gt_labels,
+                    point_colors=np.ones((data_dict['points'][:, 1:].shape[0], 3)), draw_origin=True
+                )
+```
+并添加get_gt()函数
+```python
+def get_gt():
+    with open("/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/data/nuscenes/v1.0-mini/nuscenes_infos_10sweeps_val.pkl", 'rb') as f:
+    # with open("/home/xingchen/Study/4D_GT/VoxelNeXt_pipeline/output/false_results/false_results.pkl", 'rb') as f:
+        
+        # 反序列化解析成列表a
+        a = pickle.load(f)
+        gt_boxes,gt_labels = [],[]
+        name_label = {'car':0,'pedestrian':1}
+        for i in a:
+            if i['lidar_path'] == 'samples/LIDAR_TOP/n008-2018-08-01-15-16-36-0400__LIDAR_TOP__1533151603547590.pcd.bin':
+                for j in range(len(i['gt_boxes'])):
+                    gt_box = i['gt_boxes'][j]
+                    try:
+                        gt_label = name_label[i['gt_names'][j]]
+                    except:
+                        gt_label = 2
+                    gt_boxes.append(gt_box)
+                    gt_labels.append(gt_label)
+                return gt_boxes, gt_labels
+    return 0,0
+```
+可视化结果
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/3e3f7c26-646d-4dca-8569-dd40e4be31f4)
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/316b8d5e-3bf1-4f75-9253-dd636af9c537)
