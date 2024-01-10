@@ -285,7 +285,7 @@ def compute_overlap(bbox1, bbox2):
 - l w h 长宽高
 - theta 角度
 - p 检测框置信度
-- k 检测框类别——0:car，1:pedestrian
+- k 检测框类别——0:car，1:pedestrian，2：bicycle
 ***
 
 ## 二、对接上游
