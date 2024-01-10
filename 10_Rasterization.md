@@ -363,3 +363,27 @@ python demo2.py --cfg_file cfgs/nuscenes_models/cbgs_voxel0075_voxelnext.yaml --
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/316b8d5e-3bf1-4f75-9253-dd636af9c537)
 ![3](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/f32b48b0-2ca1-4c9d-8887-e5b735303d38)
 ![4](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/a41bc88c-a3d8-4384-a6d0-8a658ab7d068)
+
+# 四、地面上色
+在tools/visual_utils/open3d_vis_utils.py中，直接按z坐标划分范围
+```python
+color = np.ones_like(points) * [1, 1, 1] # 初始颜色为白色
+```
+后添加
+```python
+color = add_color_ground(points,color) # 地面上色
+```
+并添加add_color_ground(points,color)函数
+```python
+def add_color_ground(points,color):
+    color_on_the_ground = np.array([1, 1, 0])
+    for i in range(len(points)):
+        z = points[i][2]
+        if z > -3 and z < -1:
+            color[i] = color_on_the_ground
+    return color
+```
+可视化结果
+![5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b1c423fc-19d5-4949-b31b-c97d57848a15)
+
+# 五、栅格可视化
