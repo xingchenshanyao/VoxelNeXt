@@ -255,8 +255,6 @@ def add_color(box,label,points,color):
     if label >= 0:
         color_in_bbox = np.array([1, 0, 0])  # 红色
     color = color_points_in_bbox(points, bbox_center, bbox_size, bbox_rotation, color_in_bbox,color)
-
-
     return color
 ```
 可视化结果
@@ -264,3 +262,33 @@ def add_color(box,label,points,color):
 ![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/62f4390f-0850-41f6-8fc5-d4fef44e65d9)
 
 ## 二、按类别上不同颜色
+修改tools/visual_utils/open3d_vis_utils.py中
+```python
+def add_color(box,label,points,color):
+    bbox_center = np.array([box[0], box[1], box[2]])
+    bbox_size = np.array([box[3], box[4], box[5]])
+    bbox_rotation = box[6] 
+    if label >= 0:
+        color_in_bbox = np.array([1, 0, 0])  # 红色
+    color = color_points_in_bbox(points, bbox_center, bbox_size, bbox_rotation, color_in_bbox,color)
+    return color
+```
+为
+```python
+# box_colormap = [
+#     [1, 1, 1],
+#     [0, 1, 0],
+#     [0, 1, 1],
+#     [1, 1, 0],]
+def add_color(box,label,points,color):
+    bbox_center = np.array([box[0], box[1], box[2]])
+    bbox_size = np.array([box[3], box[4], box[5]])
+    bbox_rotation = box[6] 
+    color_in_bbox = box_colormap[label]
+    # if label == 1:
+    #     color_in_bbox = np.array([1, 0, 0])  # 红色
+    # else:
+    #     color_in_bbox = np.array([0, 1, 0])  # 绿色
+    color = color_points_in_bbox(points, bbox_center, bbox_size, bbox_rotation, color_in_bbox,color)
+    return color
+```
