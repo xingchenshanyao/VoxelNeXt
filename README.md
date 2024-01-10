@@ -18,3 +18,5 @@
 使用YOLOv8实现nuScenes图像检测，并导出检测结果
 ## 09_Pipeline_docking02
 将3D bbox与图像2D bbox匹配以确定bbox类别
+## 10_Rasterization
+将VoxelNext的预测结果或真值在点云数据中按散点上色并可视化
