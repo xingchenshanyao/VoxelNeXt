@@ -481,10 +481,10 @@ def Is_inside(bbox_mesh,point):
     </tr>
     <tr>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/f47cb7c3-ae66-4802-b40d-d453f2df6f68 /></td>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/ff46467f-c5fd-4d60-9bfa-bc25bb145578 /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/71ee326c-5b8c-43a9-9855-f7452c8a0a40 /></td>
     </tr>
     <tr>
-        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/71ee326c-5b8c-43a9-9855-f7452c8a0a40 /></td>
+        <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/ff46467f-c5fd-4d60-9bfa-bc25bb145578 /></td>
         <td><img src=https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/8b85dde1-5714-4842-b50b-6c16392d9a9a /></td>
     </tr>
 </table>
