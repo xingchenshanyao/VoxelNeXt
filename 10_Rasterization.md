@@ -387,7 +387,7 @@ def add_color_ground(points,color):
 ![5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b1c423fc-19d5-4949-b31b-c97d57848a15)
 
 # 五、栅格可视化
-## a. 方案一：每个点扩充成栅格
+每个点扩充成栅格
 在tools/visual_utils/open3d_vis_utils.py中添加
 ```
 if True: # 是否栅格化
@@ -417,9 +417,60 @@ if True: # 是否栅格化
 ```
 可视化结果
 ![2024-01-11 15-42-55屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4ec96fcf-ebf5-459e-9d37-91473f5e7d73)
-## b. 方案二：每个含有点的体素转化为栅格
-
-把tools/demo2.py另存为tools/demo2_raterization.py
+优化后
 ```python
+if True: # 是否栅格化
+        points = sorted(points, key=lambda p: (p[0], p[1], p[2])) # 排序
+        count = 1
+        for point in points[1000]:
+            x,y,z = point[:3]
+            size = 0.2
+            bbox_lengths = np.array([size,size,size])  # 边界框的尺寸
+            bbox_min_point = np.array([x-size/2,y-size/2,z-size/2])  # 边界框最左后下角点坐标
 
+            # 创建边界框的立方体网格
+            bbox_mesh = o3d.geometry.TriangleMesh.create_box(*bbox_lengths)
+            bbox_mesh.compute_vertex_normals()
+
+            # # 平移和缩放边界框网格
+            bbox_mesh.translate(bbox_min_point)
+            # bbox_mesh.scale(2 * bbox_lengths, center=(0, 0, 0))
+
+            # 为边界框网格上色
+            bbox_color = [1.0, 0.0, 0.0]  # 边界框的颜色
+            bbox_mesh.paint_uniform_color(bbox_color)
+            try:
+                bbox_vertices = np.asarray(bbox_mesh.vertices)
+                for i in bbox_vertices:
+                    is_inside = Is_inside(bbox_mesh_old,i)
+                    if is_inside:
+                        break
+
+                if is_inside:
+                    continue
+                else:
+                    bbox_meshs= bbox_mesh + bbox_meshs
+                    bbox_mesh_old = bbox_mesh
+                    count = count+1
+            except:
+                bbox_meshs= bbox_mesh
+                bbox_mesh_old = bbox_mesh
+        vis.add_geometry(bbox_meshs)
+        print(count)
 ```
+并添加函数Is_inside(bbox_mesh,point)
+```python
+def Is_inside(bbox_mesh,point):
+    # 获取边界框的顶点坐标
+    bbox_vertices = np.asarray(bbox_mesh.vertices)
+
+    # 获取边界框的最小和最大坐标
+    bbox_min = np.min(bbox_vertices, axis=0)
+    bbox_max = np.max(bbox_vertices, axis=0)
+
+    # 判断点是否在边界框内部
+    is_inside = np.all(point >= bbox_min) and np.all(point <= bbox_max)
+
+    return is_inside
+```
+可视化结果
