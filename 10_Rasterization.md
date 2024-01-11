@@ -387,6 +387,38 @@ def add_color_ground(points,color):
 ![5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b1c423fc-19d5-4949-b31b-c97d57848a15)
 
 # 五、栅格可视化
+## a. 方案一：每个点扩充成栅格
+在tools/visual_utils/open3d_vis_utils.py中添加
+```
+if True: # 是否栅格化
+        for point in points[:100]: # 取所有点的计算量太大，故取100个点做示例
+            x,y,z = point[:3]
+            size = 0.1
+            bbox_lengths = np.array([size,size,size])  # 边界框的尺寸
+            bbox_min_point = np.array([x-size/2,y-size/2,z-size/2])  # 边界框最左后下角点坐标
+
+            # 创建边界框的立方体网格
+            bbox_mesh = o3d.geometry.TriangleMesh.create_box(*bbox_lengths)
+            bbox_mesh.compute_vertex_normals()
+
+            # # 平移和缩放边界框网格
+            bbox_mesh.translate(bbox_min_point)
+            # bbox_mesh.scale(2 * bbox_lengths, center=(0, 0, 0))
+
+            # 为边界框网格上色
+            bbox_color = [1.0, 0.0, 0.0]  # 边界框的颜色
+            bbox_mesh.paint_uniform_color(bbox_color)
+
+            try:
+                bbox_meshs= bbox_mesh + bbox_meshs
+            except:
+                bbox_meshs= bbox_mesh
+        vis.add_geometry(bbox_meshs)
+```
+可视化结果
+![2024-01-11 15-42-55屏幕截图](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/4ec96fcf-ebf5-459e-9d37-91473f5e7d73)
+## b. 方案二：每个含有点的体素转化为栅格
+
 把tools/demo2.py另存为tools/demo2_raterization.py
 ```python
 
