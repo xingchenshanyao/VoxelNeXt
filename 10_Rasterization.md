@@ -387,3 +387,7 @@ def add_color_ground(points,color):
 ![5](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/b1c423fc-19d5-4949-b31b-c97d57848a15)
 
 # 五、栅格可视化
+把tools/demo2.py另存为tools/demo2_raterization.py
+```python
+
+```
