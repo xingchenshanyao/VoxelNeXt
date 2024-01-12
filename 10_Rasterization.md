@@ -1034,3 +1034,5 @@ def rasterization(points,label=11):
 ![01-1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/15516cb7-ab5c-447d-89a1-f30010e935ca)
 ![1-1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/472bc066-9a54-498d-b91d-0dfa9f09c287)
 ![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/402fa680-9cbc-47ef-8769-fe10e8f3deba)
+![2](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/7001f6d8-2c6b-408a-b691-5555e54b1a64)
+![1](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/e3e0728f-b54e-4516-bf12-cb689ff4ff19)
