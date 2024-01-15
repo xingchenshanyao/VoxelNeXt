@@ -20,3 +20,5 @@
 将3D bbox与图像2D bbox匹配以确定bbox类别
 ## 10_Rasterization
 将VoxelNext的预测结果或真值在点云数据中按散点上色并可视化
+## 11_Occupancy
+将栅格化结果按要求生成可视化视频与导出
