@@ -19,6 +19,11 @@ tools/demo2_occupancy.py与tools/visual_utils/open3d_vis_utils_occupancy.py
     </tr>
 </table>
 
-## 二、
+## 二、固定相机视角
 
+
+## 三、重新可视化需求
+- 将前后10帧的点云中，动态点去除，静态点在速度补偿后叠加
+- 叠加后的点云数据与一组动态点叠加
+- 进行栅格化
 
