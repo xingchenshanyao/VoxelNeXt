@@ -20,7 +20,21 @@ tools/demo2_occupancy.py与tools/visual_utils/open3d_vis_utils_occupancy.py
 </table>
 
 ## 二、固定相机视角
-
+尝试使用固定视角代码失败
+```python
+ctr = vis.get_view_control()
+ctr.set_lookat(np.array([55.0, 55, 55.0]))
+ctr.set_up((1, -1, 1))  # 指向屏幕上方的向量
+ctr.set_front((-1, 1, 1))  # 垂直指向屏幕外的向量
+# ctr.set_zoom(0.001) # 控制远近
+vis.update_geometry(pcd)
+vis.poll_events()
+vis.update_renderer()
+```
+经反复查询后，得知open3d==0.17.0存在BUG，需要退回0.16.0
+```
+pip install open3d==0.16.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 
 ## 三、重新可视化需求
 - 将前后10帧的点云中，动态点去除，静态点在速度补偿后叠加
