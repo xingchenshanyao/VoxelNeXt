@@ -31,7 +31,7 @@ vis.update_geometry(pcd)
 vis.poll_events()
 vis.update_renderer()
 ```
-经反复查询后，得知open3d==0.17.0存在BUG，需要退回0.16.0
+经反复查询后，得知open3d==0.17.0存在BUG(kusi)，需要退回0.16.0
 ```
 pip install open3d==0.16.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
