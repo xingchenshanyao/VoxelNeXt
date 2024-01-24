@@ -977,5 +977,7 @@ for name in occupany_names:
     # cv2.destroyAllWindows()
     # break
 ```
-单帧可视化
+单帧可视化示意
+![1641634400 939636](https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/644c1f0c-f0f8-42c6-a226-7e979d3b6c4b)
+
 
