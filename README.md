@@ -1,5 +1,5 @@
 # 本仓库用于记录VoxelNeXt等模型的学习过程
-
+总结：https://o130xv939v.feishu.cn/docx/ThhzdG7f6oBPOBxIrouclbIBnie
 ## 01_VoxelNeXt
 记录复现VoxelNeXt的流程及各种BUG与解决措施
 ## 02_VoxelNeXt_on_the_Server
