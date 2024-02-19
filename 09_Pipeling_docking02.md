@@ -1075,3 +1075,5 @@ if __name__ == '__main__':
 1 619.03 1648.94 0.41 0.58 0.61 1.75 153.79
 ```
 
+## 六、匹配结果演示
+https://github.com/xingchenshanyao/VoxelNeXt/assets/116085226/2e07b53a-2352-4edb-b434-cc73fcc615f8
