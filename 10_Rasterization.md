@@ -1,4 +1,4 @@
-# Rasterization
+# Voxelization
 将VoxelNext的预测结果或真值在点云数据中按散点上色并可视化，进一步进行栅格化
 
 ## 一、预测结果上色
