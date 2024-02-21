@@ -35,4 +35,8 @@
   - open3d==0.16.0
 ```
  pip安装其中缺少的model
- 
+ ```
+pip install lightning==2.0.1
+pip install omegaconf
+pip install hydra-core
+```
