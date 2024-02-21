@@ -41,3 +41,7 @@ pip install omegaconf
 pip install hydra-core
 pip install wandb
 ```
+
+## 二、准备数据集
+使用Argoverse 2 sensers数据集，由于Argoverse 2 sensers过大(1T)，选取[val Part1(52.9G)](https://s3.amazonaws.com/argoverse/datasets/av2/tars/sensor/val-000.tar)下载
+
