@@ -39,4 +39,5 @@
 pip install lightning==2.0.1
 pip install omegaconf
 pip install hydra-core
+pip install wandb
 ```
