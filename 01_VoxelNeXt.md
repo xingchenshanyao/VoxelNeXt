@@ -68,6 +68,10 @@ sudo sh cuda_11.8.0_520.61.05_linux.run
 ```
 https://developer.nvidia.com/cuda-toolkit-archive
 ```
+安装多版本cuda参考
+```
+https://blog.csdn.net/qq_25038325/article/details/130965425
+```
 安装cuda11.8时的具体操作步骤参照下文中：4.到cuda-toolki-archive,下载对应的cuda
 
 https://blog.csdn.net/weixin_45811857/article/details/124457280
